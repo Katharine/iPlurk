@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>:</string>
+	<string>loves</string>
+	<string>likes</string>
+	<string>shares</string>
+	<string>gives</string>
+	<string>hates</string>
+	<string>wants</string>
+	<string>wishes</string>
+	<string>needs</string>
+	<string>will</string>
+	<string>hopes</string>
+	<string>asks</string>
+	<string>has</string>
+	<string>was</string>
+	<string>wonders</string>
+	<string>feels</string>
+	<string>thinks</string>
+	<string>says</string>
+	<string>is</string>
+</array>
+</plist>

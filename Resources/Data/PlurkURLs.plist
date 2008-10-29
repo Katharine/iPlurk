@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>http_base</key>
+	<string>http://www.plurk.com</string>
+	<key>login</key>
+	<string>http://www.plurk.com/Users/login?redirect_page=main</string>
+	<key>getCompletion</key>
+	<string>http://www.plurk.com/Users/getCompletion</string>
+	<key>fetch_friends</key>
+	<string>http://www.plurk.com/Users/fetchFriends</string>
+	<key>plurk_add</key>
+	<string>http://www.plurk.com/TimeLine/addPlurk</string>
+	<key>plurk_respond</key>
+	<string>http://www.plurk.com/Responses/add</string>
+	<key>plurk_get</key>
+	<string>http://www.plurk.com/TimeLine/getPlurks</string>
+	<key>plurk_get_ids</key>
+	<string>http://www.plurk.com/TimeLine/getPlurksById</string>
+	<key>plurk_get_responses</key>
+	<string>http://www.plurk.com/Responses/get2</string>
+	<key>plurk_get_unread</key>
+	<string>http://www.plurk.com/TimeLine/getUnreadPlurks</string>
+	<key>plurk_mute</key>
+	<string>http://www.plurk.com/TimeLine/setMutePlurk</string>
+	<key>plurk_delete</key>
+	<string>http://www.plurk.com/TimeLine/deletePlurk</string>
+	<key>plurk_edit</key>
+	<string>http://www.plurk.com/TimeLine/editPlurk</string>
+	<key>notification</key>
+	<string>http://www.plurk.com/Notifications</string>
+	<key>notification_accept</key>
+	<string>http://www.plurk.com/Notifications/allow</string>
+	<key>notification_makefan</key>
+	<string>http://www.plurk.com/Notifications/allowDontFollow</string>
+	<key>notification_deny</key>
+	<string>http://www.plurk.com/Notifications/deny</string>
+	<key>friends_get</key>
+	<string>http://www.plurk.com/Users/getFriends</string>
+	<key>friends_block</key>
+	<string>http://www.plurk.com/Friends/blockUser</string>
+	<key>friends_remove_block</key>
+	<string>http://www.plurk.com/Friends/removeBlock</string>
+	<key>friends_get_blocked</key>
+	<string>http://www.plurk.com/Friends/getBlockedByOffset</string>
+	<key>user_get_info</key>
+	<string>http://www.plurk.com/Users/fetchUserInfo</string>
+	<key>user_page</key>
+	<string>http://www.plurk.com/user/%@</string>
+	<key>plurk_poll</key>
+	<string>http://www.plurk.com/Poll/getPlurks/%d?last_plurk=%@</string>
+	<key>plurk_response_poll</key>
+	<string>http://www.plurk.com/Poll/getResponses/%d</string>
+	<key>user_data</key>
+	<string>http://www.plurk.com/Users/getUserData</string>
+</dict>
+</plist>
