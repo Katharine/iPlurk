@@ -29,9 +29,6 @@ typedef enum {
 	NSMutableDictionary *friendDictionary;
 	NSMutableDictionary *uidToName;
 	NSDictionary *plurkURLs;
-	//PlurkAPIAction currentAction;
-	//NSHTTPURLResponse *urlResponse;
-	//NSHTTPCookie *plurkCookie;
 	MutableURLConnectionDictionary *connections;
 	NSURLConnection *pollNewConnection;
 	NSURLConnection *pollResponsesConnection;
