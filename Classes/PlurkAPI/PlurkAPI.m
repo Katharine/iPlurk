@@ -377,7 +377,6 @@
 	} else {
 		switch ([request action]) {
 			case PlurkAPIActionLogin: {
-				//NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:[urlResponse allHeaderFields] forURL:[urlResponse URL]];
 				[self handleLoginResponse:response delegate:[request delegate]];
 				break;
 			}
@@ -409,18 +408,6 @@
 #pragma mark Internal callbacks
 
 - (void)handleLoginResponse:(NSString *)response delegate:(id <PlurkAPIDelegate>)delegate {
-	/*
-	for (NSHTTPCookie *cookie in cookies) {
-		NSLog(@"Received cookie: %@ = \"%@\"", [cookie name], [cookie value]);
-		if([[cookie name] isEqualToString:@"plurkcookie"]) {
-			plurkCookie = cookie;
-			break;
-		}
-	}
-	if(!plurkCookie) {
-		[delegate plurkLoginDidFail];
-		return;
-	}*/
 	NSLog(@"Got plurkcookie!");
 	NSRange uidRange = [response rangeOfRegex:@"\"user_id\": (\\d+)" capture:1];
 	if(uidRange.location == NSNotFound) {

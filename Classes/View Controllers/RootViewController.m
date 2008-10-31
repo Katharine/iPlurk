@@ -124,10 +124,8 @@
 
 - (IBAction)tabHasChanged {
 	NSLog(@"TabHasChanged.");
-	//RootViewTab oldTab = currentTab;
 	currentTab = (RootViewTab)[tabs selectedSegmentIndex];
 	if(currentTab == UISegmentedControlNoSegment) currentTab = RootViewTabAll;
-	//NSArray *oldArray = currentPlurks;
 	switch (currentTab) {
 		case RootViewTabAll:
 			currentPlurks = plurks;
@@ -139,37 +137,6 @@
 			currentPlurks = privatePlurks;
 			break;
 	}
-	/*
-	NSLog(@"Beginning updates.");
-	[[self tableView] beginUpdates];
-	if(oldTab == RootViewTabAll && [[self tableView] numberOfRowsInSection:0] > [plurks count]) {
-		NSLog(@"Removed last row");
-		[[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[plurks count] inSection:0]] withRowAnimation:NO];
-	}
-	NSInteger i = 0;
-	NSLog(@"Loop 1");
-	for(Plurk *plurk in oldArray) {
-		if(![currentPlurks containsObject:plurk]) {
-			[[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:YES];
-		}
-		++i;
-	}
-	i = 0;
-	NSLog(@"Loop 2");
-	for(Plurk *plurk in currentPlurks) {
-		if(![oldArray containsObject:plurk]) {
-			[[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:YES];
-		}
-		++i;
-	}
-	if(currentTab == RootViewTabAll) {
-		NSLog(@"Adding last row.");
-		[[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[plurks count] inSection:0]] withRowAnimation:NO];
-	}
-	NSLog(@"Ending updates.");
-	[[self tableView] endUpdates];
-	NSLog(@"Done.");
-	*/
 	[[self tableView] reloadData];
 }
 
@@ -442,15 +409,13 @@
 	}
 	NSLog(@"Beginning updates.");
 	NSLog(@"Received %d new plurks", [newPlurks count]);
-	//BOOL firstBatch = ([plurks count] == 0);
-	if(canUseTable) /*if(!firstBatch) */[[self tableView] beginUpdates];
+	if(canUseTable) [[self tableView] beginUpdates];
 	for(Plurk *plurk in newPlurks) {
 		NSLog(@"%@ %@ %@", [plurk ownerDisplayName], [plurk qualifier], [plurk contentRaw]);
 		NSUInteger index = [currentPlurks indexOfObject:plurk];
 		if(index != NSNotFound) {
 			NSLog(@"Found old plurk %d", [plurk plurkID]);
 			Plurk *oldPlurk = [currentPlurks objectAtIndex:index];
-			//if([oldPlurk responseCount] != [plurk responseCount] || ![[oldPlurk contentRaw] isEqual:[plurk contentRaw]]) {
 			NSLog(@"Updating old plurk %d", [plurk plurkID]);
 			oldPlurk.responseCount = [plurk responseCount];
 			oldPlurk.responsesSeen = [plurk responsesSeen];
@@ -472,8 +437,6 @@
 				[cell markAsWhateverItShouldBeMarkedAs];
 				[cell renderPlurkText];
 			}
-			//}
-			//continue;
 		}
 		if([[plurk limitedTo] count] > 0) {
 			if([privatePlurks containsObject:plurk]) continue;
@@ -493,7 +456,6 @@
 				index = 0;
 			} else {
 				for(index = 0; index < [privatePlurks count] && [plurk plurkID] < [[privatePlurks objectAtIndex:index] plurkID]; ++index);
-				//if(index > 0) --index;
 			}
 			if(currentTab == RootViewTabPrivate && index <= selectedRow) {
 				++selectedRow;
@@ -519,7 +481,6 @@
 				index = 0;
 			} else {
 				for(index = 0; index < [unreadPlurks count] && [plurk plurkID] < [[unreadPlurks objectAtIndex:index] plurkID]; ++index);
-				//if(index > 0) --index;
 			}
 			
 			if(currentTab == RootViewTabUnread && index <= selectedRow) {
@@ -546,7 +507,6 @@
 				index = 0;
 			} else {
 				for(index = 0; index < [plurks count] && [plurk plurkID] < [[plurks objectAtIndex:index] plurkID]; ++index);
-				//if(index > 0) --index;
 			}
 			if(currentTab == RootViewTabAll && index <= selectedRow) {
 				++selectedRow;
@@ -556,7 +516,6 @@
 		}
 	}
 	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadPlurks count]];
-	/*if(!firstBatch) */
 	if(connection == allRequest && canUseTable) {
 		allRequest = nil;
 		NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:([[self tableView] numberOfRowsInSection:0] - 1) inSection:0];
@@ -576,8 +535,6 @@
 		[allRequest release];
 		allRequest = nil;
 	}
-	//if(firstBatch) [[self tableView] reloadData];
-	//[[self tableView] reloadData];
 	NSLog(@"Ending updates.");
 	if(canUseTable) {
 		[[self tableView] endUpdates];
@@ -641,14 +598,11 @@
 				index = [unreadPlurks count];
 			} else {
 				for(index = 0; index < [unreadPlurks count] && [realPlurk plurkID] < [[unreadPlurks objectAtIndex:index] plurkID]; ++index);
-				//if(index > 0) --index;
 				[unreadPlurks insertObject:realPlurk atIndex:index];
 				if(currentTab == RootViewTabUnread) {
 					if(canUseTable) NSLog(@"%d rows in table, %d plurks", [[self tableView] numberOfRowsInSection:0], [unreadPlurks count]);
-					//if([[self tableView] numberOfRowsInSection:0] < [unreadPlurks count]) {
-						NSLog(@"Inserting row.");
-						if(canUseTable) [[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:YES];
-					//}
+					NSLog(@"Inserting row.");
+					if(canUseTable) [[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:YES];
 				}
 				if(currentTab == RootViewTabUnread && index <= selectedRow) {
 					++selectedRow;
