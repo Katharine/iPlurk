@@ -90,7 +90,7 @@
 
 
 - (void)dealloc {
-	if([webView isLoading]) [webView release];
+	if([webView isLoading]) [webView stopLoading];
 	[webView release];
 	[closeButton release];
 	[safariButton release];

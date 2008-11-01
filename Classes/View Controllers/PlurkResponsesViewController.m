@@ -46,19 +46,26 @@
 		[alert release];
 		[[self navigationController] popViewControllerAnimated:YES];
 	}
+	
+	// Set up a loading screen.
+	NSString *spinner = [NSString stringWithFormat:@"file://%@", [[NSBundle mainBundle] pathForResource:@"LargeWhiteProgressIndicator" ofType:@"gif"], nil];
+	NSString *loadingScreen = [NSString stringWithFormat:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesLoading" ofType:@"html"]], spinner, nil];
+	[webView loadHTMLString:loadingScreen baseURL:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	if([webView isLoading]) {
-		[webView setDelegate:nil];
-		[webView stopLoading];
+	if(![self modalViewController]) {
+		if([webView isLoading]) {
+			[webView setDelegate:nil];
+			[webView stopLoading];
+		}
+		NSLog(@"Attempting to cancel connection.");
+		if(connection) {
+			[plurkAPI cancelConnection:connection];
+			connection = nil;
+		}
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	}
-	NSLog(@"Attempting to cancel connection.");
-	if(connection) {
-		[plurkAPI cancelConnection:connection];
-		connection = nil;
-	}
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -66,6 +73,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	if([self modalViewController]) return;
 	[super viewWillAppear:animated];
 	[webView setDelegate:self];
 }
@@ -95,7 +103,7 @@
 	connection = [plurkAPI requestResponsesToPlurk:[firstPlurk plurkID] delegate:self];
 }
 
-- (void)receivedPlurkResponses:(NSArray *)responses {
+- (void)receivedPlurkResponses:(NSArray *)responses {	
 	NSString *htmlTemplate = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesDisplay" ofType:@"html"]];
 	NSString *avatarURL = [NSString stringWithFormat:@"file://%@", [[NSBundle mainBundle] pathForResource:@"NoAvatarAvailable" ofType:@"png"], nil];
 	NSString *realAvatarPath = [NSString stringWithFormat:@"%@/user-%d.gif", avatarPath, [firstPlurk ownerID], nil];
@@ -112,26 +120,29 @@
 			++responseNum;
 		}
 	}
-	NSMutableString *html = [NSMutableString stringWithString:[NSString stringWithFormat:htmlTemplate, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerDisplayName], ([[firstPlurk qualifier] length] < 2 ? @"" : [firstPlurk qualifier]), [firstPlurk content], responseHTML, nil]];
-	
-	[html replaceOccurrencesOfString:@"http://static.plurk.com/static/emoticons/" withString:[NSString stringWithFormat:@"file://%@", emoticonPath, nil] options:NSLiteralSearch range:NSMakeRange(0, [html length])];
-	[html replaceOccurrencesOfRegex:@"<a[^<>]+?href=\"([^<>]+?)\"[^<>]+?class=\"[^<>]*?pictureservices[^<>]*?\"[^<>]*?>[^<>]+?</a>" withString:@"<a href=\"$1\"><img src=\"$1\" class=\"pictureservices regeximg\"></a>"];
-	//NSLog(html);
-	[webView loadHTMLString:html baseURL:nil];
+	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerDisplayName], ([[firstPlurk qualifier] length] < 2 ? @"" : [firstPlurk qualifier]), [firstPlurk content], responseHTML, nil]];
+	[webView loadHTMLString:[self processPlurkContent:html] baseURL:nil];
 	[firstPlurk setIsUnread:0];
 	[firstPlurk setResponseCount:[responses count]];
 	[firstPlurk setResponsesSeen:[firstPlurk responseCount]];
 	NSLog(@"Finished rendering.");
 }
 
+- (NSString *)processPlurkContent:(NSString *)contentString {
+	NSMutableString *content = [NSMutableString stringWithString:contentString];
+	[content replaceOccurrencesOfString:@"http://static.plurk.com/static/emoticons/" withString:[NSString stringWithFormat:@"file://%@", emoticonPath, nil] options:NSLiteralSearch range:NSMakeRange(0, [content length])];
+	[content replaceOccurrencesOfRegex:@"<a[^<>]+?href=\"([^<>]+?)\"[^<>]+?class=\"[^<>]*?pictureservices[^<>]*?\"[^<>]*?>[^<>]+?</a>" withString:@"<a href=\"$1\"><img src=\"$1\" class=\"pictureservices regeximg\"></a>"];
+	return content;
+}
+
 - (void)connection:(NSURLConnection *)theConnection receivedNewPlurks:(NSArray *)plurks {
 	if([firstPlurk isEqual:[plurks objectAtIndex:0]]) {
 		Plurk *updated = [plurks objectAtIndex:0];
-		firstPlurk.contentRaw = updated.contentRaw;
-		firstPlurk.content = updated.content;
+		firstPlurk.contentRaw = [updated contentRaw];
+		firstPlurk.content = [updated content];
 	}
 	[[[(UINavigationController *)[self parentViewController] viewControllers] objectAtIndex:0] connection:theConnection receivedNewPlurks:plurks];
-	connection = [plurkAPI requestResponsesToPlurk:[firstPlurk plurkID] delegate:self];
+	[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('firstPlurkActualText').innerHTML = \"%@\";", [[self processPlurkContent:[firstPlurk content]] stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""]]];
 }
 
 - (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {

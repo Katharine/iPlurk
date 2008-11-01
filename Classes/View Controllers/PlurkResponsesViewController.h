@@ -32,6 +32,7 @@
 @property(nonatomic, retain) NSURLConnection *connection;
 
 - (void)beginReply;
+- (NSString *)processPlurkContent:(NSString *)content;
 
 
 @end

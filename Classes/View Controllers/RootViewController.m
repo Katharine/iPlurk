@@ -295,35 +295,42 @@
 - (void)viewWillAppear:(BOOL)animated {
 	NSLog(@"ViewWillAppear - canUseTable = YES");
 	canUseTable = YES;
+	BOOL done = NO;
 	// Dealing with the marked plurk.
 	if(selectedRow > -1 && selectedRow < [[self tableView] numberOfRowsInSection:0]) {
 		NSIndexPath *selected = [NSIndexPath indexPathForRow:selectedRow inSection:0];
 		NSLog(@"SelectedRow known.");
 		PlurkTableViewCell *cell = (PlurkTableViewCell *)[[self tableView] cellForRowAtIndexPath:selected];
-		if([[cell plurkDisplayed] isUnread] == 0) {
-			NSLog(@"Dealing with read plurk.");
-			[[cell plurkDisplayed] setResponsesSeen:[[cell plurkDisplayed] responseCount]];
-			[[self tableView] beginUpdates];
-			if(currentTab == RootViewTabUnread) {
-				[unreadPlurks removeObjectAtIndex:selectedRow];
-				[[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:selected] withRowAnimation:YES];
-			} else {
-				[unreadPlurks removeObject:[cell plurkDisplayed]];
+		if([cell isKindOfClass:[PlurkTableViewCell class]]) {
+			if([[cell plurkDisplayed] isUnread] == 0) {
+				NSLog(@"Dealing with read plurk.");
+				[[cell plurkDisplayed] setResponsesSeen:[[cell plurkDisplayed] responseCount]];
+				[[self tableView] beginUpdates];
+				if(currentTab == RootViewTabUnread) {
+					[unreadPlurks removeObjectAtIndex:selectedRow];
+					[[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:selected] withRowAnimation:YES];
+				} else {
+					[unreadPlurks removeObject:[cell plurkDisplayed]];
+				}
+				[[self tableView] endUpdates];
 			}
-			[[self tableView] endUpdates];
+			NSLog(@"Marking cell");
+			[cell markAsWhateverItShouldBeMarkedAs];
+			done = YES;
+		} else {
+			NSLog(@"Wrong cell type.");
 		}
-		NSLog(@"Marking cell");
-		[cell markAsWhateverItShouldBeMarkedAs];
-	} else if(selectedPlurk && [selectedPlurk isUnread] == 0) {
+	}
+	if(!done && selectedPlurk && [selectedPlurk isUnread] == 0) {
 		NSLog(@"selectedPlurk known.");
 		[selectedPlurk setResponsesSeen:[selectedPlurk responseCount]];
 		NSUInteger index;
 		if((index = [unreadPlurks indexOfObject:selectedPlurk]) != NSNotFound) {
 			NSLog(@"Removed plurk.");
 			[unreadPlurks removeObjectAtIndex:index];
-			//if(currentTab == RootViewTabUnread) {
-			//	[[self tableView] reloadData];
-			//}
+			[[self tableView] reloadData];
+		} else {
+			NSLog(@"Not an unread plurk, apparently.");
 		}
 	}
 	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadPlurks count]];
