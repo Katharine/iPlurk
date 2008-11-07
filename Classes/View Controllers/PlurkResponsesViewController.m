@@ -148,9 +148,6 @@
 - (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 	if(navigationType == UIWebViewNavigationTypeOther) return YES;
 	NSLog(@"UIWebView tried to load %@", [[request URL] absoluteString]);
-	//NSLog([[request URL] host]);
-	//NSLog([[request URL] path]);
-	//NSLog([[request URL] query]);
 	UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to quit iPlurk to follow this link?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:nil otherButtonTitles:@"Yes", nil];
 	
 	if([[[request URL] host] hasSuffix:@"youtube.com"]) {

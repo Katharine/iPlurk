@@ -21,7 +21,6 @@
 	NSLog(@"SetupViewController will appear.");
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *username = [defaults stringForKey:@"plurk_username"];
-	NSLog(username);
 	if(username == nil) username = @"";
 	NSString *password = [defaults stringForKey:@"plurk_password"];
 	if(password == nil) password = @"";

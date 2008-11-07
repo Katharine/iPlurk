@@ -29,7 +29,7 @@
 }
 
 - (NSString *)escapeURL:(NSString *)url {
-	NSString *result = (NSString *) CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)url, NULL, CFSTR("?=&+"), kCFStringEncodingUTF8);
+	NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)url, NULL, CFSTR("?=&+\\"), kCFStringEncodingUTF8);
 	return result;
 }
 
@@ -54,23 +54,20 @@
 #pragma mark HTTP communication
 
 - (NSURLConnection *)makePostRequestTo:(NSURL *)url withPostData:(NSDictionary *)postData withAPIRequest:(PlurkAPIRequest *)apiRequest {
-	NSMutableString *queryBuilder = [[NSMutableString alloc] init];
+	NSMutableArray *queryBuilder = [[NSMutableArray alloc] init];
 	if(postData && [postData count]) {
 		NSArray *keys = [postData allKeys];
 		for(NSString *key in keys) {
 			NSString *value = [postData objectForKey:key];
-			[queryBuilder appendFormat:@"&%@=%@", key, [self escapeURL:value], nil];
+			[queryBuilder addObject:[NSString stringWithFormat:@"%@=%@", key, [self escapeURL:value], nil]];
 		}
-		//NSLog(queryBuilder);
 	}
-	
-	NSURLConnection *connection = [self makeRawPostRequestTo:url withData:([queryBuilder length] > 1 ? [queryBuilder substringFromIndex:1] : @"") withAPIRequest:apiRequest];
+	NSURLConnection *connection = [self makeRawPostRequestTo:url withData:[queryBuilder componentsJoinedByString:@"&"] withAPIRequest:apiRequest];
 	[queryBuilder release];
 	return connection;
 }
 
 - (NSURLConnection *)makeRawPostRequestTo:(NSURL *)url withData:(NSString *)data withAPIRequest:(PlurkAPIRequest *)apiRequest {
-	NSLog(data);
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 	[request setURL:url];
 	[request setHTTPMethod:@"POST"];
@@ -82,7 +79,6 @@
 		NSLog(@"HTTP POST request to %@ could not be initialised.");
 		return nil;
 	}
-	//NSLog(data);
 	[connections setObject:apiRequest forKey:connection];
 	[request release];
 	[apiRequest release];
@@ -469,7 +465,7 @@
 	NSDictionary *global = [globalStr JSONValue];
 	if(global == nil) {
 		NSLog(@"Couldn't parse global range. Aborting.");
-		NSLog([response substringWithRange:globalRange]);
+		NSLog(@"%@", [response substringWithRange:globalRange]);
 		[delegate plurkLoginDidFail];
 		return;
 	}
@@ -509,7 +505,7 @@
 	NSArray *response = [responseString JSONValue];
 	if(response == nil) {
 		NSLog(@"Failed to parse JSON for new plurks.");
-		NSLog(responseString);
+		NSLog(@"%@", responseString);
 		return;
 	}
 	NSMutableArray *plurks = [[NSMutableArray alloc] init];
@@ -625,7 +621,7 @@
 }
 
 - (void)handleFriendsReceived:(NSString *)response forPlurks:(NSArray *)plurks fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate {
-	NSLog(response);
+	NSLog(@"%@", response);
 	NSDictionary *newFriends = [[response stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"] JSONValue];
 	NSEnumerator *enumerator = [newFriends objectEnumerator];
 	NSDictionary *friend;
