@@ -171,7 +171,7 @@
 	} else {
 		imageURL = [data substringWithRange:range];
 	}
-	NSLog(imageURL);
+	NSLog(@"%@", imageURL);
 	
 	// If the upload succeeded, insert the URL.
 	if(imageURL) {
@@ -296,8 +296,6 @@
 			case 0:
 				self.qualifierCell = (PlurkQualifierTableViewCell *)cell;
 				[qualifierCell initUI];
-				NSLog([[plurkAPI currentUser] displayName]);
-				NSLog([[NSNumber numberWithFloat:[[plurkAPI currentUser] karma]] stringValue]);
 				[[qualifierCell name] setText:[[plurkAPI currentUser] displayName]];
 				[[qualifierCell qualifier] setText:@":"];
 				break;
