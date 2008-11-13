@@ -383,7 +383,7 @@
 				[self handleResponsesReceived:response delegate:[request delegate]];
 				break;
 			case PlurkAPIActionRespondToPlurk:
-				[[request delegate] plurkResponseCompleted];
+				[self handleResponseMade:response delegate:[request delegate]];
 				break;
 			case PlurkAPIActionMakePlurk:
 				[self handlePlurkMade:response fromConnection:connection delegate:[request delegate]];
@@ -568,7 +568,6 @@
 		[delegate connection:connection receivedNewPlurks:plurks];
 		[plurks release];
 	}
-	//[response release];
 }
 
 - (void)handleResponsesReceived:(NSString *)responseString delegate:(id <PlurkAPIDelegate>)delegate {
@@ -590,7 +589,6 @@
 		if([response userDisplayName] == (NSString *)[NSNull null] || [[response userDisplayName] length] == 0) {
 			response.userDisplayName = [responder objectForKey:@"nick_name"];
 		}
-		//[responder release];
 		[responses addObject:response];
 	}
 	[delegate receivedPlurkResponses:responses];
@@ -621,7 +619,6 @@
 }
 
 - (void)handleFriendsReceived:(NSString *)response forPlurks:(NSArray *)plurks fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate {
-	NSLog(@"%@", response);
 	NSDictionary *newFriends = [[response stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"] JSONValue];
 	NSEnumerator *enumerator = [newFriends objectEnumerator];
 	NSDictionary *friend;
@@ -644,6 +641,25 @@
 		}
 	}
 	[delegate connection:connection receivedNewPlurks:plurks];
+}
+
+- (void)handleResponseMade:(NSString *)responseString delegate:(id <PlurkAPIDelegate>)delegate {
+	NSLog(@"Response made: %@", responseString);
+	NSDictionary *responseRaw = [[[responseString stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"] JSONValue] objectForKey:@"object"];
+	if(responseRaw == nil) {
+		NSLog(@"Unable to parse response!");
+		return;
+	}
+	ResponsePlurk *response = [[[ResponsePlurk alloc] init] autorelease];
+	response.userID = [(NSNumber *)[responseRaw objectForKey:@"user_id"] integerValue];
+	response.plurkID = [(NSNumber *)[responseRaw objectForKey:@"plurk_id"] integerValue];
+	response.qualifier = [responseRaw objectForKey:@"qualifier"];
+	response.content = [responseRaw objectForKey:@"content"];
+	response.contentRaw = [responseRaw objectForKey:@"content_raw"];
+	response.posted = [NSDate dateWithNaturalLanguageString:[responseRaw objectForKey:@"posted"]];
+	response.userHasDisplayPicture = [currentUser hasProfileImage];
+	response.userDisplayName = [currentUser displayName];
+	[delegate plurkResponseCompleted:response];
 }
 
 - (void)handlePlurkMade:(NSString *)response fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate {

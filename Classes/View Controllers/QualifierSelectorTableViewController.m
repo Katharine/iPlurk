@@ -26,7 +26,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	qualifiers = [[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"plist"]] retain];
-	qualifier = [qualifiers objectAtIndex:0];
+	if(nil == qualifier) {
+		qualifier = [qualifiers objectAtIndex:0];
+	}
 }
 
 
@@ -116,6 +118,7 @@
 - (void)viewDidDisappear:(BOOL)animated {
 }
 */
+
 /*
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
