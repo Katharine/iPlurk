@@ -98,9 +98,24 @@
 	[sheet release];
 }
 
-- (void)plurkResponseCompleted {
-	NSLog(@"Re-requesting plurk thingy.");
-	connection = [plurkAPI requestResponsesToPlurk:[firstPlurk plurkID] delegate:self];
+- (void)plurkResponseCompleted:(ResponsePlurk *)plurk {
+	NSLog(@"Completed making response, appending...");
+	NSString *content = [self processPlurkContent:[plurk content]];
+	NSString *html = [[[NSString stringWithFormat:
+						[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesSingleResponse" ofType:@"html"]],
+						[plurk plurkID],
+						[plurk userDisplayName],
+						(([[plurk qualifier] length] < 2) ? @"" : [plurk qualifier]), 
+						content,
+						nil
+					   ]
+					   stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""
+					  ]
+					  stringByReplacingOccurrencesOfString:@"\n" withString:@""
+	];
+				
+	NSString *script = [NSString stringWithFormat:@"var node = document.createElement('div'); node.innerHTML = \"%@\"; document.getElementById('responses').appendChild(node); node.scrollIntoView();", html, nil];
+	[webView stringByEvaluatingJavaScriptFromString:script];
 }
 
 - (void)receivedPlurkResponses:(NSArray *)responses {	

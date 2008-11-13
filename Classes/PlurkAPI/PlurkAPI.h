@@ -92,6 +92,7 @@ typedef enum {
 - (void)handleResponsePollReceived:(NSString *)responseString delegate:(id <PlurkAPIDelegate>)delegate;
 - (void)handleFriendsReceived:(NSString *)response forPlurks:(NSArray *)plurks fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate;
 - (void)handlePlurkMade:(NSString *)response fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate;
+- (void)handleResponseMade:(NSString *)response delegate:(id <PlurkAPIDelegate>)delegate;
 - (void)runPoll:(NSTimer *)timer;
 
 // NSURLConnection stuff.

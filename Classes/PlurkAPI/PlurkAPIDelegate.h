@@ -6,6 +6,8 @@
 //  Copyright 2008 AjaxLife Developments. All rights reserved.
 //
 
+#include "ResponsePlurk.h"
+
 @protocol PlurkAPIDelegate 
 
 @optional
@@ -15,6 +17,6 @@
 - (void)plurkLoginDidFail;
 - (void)receivedPlurkResponses:(NSArray *)responses;
 - (void)receivedPlurkResponsePoll:(NSArray *)plurksWithResponses;
-- (void)plurkResponseCompleted;
+- (void)plurkResponseCompleted:(ResponsePlurk *)response;
 
 @end
