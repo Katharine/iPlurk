@@ -36,6 +36,7 @@
 	[textView setFont:[UIFont systemFontOfSize:12.0]];
 	qualifiers = [[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"plist"]] retain];
 	qualifierEnabled = YES;
+	[textView setReturnKeyType:UIReturnKeyDone];
 }
 
 - (void)textViewDidChange:(UITextView *)view {
