@@ -25,9 +25,6 @@
 		343682D20EB779F000C7524A /* QualifierSelectorTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */; };
 		343682D30EB779F000C7524A /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827E0EB779F000C7524A /* RootViewController.xib */; };
 		343682D40EB779F000C7524A /* SetupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827F0EB779F000C7524A /* SetupView.xib */; };
-		343682D50EB779F000C7524A /* UserDetailsDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682800EB779F000C7524A /* UserDetailsDetailCell.xib */; };
-		343682D60EB779F000C7524A /* UserDetailsHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682810EB779F000C7524A /* UserDetailsHeaderCell.xib */; };
-		343682D70EB779F000C7524A /* UserDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682820EB779F000C7524A /* UserDetailsView.xib */; };
 		343682D80EB779F000C7524A /* WebPagePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682830EB779F000C7524A /* WebPagePreview.xib */; };
 		343682D90EB779F000C7524A /* WritePlurkTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682840EB779F000C7524A /* WritePlurkTableView.xib */; };
 		343682DA0EB779F000C7524A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 343682860EB779F000C7524A /* Default.png */; };
@@ -126,7 +123,6 @@
 		343684CE0EB797B000C7524A /* Qualifiers.plist in Resources */ = {isa = PBXBuildFile; fileRef = 343684CC0EB797B000C7524A /* Qualifiers.plist */; };
 		343686300EB7BAE600C7524A /* NoAvatarAvailable.png in Resources */ = {isa = PBXBuildFile; fileRef = 3436862F0EB7BAE600C7524A /* NoAvatarAvailable.png */; };
 		34CB4D270EAFDDA80089842C /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 34CB4D260EAFDDA80089842C /* RegexKitLite.m */; };
-		34D4017D0EB89E9D00DE9E00 /* FriendSelector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34D4017C0EB89E9D00DE9E00 /* FriendSelector.xib */; };
 		89010FED0EBCDBA500E990A7 /* FileUploadPending.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89010FEC0EBCDBA500E990A7 /* FileUploadPending.xib */; };
 		890110000EBCDD3400E990A7 /* PlurkResponsesLoading.html in Resources */ = {isa = PBXBuildFile; fileRef = 89010FFF0EBCDD3400E990A7 /* PlurkResponsesLoading.html */; };
 		890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */ = {isa = PBXBuildFile; fileRef = 890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */; };
@@ -309,9 +305,6 @@
 		3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QualifierSelectorTableView.xib; sourceTree = "<group>"; };
 		3436827E0EB779F000C7524A /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		3436827F0EB779F000C7524A /* SetupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetupView.xib; sourceTree = "<group>"; };
-		343682800EB779F000C7524A /* UserDetailsDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserDetailsDetailCell.xib; sourceTree = "<group>"; };
-		343682810EB779F000C7524A /* UserDetailsHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserDetailsHeaderCell.xib; sourceTree = "<group>"; };
-		343682820EB779F000C7524A /* UserDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserDetailsView.xib; sourceTree = "<group>"; };
 		343682830EB779F000C7524A /* WebPagePreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebPagePreview.xib; sourceTree = "<group>"; };
 		343682840EB779F000C7524A /* WritePlurkTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WritePlurkTableView.xib; sourceTree = "<group>"; };
 		343682860EB779F000C7524A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -381,7 +374,6 @@
 		3436862F0EB7BAE600C7524A /* NoAvatarAvailable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NoAvatarAvailable.png; sourceTree = "<group>"; };
 		34CB4D250EAFDDA80089842C /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		34CB4D260EAFDDA80089842C /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
-		34D4017C0EB89E9D00DE9E00 /* FriendSelector.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendSelector.xib; sourceTree = "<group>"; };
 		89010FEC0EBCDBA500E990A7 /* FileUploadPending.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FileUploadPending.xib; sourceTree = "<group>"; };
 		89010FFF0EBCDD3400E990A7 /* PlurkResponsesLoading.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PlurkResponsesLoading.html; sourceTree = "<group>"; };
 		890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LargeWhiteProgressIndicator.gif; sourceTree = "<group>"; };
@@ -598,12 +590,8 @@
 				3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */,
 				3436827E0EB779F000C7524A /* RootViewController.xib */,
 				3436827F0EB779F000C7524A /* SetupView.xib */,
-				343682800EB779F000C7524A /* UserDetailsDetailCell.xib */,
-				343682810EB779F000C7524A /* UserDetailsHeaderCell.xib */,
-				343682820EB779F000C7524A /* UserDetailsView.xib */,
 				343682830EB779F000C7524A /* WebPagePreview.xib */,
 				343682840EB779F000C7524A /* WritePlurkTableView.xib */,
-				34D4017C0EB89E9D00DE9E00 /* FriendSelector.xib */,
 			);
 			path = IB;
 			sourceTree = "<group>";
@@ -767,9 +755,6 @@
 				343682D20EB779F000C7524A /* QualifierSelectorTableView.xib in Resources */,
 				343682D30EB779F000C7524A /* RootViewController.xib in Resources */,
 				343682D40EB779F000C7524A /* SetupView.xib in Resources */,
-				343682D50EB779F000C7524A /* UserDetailsDetailCell.xib in Resources */,
-				343682D60EB779F000C7524A /* UserDetailsHeaderCell.xib in Resources */,
-				343682D70EB779F000C7524A /* UserDetailsView.xib in Resources */,
 				343682D80EB779F000C7524A /* WebPagePreview.xib in Resources */,
 				343682D90EB779F000C7524A /* WritePlurkTableView.xib in Resources */,
 				343682DA0EB779F000C7524A /* Default.png in Resources */,
@@ -782,7 +767,6 @@
 				343684CD0EB797B000C7524A /* PlurkURLs.plist in Resources */,
 				343684CE0EB797B000C7524A /* Qualifiers.plist in Resources */,
 				343686300EB7BAE600C7524A /* NoAvatarAvailable.png in Resources */,
-				34D4017D0EB89E9D00DE9E00 /* FriendSelector.xib in Resources */,
 				89010FED0EBCDBA500E990A7 /* FileUploadPending.xib in Resources */,
 				890110000EBCDD3400E990A7 /* PlurkResponsesLoading.html in Resources */,
 				890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */,
