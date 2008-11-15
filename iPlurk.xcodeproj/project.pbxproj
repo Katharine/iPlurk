@@ -38,7 +38,6 @@
 		343682FF0EB77A6C00C7524A /* QualifierSelectorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682F30EB77A6C00C7524A /* QualifierSelectorTableViewController.m */; };
 		343683000EB77A6C00C7524A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682F50EB77A6C00C7524A /* RootViewController.m */; };
 		343683010EB77A6C00C7524A /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682F70EB77A6C00C7524A /* SetupViewController.m */; };
-		343683020EB77A6C00C7524A /* UserDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682F90EB77A6C00C7524A /* UserDetailsTableViewController.m */; };
 		343683030EB77A6C00C7524A /* WebPagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682FB0EB77A6C00C7524A /* WebPagePreviewController.m */; };
 		343683040EB77A6C00C7524A /* WritePlurkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682FD0EB77A6C00C7524A /* WritePlurkTableViewController.m */; };
 		343683180EB77A7400C7524A /* ButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683070EB77A7300C7524A /* ButtonTableViewCell.m */; };
@@ -47,8 +46,6 @@
 		3436831B0EB77A7400C7524A /* PlurkPlainTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436830D0EB77A7400C7524A /* PlurkPlainTextTableViewCell.m */; };
 		3436831C0EB77A7400C7524A /* PlurkQualifierTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436830F0EB77A7400C7524A /* PlurkQualifierTableViewCell.m */; };
 		3436831D0EB77A7400C7524A /* PlurkRichTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683110EB77A7400C7524A /* PlurkRichTextTableViewCell.m */; };
-		3436831E0EB77A7400C7524A /* UserDetailsDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683150EB77A7400C7524A /* UserDetailsDetailCell.m */; };
-		3436831F0EB77A7400C7524A /* UserDetailsHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683170EB77A7400C7524A /* UserDetailsHeaderCell.m */; };
 		3436832E0EB77A7900C7524A /* MutableURLConnectionDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683220EB77A7900C7524A /* MutableURLConnectionDictionary.m */; };
 		3436832F0EB77A7900C7524A /* Plurk.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683240EB77A7900C7524A /* Plurk.m */; };
 		343683300EB77A7900C7524A /* PlurkAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683260EB77A7900C7524A /* PlurkAPI.m */; };
@@ -324,8 +321,6 @@
 		343682F50EB77A6C00C7524A /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		343682F60EB77A6C00C7524A /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
 		343682F70EB77A6C00C7524A /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
-		343682F80EB77A6C00C7524A /* UserDetailsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailsTableViewController.h; sourceTree = "<group>"; };
-		343682F90EB77A6C00C7524A /* UserDetailsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsTableViewController.m; sourceTree = "<group>"; };
 		343682FA0EB77A6C00C7524A /* WebPagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPagePreviewController.h; sourceTree = "<group>"; };
 		343682FB0EB77A6C00C7524A /* WebPagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPagePreviewController.m; sourceTree = "<group>"; };
 		343682FC0EB77A6C00C7524A /* WritePlurkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WritePlurkTableViewController.h; sourceTree = "<group>"; };
@@ -344,10 +339,6 @@
 		343683110EB77A7400C7524A /* PlurkRichTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlurkRichTextTableViewCell.m; sourceTree = "<group>"; };
 		343683120EB77A7400C7524A /* PlurkTableCellProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlurkTableCellProtocol.h; sourceTree = "<group>"; };
 		343683130EB77A7400C7524A /* PlurkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlurkTableViewCell.h; sourceTree = "<group>"; };
-		343683140EB77A7400C7524A /* UserDetailsDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailsDetailCell.h; sourceTree = "<group>"; };
-		343683150EB77A7400C7524A /* UserDetailsDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsDetailCell.m; sourceTree = "<group>"; };
-		343683160EB77A7400C7524A /* UserDetailsHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailsHeaderCell.h; sourceTree = "<group>"; };
-		343683170EB77A7400C7524A /* UserDetailsHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsHeaderCell.m; sourceTree = "<group>"; };
 		343683210EB77A7900C7524A /* MutableURLConnectionDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableURLConnectionDictionary.h; sourceTree = "<group>"; };
 		343683220EB77A7900C7524A /* MutableURLConnectionDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutableURLConnectionDictionary.m; sourceTree = "<group>"; };
 		343683230EB77A7900C7524A /* Plurk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plurk.h; sourceTree = "<group>"; };
@@ -622,8 +613,6 @@
 				343682F50EB77A6C00C7524A /* RootViewController.m */,
 				343682F60EB77A6C00C7524A /* SetupViewController.h */,
 				343682F70EB77A6C00C7524A /* SetupViewController.m */,
-				343682F80EB77A6C00C7524A /* UserDetailsTableViewController.h */,
-				343682F90EB77A6C00C7524A /* UserDetailsTableViewController.m */,
 				343682FA0EB77A6C00C7524A /* WebPagePreviewController.h */,
 				343682FB0EB77A6C00C7524A /* WebPagePreviewController.m */,
 				343682FC0EB77A6C00C7524A /* WritePlurkTableViewController.h */,
@@ -650,10 +639,6 @@
 				343683120EB77A7400C7524A /* PlurkTableCellProtocol.h */,
 				343683130EB77A7400C7524A /* PlurkTableViewCell.h */,
 				343684280EB78AC400C7524A /* PlurkTableViewCell.m */,
-				343683140EB77A7400C7524A /* UserDetailsDetailCell.h */,
-				343683150EB77A7400C7524A /* UserDetailsDetailCell.m */,
-				343683160EB77A7400C7524A /* UserDetailsHeaderCell.h */,
-				343683170EB77A7400C7524A /* UserDetailsHeaderCell.m */,
 			);
 			path = "Table Cells";
 			sourceTree = "<group>";
@@ -787,7 +772,6 @@
 				343682FF0EB77A6C00C7524A /* QualifierSelectorTableViewController.m in Sources */,
 				343683000EB77A6C00C7524A /* RootViewController.m in Sources */,
 				343683010EB77A6C00C7524A /* SetupViewController.m in Sources */,
-				343683020EB77A6C00C7524A /* UserDetailsTableViewController.m in Sources */,
 				343683030EB77A6C00C7524A /* WebPagePreviewController.m in Sources */,
 				343683040EB77A6C00C7524A /* WritePlurkTableViewController.m in Sources */,
 				343683180EB77A7400C7524A /* ButtonTableViewCell.m in Sources */,
@@ -796,8 +780,6 @@
 				3436831B0EB77A7400C7524A /* PlurkPlainTextTableViewCell.m in Sources */,
 				3436831C0EB77A7400C7524A /* PlurkQualifierTableViewCell.m in Sources */,
 				3436831D0EB77A7400C7524A /* PlurkRichTextTableViewCell.m in Sources */,
-				3436831E0EB77A7400C7524A /* UserDetailsDetailCell.m in Sources */,
-				3436831F0EB77A7400C7524A /* UserDetailsHeaderCell.m in Sources */,
 				3436832E0EB77A7900C7524A /* MutableURLConnectionDictionary.m in Sources */,
 				3436832F0EB77A7900C7524A /* Plurk.m in Sources */,
 				343683300EB77A7900C7524A /* PlurkAPI.m in Sources */,

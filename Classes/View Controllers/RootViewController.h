@@ -14,7 +14,7 @@
 #import "LoadMorePlurksCell.h"
 #import "iPlurkAppDelegate.h"
 #import "FileDownloader.h"
-#import "UserDetailsTableViewController.h"
+#import "ProfileImageCache.h"
 #import "PlurkResponsesViewController.h"
 #import "Quartz.h"
 
@@ -26,7 +26,6 @@ typedef enum {
 
 @interface RootViewController : UITableViewController <PlurkAPIDelegate> {
 	IBOutlet SetupViewController *setupViewController;
-	IBOutlet UserDetailsTableViewController *userDetailsController;
 	IBOutlet UISegmentedControl *tabs;
 	NSMutableArray *plurks;
 	NSMutableArray *privatePlurks;
@@ -50,7 +49,6 @@ typedef enum {
 @property(nonatomic, assign) NSMutableArray *currentPlurks;
 @property(nonatomic, retain) PlurkAPI *plurkAPI;
 @property(nonatomic, retain) IBOutlet SetupViewController *setupViewController;
-@property(nonatomic, retain) IBOutlet UserDetailsTableViewController *userDetailsController;
 @property(nonatomic, retain) IBOutlet UISegmentedControl *tabs;
 
 - (IBAction)tabHasChanged;
@@ -65,6 +63,5 @@ typedef enum {
 - (void)plurkHTTPRequestAborted:(NSError *)error;
 - (void)connection:(NSURLConnection*)connection receivedNewPlurks:(NSArray *)plurks;
 - (void)fileDownloadDidComplete:(NSString *)file;
-- (void)avatarImageWasClicked:(NSInteger)plurker;
 - (void)receivedPlurkResponsePoll:(NSArray *)newResponses;
 @end

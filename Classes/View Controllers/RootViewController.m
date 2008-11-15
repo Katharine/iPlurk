@@ -13,7 +13,6 @@
 @synthesize plurks, unreadPlurks, privatePlurks, currentPlurks;
 @synthesize plurkAPI;
 @synthesize setupViewController;
-@synthesize userDetailsController;
 @synthesize tabs;
 
 #pragma mark UITableView
@@ -142,11 +141,6 @@
 
 
 #pragma mark User Interface
-
-- (void)avatarImageWasClicked:(NSInteger)plurker {
-	[userDetailsController setFriend:[[plurkAPI friendDictionary] objectForKey:[plurkAPI nickNameFromUserID:plurker]]];
-	[self presentModalViewController:userDetailsController animated:YES];
-}
 
 - (void)startComposingWithContent:(NSString *)text qualifier:(NSString *)qualifier {
 	WritePlurkTableViewController *controller = [[WritePlurkTableViewController alloc] initWithNibName:@"WritePlurkTableView" bundle:nil];
@@ -708,7 +702,6 @@
 	[plurks release];
 	[plurkAPI release];
 	[setupViewController release];
-	[userDetailsController release];
     [super dealloc];
 }
 
