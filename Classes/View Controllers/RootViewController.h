@@ -39,6 +39,7 @@ typedef enum {
 	NSURLConnection *privateRequest;
 	NSURLConnection *unreadRequest;
 	NSInteger selectedRow;
+	NSMutableArray *filesDownloading;
 	Plurk *selectedPlurk;
 	BOOL canUseTable;
 }

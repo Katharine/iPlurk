@@ -75,11 +75,12 @@
 				avatar = [UIImage imageWithContentsOfFile:pathToImage];
 				[[ProfileImageCache mainCache] cacheImage:avatar forUser:[plurk ownerID]];
 			}
-			if(!avatar) {
+			if(!avatar && ![filesDownloading containsObject:pathToImage]) {
 				// No cached image. Go get it.
 				NSURL *avatarUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://avatars.plurk.com/%d-medium.gif", [plurk ownerID], nil]];
 				FileDownloader *downloader = [[FileDownloader alloc] initFromURL:avatarUrl toFile:pathToImage notify:self];
 				[downloader release];
+				[filesDownloading addObject:pathToImage];
 			}
 		}
 		if(avatar) {
@@ -209,6 +210,9 @@
 	// Cache it.
 	[[ProfileImageCache mainCache] cacheImage:newImage forUser:ourID];
 	
+	// Remove it from the downloading list.
+	[filesDownloading removeObject:file];
+	
 	// Fill it into any currently visible cells.
 	NSArray *cells = [[self tableView] visibleCells];
 	for(PlurkTableViewCell *cell in cells) {
@@ -229,10 +233,12 @@
 	if(!plurkAPI) {
 		canUseTable = YES;
 		NSLog(@"Initiating...");
+		filesDownloading = [[NSMutableArray alloc] init];
 		setupViewController.origin = self;
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		if([defaults boolForKey:@"ui_paging"]) {
 			[[self tableView] setPagingEnabled:YES];
+			[[self tableView] setRowHeight:104];
 		}
 		if([defaults boolForKey:@"ui_richtext"]) {
 			plurkTableCellType = @"PlurkRichTextTableViewCell";
@@ -702,6 +708,7 @@
 	[plurks release];
 	[plurkAPI release];
 	[setupViewController release];
+	[filesDownloading release];
     [super dealloc];
 }
 

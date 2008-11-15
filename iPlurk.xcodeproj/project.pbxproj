@@ -581,8 +581,8 @@
 				3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */,
 				3436827E0EB779F000C7524A /* RootViewController.xib */,
 				3436827F0EB779F000C7524A /* SetupView.xib */,
-				343682830EB779F000C7524A /* WebPagePreview.xib */,
 				343682840EB779F000C7524A /* WritePlurkTableView.xib */,
+				343682830EB779F000C7524A /* WebPagePreview.xib */,
 			);
 			path = IB;
 			sourceTree = "<group>";
