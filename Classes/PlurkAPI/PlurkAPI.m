@@ -519,6 +519,7 @@
 		plurk.plurkID = [(NSNumber *)[plurkDict objectForKey:@"plurk_id"] integerValue];
 		plurk.responseCount = [(NSNumber *)[plurkDict objectForKey:@"response_count"] integerValue];
 		plurk.responsesSeen = [(NSNumber *)[plurkDict objectForKey:@"responses_seen"] integerValue];
+		if([plurk responsesSeen] > [plurk responseCount]) plurk.responsesSeen = [plurk responseCount]; // Sometimes Plurk claims we've seen more responses than there are.
 		plurk.ownerID = [(NSNumber *)[plurkDict objectForKey:@"owner_id"] integerValue];
 		plurk.qualifier = [plurkDict objectForKey:@"qualifier"];
 		plurk.content = [plurkDict objectForKey:@"content"];
