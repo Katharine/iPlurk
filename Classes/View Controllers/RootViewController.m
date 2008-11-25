@@ -229,6 +229,7 @@
 - (void)viewDidLoad {
 	NSLog(@"View loaded");
     [super viewDidLoad];
+	[[self tableView] setScrollsToTop:YES];
 	// Setup
 	if(!plurkAPI) {
 		canUseTable = YES;
@@ -236,10 +237,7 @@
 		filesDownloading = [[NSMutableArray alloc] init];
 		setupViewController.origin = self;
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		if([defaults boolForKey:@"ui_paging"]) {
-			[[self tableView] setPagingEnabled:YES];
-			[[self tableView] setRowHeight:104];
-		}
+		enableUserInterfacePaging = [defaults boolForKey:@"ui_paging"];
 		if([defaults boolForKey:@"ui_richtext"]) {
 			plurkTableCellType = @"PlurkRichTextTableViewCell";
 		} else {
@@ -288,6 +286,14 @@
 		}
 
 	}
+	
+	// We do this here because we have to do it again if we we didReceiveMemoryWarning,
+	// and we want to do this *after* finding out if it's enabled once.
+	if(enableUserInterfacePaging) {
+		[[self tableView] setPagingEnabled:YES];
+		[[self tableView] setRowHeight:104];
+	}
+	
     // Uncomment the following line to add the Edit button to the navigation bar.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -334,9 +340,22 @@
 		}
 	}
 	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadPlurks count]];
+	
+	
 	NSLog(@"Running super");
     [super viewWillAppear:animated];
 	NSLog(@"viewWillAppear done.");
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	contentOffset = [[self tableView] contentOffset];
+	[super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	// Restore the scroll level, if we have one (in case the view was unloaded).
+	[[self tableView] setContentOffset:contentOffset animated:NO];
+	[super viewDidAppear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
