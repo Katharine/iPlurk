@@ -42,6 +42,8 @@ typedef enum {
 	NSMutableArray *filesDownloading;
 	Plurk *selectedPlurk;
 	BOOL canUseTable;
+	BOOL enableUserInterfacePaging;
+	CGPoint contentOffset;
 }
 
 @property(nonatomic, retain) NSMutableArray *plurks;
