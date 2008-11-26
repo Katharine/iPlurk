@@ -436,6 +436,12 @@
 	NSLog(@"Beginning updates.");
 	NSLog(@"Received %d new plurks", [newPlurks count]);
 	if(canUseTable) [[self tableView] beginUpdates];
+	
+	// Check if we'll need to insert an extra row at the end for the "Load more plurks" button.
+	// This is necessary because the iPhone 2.2 SDK checks if the number of rows inserted
+	// matches the number of rows that appeared, and throws an exception if it doesn't.
+	BOOL insertExtraRow = (currentTab == RootViewTabAll && [plurks count] == 0);
+	
 	for(Plurk *plurk in newPlurks) {
 		NSLog(@"%@ %@ %@", [plurk ownerDisplayName], [plurk qualifier], [plurk contentRaw]);
 		NSUInteger index = [currentPlurks indexOfObject:plurk];
@@ -561,8 +567,12 @@
 		[allRequest release];
 		allRequest = nil;
 	}
-	NSLog(@"Ending updates.");
 	if(canUseTable) {
+		NSLog(@"Ending updates.");
+		if(insertExtraRow) {
+			NSLog(@"Inserting an extra row to compensate for 'show more plurks'.");
+			[[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[plurks count] inSection:0]] withRowAnimation:YES];
+		}
 		[[self tableView] endUpdates];
 		[[self tableView] setNeedsDisplay];
 	}
