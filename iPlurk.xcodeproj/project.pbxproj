@@ -123,6 +123,8 @@
 		89010FED0EBCDBA500E990A7 /* FileUploadPending.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89010FEC0EBCDBA500E990A7 /* FileUploadPending.xib */; };
 		890110000EBCDD3400E990A7 /* PlurkResponsesLoading.html in Resources */ = {isa = PBXBuildFile; fileRef = 89010FFF0EBCDD3400E990A7 /* PlurkResponsesLoading.html */; };
 		890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */ = {isa = PBXBuildFile; fileRef = 890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */; };
+		896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */ = {isa = PBXBuildFile; fileRef = 896700ED0EDCD052003BEE39 /* Qualifiers.css */; };
+		8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */ = {isa = PBXBuildFile; fileRef = 8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -368,6 +370,8 @@
 		89010FEC0EBCDBA500E990A7 /* FileUploadPending.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FileUploadPending.xib; sourceTree = "<group>"; };
 		89010FFF0EBCDD3400E990A7 /* PlurkResponsesLoading.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PlurkResponsesLoading.html; sourceTree = "<group>"; };
 		890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LargeWhiteProgressIndicator.gif; sourceTree = "<group>"; };
+		896700ED0EDCD052003BEE39 /* Qualifiers.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Qualifiers.css; sourceTree = "<group>"; };
+		8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RichTextPlurkTableCell.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -562,6 +566,8 @@
 				343682710EB779F000C7524A /* PlurkResponsesDisplay.html */,
 				343682720EB779F000C7524A /* PlurkResponsesSingleResponse.html */,
 				89010FFF0EBCDD3400E990A7 /* PlurkResponsesLoading.html */,
+				896700ED0EDCD052003BEE39 /* Qualifiers.css */,
+				8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */,
 			);
 			path = HTML;
 			sourceTree = "<group>";
@@ -755,6 +761,8 @@
 				89010FED0EBCDBA500E990A7 /* FileUploadPending.xib in Resources */,
 				890110000EBCDD3400E990A7 /* PlurkResponsesLoading.html in Resources */,
 				890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */,
+				896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */,
+				8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

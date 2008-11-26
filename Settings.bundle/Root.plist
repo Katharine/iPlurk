@@ -96,6 +96,20 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
+			<string>Highlight qualifiers</string>
+			<key>Key</key>
+			<string>no_highlight_qualifiers</string>
+			<key>DefaultValue</key>
+			<true/>
+			<key>TrueValue</key>
+			<string>NO</string>
+			<key>FalseValue</key>
+			<string>YES</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
 			<string>Rich text</string>
 			<key>Key</key>
 			<string>ui_richtext</string>

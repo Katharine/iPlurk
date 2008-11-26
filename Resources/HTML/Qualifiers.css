@@ -1,0 +1,27 @@
+/* Copied almost directly out of Plurk's CSS */
+.q_is{background-color:#E57C43;}
+.q_says{background-color:#E2560B;}
+.q_feels,.q_needs{border-right:1px solid #304F09;border-bottom:1px solid #304F09;}
+.q_needs{background-color:#7A9A37;}
+.q_hopes{background-color:#e05be9;}
+.q_feels{background-color:#2D83BE;}
+.q_thinks{border-right:1px solid #254A64;border-bottom:1px solid #254A64;background-color:#689CC1;}
+.q_wants{background-color:#8DB241;}
+.q_wishes{background-color:#5BB017;}
+.q_has{background-color:#777;}
+.q_loves{border-right:1px solid #334E09;border-bottom:1px solid #334E09;background-color:#B20C0C;}
+.q_hates{border-right:1px solid #444;border-bottom:1px solid #444;background-color:#111;}
+.q_asks{border-right:1px solid #6A2C6F;border-bottom:1px solid #6A2C6F;background-color:#8361bc;}
+.q_will{background-color:#B46DB9;}
+.q_was{background-color:#525252;}
+.q_had{background-color:#8C8C8C;}
+.q_likes{background-color:#CB2728;}
+.q_shares{background-color:#A74949;}
+.q_gives{background-color:#620E0E;}
+.q_wonders{background-color:#2e4e9e;}
+.q_wants,.q_has,.q_wishes{border-right:1px solid #334C08;border-bottom:1px solid #334C08;}
+.q_is,.q_says{border-right:1px solid #994215;border-bottom:1px solid #994215;}
+.q_will,.q_asks,.q_hopes{border-right:1px solid #6A2C6F;border-bottom:1px solid #6A2C6F;}
+.q_gives,.q_likes,.q_was,.q_wonders{border-right:1px solid #313131;border-bottom:1px solid #313131;}
+.q_shares,.q_had{border-right:1px solid #454545;border-bottom:1px solid #454545;}
+.qualifier{padding:0 3px 0 3px;color:white;margin:0 1px 0 2px;}

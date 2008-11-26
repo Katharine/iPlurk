@@ -11,6 +11,8 @@
 
 @interface PlurkRichTextTableViewCell : PlurkTableViewCell {
 	IBOutlet UIWebView *plurkContent;
+	NSString *htmlTemplate;
+	NSString *qualifierCSS;
 }
 
 @property(nonatomic, retain) UIWebView *plurkContent;

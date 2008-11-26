@@ -13,6 +13,8 @@
 
 - (void)dealloc {
 	[plurkContent release];
+	[htmlTemplate release];
+	[qualifierCSS release];
 	[super dealloc];
 }
 
@@ -24,12 +26,23 @@
 	}
 }
 
+- (void)initWithCoder:(NSCoder *)coder {
+	htmlTemplate = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RichTextPlurkTableCell" ofType:@"html"]];
+	if(![[NSUserDefaults standardUserDefaults] boolForKey:@"no_highlight_qualifiers"]) {
+		qualifierCSS = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"css"]];
+	} else {
+		qualifierCSS = @"";
+	}
+	[htmlTemplate retain];
+	[qualifierCSS retain];
+	[super initWithCoder:coder];
+}
+
 
 - (void)renderPlurkText {
 	[[self plurkContent] setBackgroundColor:[UIColor clearColor]];
 	Plurk* plurk = [self plurkDisplayed];
-	static NSString *FormatString = @"<html><head><style type='text/css'>* { background-color: transparent; } body, html { font-family: sans-serif; font-size: 12px; padding: 0px; margin: 0px; }</style></head><body><strong>%@</strong> %@ %@</body></html>";
-	NSString *html = [[NSString alloc] initWithFormat:FormatString, [plurk ownerDisplayName], ([[plurk qualifier] length] < 2 ? @"" : [plurk qualifier]), [self modifyPlurkHtml:[plurk content]], nil];
+	NSString *html = [[NSString alloc] initWithFormat:htmlTemplate, qualifierCSS, [plurk ownerDisplayName], [plurk qualifier], ([[plurk qualifier] length] < 2 ? @"" : [plurk qualifier]), [self modifyPlurkHtml:[plurk content]], nil];
 	[[WebViewManager manager] setUpWebView:[self plurkContent] withText:html];
 	[html release];
 }
