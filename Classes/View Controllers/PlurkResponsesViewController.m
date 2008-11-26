@@ -131,11 +131,18 @@
 		
 		NSInteger responseNum = 0;
 		for(ResponsePlurk *response in responses) {
-			[responseHTML appendFormat:responseFormat, responseNum, [response userDisplayName], (([[response qualifier] length] < 2) ? @"" : [response qualifier]), [response content], nil];
+			[responseHTML appendFormat:responseFormat, responseNum, [response userDisplayName], [response qualifier], (([[response qualifier] length] < 2) ? @"" : [response qualifier]), [response content], nil];
 			++responseNum;
 		}
 	}
-	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerDisplayName], ([[firstPlurk qualifier] length] < 2 ? @"" : [firstPlurk qualifier]), [firstPlurk content], responseHTML, nil]];
+	
+	// Check if we should highlight qualifiers. It's inverted because if the user has not shown a preference,
+	// this'll be NO, and we want the default to be YES. The preference switch is inverted incidentally - 
+	// ON = NO and OFF = YES. Hooray weirdness.
+	BOOL doNotHighlightQualifiers = [[NSUserDefaults standardUserDefaults] boolForKey:@"no_highlight_qualifiers"];
+	
+	NSString *css = !doNotHighlightQualifiers ? [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"css"]] : @"";
+	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, css, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerDisplayName], [firstPlurk qualifier], ([[firstPlurk qualifier] length] < 2 ? @"" : [firstPlurk qualifier]), [firstPlurk content], responseHTML, nil]];
 	[webView loadHTMLString:[self processPlurkContent:html] baseURL:nil];
 	[firstPlurk setIsUnread:0];
 	[firstPlurk setResponseCount:[responses count]];
