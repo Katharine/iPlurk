@@ -34,9 +34,18 @@
     [super setSelected:selected animated:animated];
     // Configure the view for the selected state
 	if(selected) {
-		self.infoLabel.highlighted = YES;
+		[[self infoLabel] setHighlighted:YES];
 	} else {
-		self.infoLabel.highlighted = NO;
+		if(animated) {
+			NSInvocation *invoke = [NSInvocation invocationWithMethodSignature:[[self infoLabel] methodSignatureForSelector:@selector(setHighlighted:)]];
+			[invoke setTarget:[self infoLabel]];
+			[invoke setSelector:@selector(setHighlighted:)];
+			BOOL no = NO;
+			[invoke setArgument:&no atIndex:2];
+			[invoke performSelector:@selector(invoke) withObject:nil afterDelay:0.5];
+		} else {
+			self.infoLabel.highlighted = NO;
+		}
 	}
 	[self setContentSelected:selected animated:animated];
 }

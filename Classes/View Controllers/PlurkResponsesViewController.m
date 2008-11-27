@@ -105,6 +105,7 @@
 						[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesSingleResponse" ofType:@"html"]],
 						[plurk plurkID],
 						[plurk userDisplayName],
+						[plurk qualifier],
 						(([[plurk qualifier] length] < 2) ? @"" : [plurk qualifier]), 
 						content,
 						nil
@@ -113,7 +114,8 @@
 					  ]
 					  stringByReplacingOccurrencesOfString:@"\n" withString:@""
 	];
-				
+	[firstPlurk setResponseCount:[firstPlurk responseCount] + 1];
+	[firstPlurk setResponsesSeen:[firstPlurk responseCount]];
 	NSString *script = [NSString stringWithFormat:@"var node = document.createElement('div'); node.innerHTML = \"%@\"; document.getElementById('responses').appendChild(node); node.scrollIntoView();", html, nil];
 	[webView stringByEvaluatingJavaScriptFromString:script];
 }

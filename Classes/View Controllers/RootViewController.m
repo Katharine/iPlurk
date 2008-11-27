@@ -340,8 +340,7 @@
 		}
 	}
 	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadPlurks count]];
-	
-	
+
 	NSLog(@"Running super");
     [super viewWillAppear:animated];
 	NSLog(@"viewWillAppear done.");
