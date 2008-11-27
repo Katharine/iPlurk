@@ -576,6 +576,7 @@
 	NSDictionary *responders = [responseDict objectForKey:@"friends"];
 	NSArray *responsesRaw = [responseDict objectForKey:@"responses"];
 	NSMutableArray *responses = [[NSMutableArray alloc] init];
+	NSMutableDictionary *friends = [[NSMutableDictionary alloc] init];
 	for(NSDictionary *responseRaw in responsesRaw) {
 		ResponsePlurk *response = [[ResponsePlurk alloc] init];
 		response.userID = [(NSNumber *)[responseRaw objectForKey:@"user_id"] integerValue];
@@ -590,9 +591,13 @@
 		if([response userDisplayName] == (NSString *)[NSNull null] || [[response userDisplayName] length] == 0) {
 			response.userDisplayName = [responder objectForKey:@"nick_name"];
 		}
+		// Add to the temporary friend list if it's not already there.
+		if(![friends objectForKey:[responder objectForKey:@"nick_name"]]) {
+			[friends setObject:[response userDisplayName] forKey:[responder objectForKey:@"nick_name"]];
+		}
 		[responses addObject:response];
 	}
-	[delegate receivedPlurkResponses:responses];
+	[delegate receivedPlurkResponses:responses withResponders:friends];
 	[responses release];
 }
 
