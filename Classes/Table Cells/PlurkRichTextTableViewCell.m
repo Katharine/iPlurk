@@ -22,7 +22,12 @@
 	if(selected) {
 		[plurkContent stringByEvaluatingJavaScriptFromString:@"document.body.style.color = 'white';"];
 	} else {
-		[plurkContent stringByEvaluatingJavaScriptFromString:@"document.body.style.color = 'black';"];
+		static NSString *script = @"document.body.style.color = 'black';";
+		if(animated) {
+			[plurkContent performSelector:@selector(stringByEvaluatingJavaScriptFromString:) withObject:script afterDelay:0.5];
+		} else {
+			[plurkContent stringByEvaluatingJavaScriptFromString:script];
+		}
 	}
 }
 

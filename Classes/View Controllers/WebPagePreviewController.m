@@ -33,6 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[webView setBackgroundColor:[UIColor whiteColor]];
 	[webView loadRequest:requestToLoad];
 }
 

@@ -23,8 +23,13 @@
 		[plurkContent setTextColor:[UIColor whiteColor]];
 		[plurkNameAction setTextColor:[UIColor whiteColor]];
 	} else {
-		[plurkContent setTextColor:[UIColor blackColor]];
-		[plurkNameAction setTextColor:[UIColor blackColor]];
+		if(animated) {
+			[plurkContent performSelector:@selector(setTextColor:) withObject:[UIColor blackColor] afterDelay:0.5];
+			[plurkNameAction performSelector:@selector(setTextColor:) withObject:[UIColor blackColor] afterDelay:0.5];
+		} else {
+			[plurkContent setTextColor:[UIColor blackColor]];
+			[plurkNameAction setTextColor:[UIColor blackColor]];
+		}
 	}
 }
 
