@@ -18,14 +18,18 @@
     return self;
 }
 
-- (void)viewDidLoad {
-	//[[self label] setFont:[UIFont boldSystemFontOfSize:20.0]];
-}
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
 
     [super setSelected:selected animated:animated];
-
+	if(selected) {
+		[[self label] setTextColor:[UIColor whiteColor]];
+	} else {
+		if(animated) {
+			[[self label] performSelector:@selector(setTextColor:) withObject:[UIColor blackColor] afterDelay:0.25];
+		} else {
+			[[self label] setTextColor:[UIColor blackColor]];
+		}
+	}
     // Configure the view for the selected state
 }
 

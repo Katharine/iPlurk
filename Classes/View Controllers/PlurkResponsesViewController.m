@@ -120,7 +120,7 @@
 	[webView stringByEvaluatingJavaScriptFromString:script];
 }
 
-- (void)receivedPlurkResponses:(NSArray *)responses {	
+- (void)receivedPlurkResponses:(NSArray *)responses withResponders:(NSDictionary *)responders {	
 	NSString *htmlTemplate = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesDisplay" ofType:@"html"]];
 	NSString *avatarURL = [NSString stringWithFormat:@"file://%@", [[NSBundle mainBundle] pathForResource:@"NoAvatarAvailable" ofType:@"png"], nil];
 	NSString *realAvatarPath = [NSString stringWithFormat:@"%@/user-%d.gif", avatarPath, [firstPlurk ownerID], nil];
@@ -135,6 +135,25 @@
 		for(ResponsePlurk *response in responses) {
 			[responseHTML appendFormat:responseFormat, responseNum, [response userDisplayName], [response qualifier], (([[response qualifier] length] < 2) ? @"" : [response qualifier]), [response content], nil];
 			++responseNum;
+		}
+	}
+	
+	// Try fixing up the @nicknames to be @Display Names.
+	NSInteger position = 0;
+	NSRange range;
+	NSMutableArray *namesToDo = [[NSMutableArray alloc] init];
+	while((range = [responseHTML rangeOfRegex:@"<a href=\"http://www.plurk.com/([a-zA-Z0-9]+)\" class=\"ex_link\">.+?</a>" options:RKLNoOptions inRange:NSMakeRange(position, [responseHTML length] - position) capture:1 error:NULL]).location != NSNotFound) {
+		NSString *nickname = [responseHTML substringWithRange:range];
+		if(nickname && ![namesToDo containsObject:nickname]) {
+			[namesToDo addObject:nickname];
+		}
+		position = range.location + range.length;
+	}
+	
+	for(NSString *nickname in namesToDo) {
+		NSString *displayName = [responders objectForKey:nickname];
+		if(displayName && ![displayName isEqualToString:nickname]) {
+			[responseHTML replaceOccurrencesOfString:[NSString stringWithFormat:@"<a href=\"http://www.plurk.com/%@\" class=\"ex_link\">%@</a>", nickname, nickname, nil] withString:[NSString stringWithFormat:@"<a href=\"http://www.plurk.com/%@\" class=\"ex_link\">%@</a>", nickname, displayName] options:NSLiteralSearch range:NSMakeRange(0, [responseHTML length])];
 		}
 	}
 	

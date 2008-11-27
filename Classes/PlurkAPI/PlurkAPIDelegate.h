@@ -15,7 +15,7 @@
 - (void)connection:(NSURLConnection *)connection receivedNewPlurks:(NSArray *)plurks;
 - (void)plurkLoginDidFinish;
 - (void)plurkLoginDidFail;
-- (void)receivedPlurkResponses:(NSArray *)responses;
+- (void)receivedPlurkResponses:(NSArray *)responses withResponders:(NSDictionary *)responders;
 - (void)receivedPlurkResponsePoll:(NSArray *)plurksWithResponses;
 - (void)plurkResponseCompleted:(ResponsePlurk *)response;
 
