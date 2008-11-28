@@ -10,20 +10,16 @@
 
 
 @interface WebPagePreviewController : UIViewController <UIWebViewDelegate, UIAlertViewDelegate> {
-	IBOutlet UIBarButtonItem *closeButton;
-	IBOutlet UIBarButtonItem *safariButton;
 	IBOutlet UIWebView *webView;
 	
 	NSURLRequest *requestToLoad;
 }
 
-@property(nonatomic, retain) IBOutlet UIBarButtonItem *closeButton;
-@property(nonatomic, retain) IBOutlet UIBarButtonItem *safariButton;
 @property(nonatomic, retain) IBOutlet UIWebView *webView;
 
 @property(nonatomic, retain) NSURLRequest *requestToLoad;
 
-- (IBAction)closeView;
-- (IBAction)openSafari;
+- (void)closeView;
+- (void)openSafari;
 
 @end

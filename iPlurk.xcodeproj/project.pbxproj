@@ -125,6 +125,7 @@
 		890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */ = {isa = PBXBuildFile; fileRef = 890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */; };
 		896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */ = {isa = PBXBuildFile; fileRef = 896700ED0EDCD052003BEE39 /* Qualifiers.css */; };
 		8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */ = {isa = PBXBuildFile; fileRef = 8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */; };
+		89E99E590EE087B10046FB0D /* Compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E99E580EE087B10046FB0D /* Compass.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -372,6 +373,7 @@
 		890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LargeWhiteProgressIndicator.gif; sourceTree = "<group>"; };
 		896700ED0EDCD052003BEE39 /* Qualifiers.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Qualifiers.css; sourceTree = "<group>"; };
 		8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RichTextPlurkTableCell.html; sourceTree = "<group>"; };
+		89E99E580EE087B10046FB0D /* Compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -598,6 +600,7 @@
 			children = (
 				890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */,
 				343682860EB779F000C7524A /* Default.png */,
+				89E99E580EE087B10046FB0D /* Compass.png */,
 				343682870EB779F000C7524A /* Icon.png */,
 				343682880EB779F000C7524A /* PlurkLogo.png */,
 				3436862F0EB7BAE600C7524A /* NoAvatarAvailable.png */,
@@ -763,6 +766,7 @@
 				890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */,
 				896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */,
 				8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */,
+				89E99E590EE087B10046FB0D /* Compass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -191,29 +191,36 @@
 - (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 	if(navigationType == UIWebViewNavigationTypeOther) return YES;
 	NSLog(@"UIWebView tried to load %@", [[request URL] absoluteString]);
-	UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to quit iPlurk to follow this link?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:nil otherButtonTitles:@"Yes", nil];
+	UIActionSheet *sheet = nil; 
 	
 	if([[[request URL] host] hasSuffix:@"youtube.com"]) {
 		if([[[request URL] path] isEqual:@"/watch"] || [[[request URL] host] hasPrefix:@"/v/"]) {
 			currentURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://youtube.com%@?%@", [[request URL] path], [[request URL] query]]];
-			[sheet setTitle:@"Do you want to quit iPlurk to view this YouTube video in the YouTube app?"];
+			sheet = [[UIActionSheet alloc] initWithTitle:@"Opening this YouTube video will close iPlurk." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Watch Video in YouTube", nil];
 		}
 	} else if([[[request URL] host] isEqual:@"phobos.apple.com"]) {
 		currentURL = [request URL];
-		[sheet setTitle:@"Do you want to quit iPlurk to view this on the iTunes store?"];
+		sheet = [[UIActionSheet alloc] initWithTitle:@"Following this link will close iPlurk and launch the iTunes Store" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Visit the iTunes Store", nil];
+	} else if(([[[request URL] host] isEqual:@"itunes.com"] || [[[request URL] host] hasSuffix:@".itunes.com"]) && [[[request URL] path] hasPrefix:@"/app/"]) {
+		currentURL = [request URL];
+		sheet = [[UIActionSheet alloc] initWithTitle:@"Following this link will close iPlurk and open the App Store" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Open the App Store", nil];
 	} else if([[[request URL] host] isEqual:@"maps.google.com"] || [[[request URL] host] isEqual:@"ditu.google.com"]) {
 		if([[[request URL] path] isEqual:@"/"] || [[[request URL] path] isEqual:@"/maps"] || [[[request URL] path] isEqual:@"/m"]) {
 			currentURL = [request URL];
-			[sheet setTitle:@"Do you want to quit iPlurk to view this map in the Maps app?"];
+			sheet = [[UIActionSheet alloc] initWithTitle:@"This link will close iPlurk and open Maps" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Open Map", nil];
 		}
 	} else {
 		[sheet release];
 		sheet = nil;
 		if([webView isLoading]) [webView stopLoading];
 		WebPagePreviewController *controller = [[WebPagePreviewController alloc] initWithNibName:@"WebPagePreview" bundle:nil];
+		UINavigationController *newController = [[UINavigationController alloc] initWithRootViewController:controller];
+		[controller navigationItem].leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:controller action:@selector(closeView)];
+		[controller navigationItem].rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Compass.png"] style:UIBarButtonItemStylePlain target:controller action:@selector(openSafari)];
 		[controller setRequestToLoad:request];
-		[self presentModalViewController:controller animated:YES];
+		[self presentModalViewController:newController animated:YES];
 		[controller release];
+		[newController release];
 	}
 	if(sheet) {
 		[currentURL retain];
