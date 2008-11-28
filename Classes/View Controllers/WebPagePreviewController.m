@@ -10,7 +10,7 @@
 
 
 @implementation WebPagePreviewController
-@synthesize requestToLoad, webView, closeButton, safariButton;
+@synthesize requestToLoad, webView;
 
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
@@ -32,6 +32,7 @@
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	[[self navigationItem] setTitle:@"Loading..."]; 
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	[webView setBackgroundColor:[UIColor whiteColor]];
 	[webView loadRequest:requestToLoad];
@@ -52,7 +53,8 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
+- (void)webViewDidFinishLoad:(UIWebView *)theWebView {
+	[[self navigationItem] setTitle:[theWebView stringByEvaluatingJavaScriptFromString:@"document.title"]];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
@@ -92,9 +94,8 @@
 
 - (void)dealloc {
 	if([webView isLoading]) [webView stopLoading];
+	[webView setDelegate:nil];
 	[webView release];
-	[closeButton release];
-	[safariButton release];
     [super dealloc];
 }
 
