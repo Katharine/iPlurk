@@ -28,7 +28,6 @@
 		343682D80EB779F000C7524A /* WebPagePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682830EB779F000C7524A /* WebPagePreview.xib */; };
 		343682D90EB779F000C7524A /* WritePlurkTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682840EB779F000C7524A /* WritePlurkTableView.xib */; };
 		343682DA0EB779F000C7524A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 343682860EB779F000C7524A /* Default.png */; };
-		343682DB0EB779F000C7524A /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 343682870EB779F000C7524A /* Icon.png */; };
 		343682DC0EB779F000C7524A /* PlurkLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 343682880EB779F000C7524A /* PlurkLogo.png */; };
 		343682DD0EB779F000C7524A /* PrivatePlurk.png in Resources */ = {isa = PBXBuildFile; fileRef = 343682890EB779F000C7524A /* PrivatePlurk.png */; };
 		343682DE0EB779F000C7524A /* SelectedUnreadIndicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 3436828A0EB779F000C7524A /* SelectedUnreadIndicator.png */; };
@@ -125,6 +124,7 @@
 		890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */ = {isa = PBXBuildFile; fileRef = 890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */; };
 		896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */ = {isa = PBXBuildFile; fileRef = 896700ED0EDCD052003BEE39 /* Qualifiers.css */; };
 		8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */ = {isa = PBXBuildFile; fileRef = 8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */; };
+		89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 89A2B2EE0EE1ADC7009B2C82 /* Icon.png */; };
 		89E99E590EE087B10046FB0D /* Compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E99E580EE087B10046FB0D /* Compass.png */; };
 /* End PBXBuildFile section */
 
@@ -308,7 +308,6 @@
 		343682830EB779F000C7524A /* WebPagePreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebPagePreview.xib; sourceTree = "<group>"; };
 		343682840EB779F000C7524A /* WritePlurkTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WritePlurkTableView.xib; sourceTree = "<group>"; };
 		343682860EB779F000C7524A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		343682870EB779F000C7524A /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		343682880EB779F000C7524A /* PlurkLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlurkLogo.png; sourceTree = "<group>"; };
 		343682890EB779F000C7524A /* PrivatePlurk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PrivatePlurk.png; sourceTree = "<group>"; };
 		3436828A0EB779F000C7524A /* SelectedUnreadIndicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SelectedUnreadIndicator.png; sourceTree = "<group>"; };
@@ -373,6 +372,7 @@
 		890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LargeWhiteProgressIndicator.gif; sourceTree = "<group>"; };
 		896700ED0EDCD052003BEE39 /* Qualifiers.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Qualifiers.css; sourceTree = "<group>"; };
 		8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RichTextPlurkTableCell.html; sourceTree = "<group>"; };
+		89A2B2EE0EE1ADC7009B2C82 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		89E99E580EE087B10046FB0D /* Compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -600,8 +600,8 @@
 			children = (
 				890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */,
 				343682860EB779F000C7524A /* Default.png */,
+				89A2B2EE0EE1ADC7009B2C82 /* Icon.png */,
 				89E99E580EE087B10046FB0D /* Compass.png */,
-				343682870EB779F000C7524A /* Icon.png */,
 				343682880EB779F000C7524A /* PlurkLogo.png */,
 				3436862F0EB7BAE600C7524A /* NoAvatarAvailable.png */,
 				343682890EB779F000C7524A /* PrivatePlurk.png */,
@@ -752,7 +752,6 @@
 				343682D80EB779F000C7524A /* WebPagePreview.xib in Resources */,
 				343682D90EB779F000C7524A /* WritePlurkTableView.xib in Resources */,
 				343682DA0EB779F000C7524A /* Default.png in Resources */,
-				343682DB0EB779F000C7524A /* Icon.png in Resources */,
 				343682DC0EB779F000C7524A /* PlurkLogo.png in Resources */,
 				343682DD0EB779F000C7524A /* PrivatePlurk.png in Resources */,
 				343682DE0EB779F000C7524A /* SelectedUnreadIndicator.png in Resources */,
@@ -767,6 +766,7 @@
 				896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */,
 				8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */,
 				89E99E590EE087B10046FB0D /* Compass.png in Resources */,
+				89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
