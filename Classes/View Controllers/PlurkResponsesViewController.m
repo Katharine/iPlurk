@@ -209,6 +209,9 @@
 			currentURL = [request URL];
 			sheet = [[UIActionSheet alloc] initWithTitle:@"This link will close iPlurk and open Maps" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Open Map", nil];
 		}
+	} else if([[[request URL] host] isEqualToString:@"www.plurk.com"] && [[[request URL] path] hasPrefix:@"/p/"]) {
+		RootViewController *controller = [[[self navigationController] viewControllers] objectAtIndex:0];
+		[controller displayPlurkWithBase36ID:[[[request URL] path] substringFromIndex:3]];
 	} else {
 		[sheet release];
 		sheet = nil;

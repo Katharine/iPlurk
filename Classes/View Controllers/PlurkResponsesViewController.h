@@ -12,6 +12,7 @@
 #import "WritePlurkTableViewController.h"
 #import "PlurkEntryTableViewCell.h"
 
+@class RootViewController;
 @interface PlurkResponsesViewController : UIViewController <PlurkAPIDelegate, UIWebViewDelegate, UIActionSheetDelegate> {
 	Plurk *firstPlurk;
 	IBOutlet UIWebView *webView;

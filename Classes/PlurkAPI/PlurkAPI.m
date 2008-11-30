@@ -137,6 +137,7 @@
 	currentUser = [[[PlurkFriend alloc] init] retain];
 	currentUser.displayName = [load objectForKey:@"displayName"];
 	currentUser.hasProfileImage = [[load objectForKey:@"hasProfileImage"] boolValue];
+	loggedIn = YES;
 	return YES;
 }
 
@@ -496,6 +497,7 @@
 	[uidToName setObject:userName forKey:[NSNumber numberWithInteger:userID]];
 	currentUser = [friend retain];
 	NSLog(@"Login successful.");
+	loggedIn = YES;
 	[delegate plurkLoginDidFinish];
 }
 

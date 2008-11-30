@@ -107,14 +107,7 @@
 		[selectedPlurk release];
 		selectedRow = [indexPath row];
 		selectedPlurk = [[currentPlurks objectAtIndex:selectedRow] retain];
-		PlurkResponsesViewController *controller = [[PlurkResponsesViewController alloc] initWithNibName:@"PlurkResponsesView" bundle:nil];
-		controller.firstPlurk = selectedPlurk;
-		controller.avatarPath = imageCacheDirectory;
-		controller.emoticonPath = [NSString stringWithFormat:@"%@/emoticons/", [[NSBundle mainBundle] resourcePath], nil];
-		controller.plurkAPI = plurkAPI;
-		controller.delegate = self;
-		[self.navigationController pushViewController:controller animated:YES];
-		[controller release];
+		[self displayPlurk:selectedPlurk];
 		[tableView deselectRowAtIndexPath:indexPath animated:NO];
 		//[(PlurkTableViewCell *)[tableView cellForRowAtIndexPath:indexPath] markAsRead];
 	}
@@ -142,6 +135,38 @@
 
 
 #pragma mark User Interface
+
+- (void)displayPlurkWithBase36ID:(NSString *)plurkID {
+	NSInteger number = 0;
+	NSInteger multiplier = 1;
+	static NSString* basechars = @"0123456789abcdefghijklmnopqrstuvwxyz";
+	for(NSInteger i = [plurkID length] - 1; i >= 0; --i) {
+		NSInteger mantissa = [basechars rangeOfString:[plurkID substringWithRange:NSMakeRange(i, 1)]].location;
+		if(mantissa == NSNotFound) break;
+		number += mantissa * multiplier;
+		multiplier *= 36;
+	}
+	NSLog(@"Base 36 %@ converted to %d", plurkID, number);
+	[self displayPlurkWithID:number];
+}
+
+- (void)displayPlurkWithID:(NSInteger)plurkID {
+	plurkToLoad = plurkID;
+	if([plurkAPI loggedIn]) {
+		[plurkAPI requestPlurksByIDs:[NSArray arrayWithObject:[NSNumber numberWithInteger:plurkID]] delegate:self];
+	}
+}
+
+- (void)displayPlurk:(Plurk *)plurk {
+	PlurkResponsesViewController *controller = [[PlurkResponsesViewController alloc] initWithNibName:@"PlurkResponsesView" bundle:nil];
+	controller.firstPlurk = plurk;
+	controller.avatarPath = imageCacheDirectory;
+	controller.emoticonPath = [NSString stringWithFormat:@"%@/emoticons/", [[NSBundle mainBundle] resourcePath], nil];
+	controller.plurkAPI = plurkAPI;
+	controller.delegate = self;
+	[self.navigationController pushViewController:controller animated:YES];
+	[controller release];
+}
 
 - (void)startComposingWithContent:(NSString *)text qualifier:(NSString *)qualifier {
 	WritePlurkTableViewController *controller = [[WritePlurkTableViewController alloc] initWithNibName:@"WritePlurkTableView" bundle:nil];
@@ -392,11 +417,17 @@
 
 - (void)plurkLoginDidFinish {
 	NSLog(@"Creating file: %d", [plurkAPI saveLoginToFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]);
+	// If we started creating a plurk before logging in, e.g. using an iplurk://post URL, fill in the name.
 	if([self modalViewController]) {
 		if([[(UINavigationController *)[self modalViewController] topViewController] respondsToSelector:@selector(qualifierCell)]) {
 			[[(PlurkQualifierTableViewCell *)[(WritePlurkTableViewController *)[(UINavigationController *)[self modalViewController] topViewController] qualifierCell] name] setText:[[[plurkAPI friendDictionary] objectForKey:[plurkAPI userName]] displayName]];
 		}
 	}
+	// If we're meant to be opening a plurk
+	if(plurkToLoad > 0) {
+		[plurkAPI requestPlurksByIDs:[NSArray arrayWithObject:[NSNumber numberWithInteger:plurkToLoad]] delegate:self];
+	}
+	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	allRequest = [plurkAPI requestPlurksWithDelegate:self];
 };
@@ -419,6 +450,12 @@
 }
 
 - (void)connection:(NSURLConnection *)connection receivedNewPlurks:(NSArray *)newPlurks {
+	if(plurkToLoad != 0 && [newPlurks count] == 1 && [[newPlurks objectAtIndex:0] plurkID] == plurkToLoad) {
+		[self displayPlurk:[newPlurks objectAtIndex:0]];
+		plurkToLoad = 0;
+		return;
+	}
+	if([newPlurks count] == 0) return;
 	if(connection == allRequest && [plurks count] == 0) {
 		privateRequest = [[plurkAPI requestPlurksStartingFrom:nil endingAt:([privatePlurks count] ? [[privatePlurks objectAtIndex:0] posted] : nil) onlyPrivate:YES delegate:self] retain];
 		unreadRequest = [[plurkAPI requestUnreadPlurksWithDelegate:self] retain];
