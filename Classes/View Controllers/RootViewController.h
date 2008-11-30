@@ -44,6 +44,7 @@ typedef enum {
 	BOOL canUseTable;
 	BOOL enableUserInterfacePaging;
 	CGPoint contentOffset;
+	NSInteger plurkToLoad;
 }
 
 @property(nonatomic, retain) NSMutableArray *plurks;
@@ -59,6 +60,9 @@ typedef enum {
 - (void)userHasSetNewUsername:(NSString *)username andPassword:(NSString *)password;
 - (void)startComposing;
 - (void)startComposingWithContent:(NSString *)content qualifier:(NSString *)qualifier;
+- (void)displayPlurkWithBase36ID:(NSString *)plurkID;
+- (void)displayPlurkWithID:(NSInteger)plurkID;
+- (void)displayPlurk:(Plurk *)plurk;
 
 // PlurkAPIDelegate stuff.
 - (void)plurkLoginDidFinish;

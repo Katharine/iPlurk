@@ -32,7 +32,7 @@
 	
 	BOOL handledURL = NO;
 	
-	if ([@"/post" isEqualToString:[url path]]) {
+	if ([@"post" isEqualToString:[url host]]) {
 		handledURL = YES;
 		NSString *message = nil;
 		NSString *qualifier = nil;
@@ -56,7 +56,21 @@
 		NSLog(@"Posting from URL: %@ %@", qualifier, message);
 		RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
 		[controller startComposingWithContent:message qualifier:qualifier];
-		//[controller release];
+	} else if([@"view" isEqualToString:[url host]]) {
+		handledURL = YES;
+		NSInteger plurkID = [[[url path] substringFromIndex:1] integerValue];
+		if(plurkID > 0) {
+			RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
+			[controller displayPlurkWithID:plurkID];
+		} else {
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Couldn't open plurk" message:@"A valid plurk was not specified." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+			[alert show];
+			[alert release];
+		}
+	} else if([@"p" isEqualToString:[url host]]) {
+		NSString *plurkID = [[url path] substringFromIndex:1];
+		RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
+		[controller displayPlurkWithBase36ID:plurkID];
 	}
 	
 	return handledURL;
