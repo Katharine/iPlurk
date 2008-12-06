@@ -21,7 +21,6 @@
 	return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if(currentTab == RootViewTabAll && [plurks count] > 0) {
 		return [currentPlurks count] + 1;
@@ -88,6 +87,9 @@
 		}
 	}
 	
+	// Set the disclosure indicator, since it seems to like vanishing.
+	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+	
 	// Link up the button
 	cell.delegate = self;
 	
@@ -151,10 +153,14 @@
 }
 
 - (void)displayPlurkWithID:(NSInteger)plurkID {
-	plurkToLoad = plurkID;
-	if([plurkAPI loggedIn]) {
-		[plurkAPI requestPlurksByIDs:[NSArray arrayWithObject:[NSNumber numberWithInteger:plurkID]] delegate:self];
-	}
+	PlurkResponsesViewController *controller = [[PlurkResponsesViewController alloc] initWithNibName:@"PlurkResponsesView" bundle:nil];
+	controller.plurkIDToLoad = plurkID;
+	controller.avatarPath = imageCacheDirectory;
+	controller.emoticonPath = [NSString stringWithFormat:@"%@/emoticons/", [[NSBundle mainBundle] resourcePath], nil];
+	controller.plurkAPI = plurkAPI;
+	controller.delegate = self;
+	[self.navigationController pushViewController:controller animated:YES];
+	[controller release];
 }
 
 - (void)displayPlurk:(Plurk *)plurk {
@@ -450,12 +456,8 @@
 }
 
 - (void)connection:(NSURLConnection *)connection receivedNewPlurks:(NSArray *)newPlurks {
-	if(plurkToLoad != 0 && [newPlurks count] == 1 && [[newPlurks objectAtIndex:0] plurkID] == plurkToLoad) {
-		[self displayPlurk:[newPlurks objectAtIndex:0]];
-		plurkToLoad = 0;
-		return;
-	}
 	if([newPlurks count] == 0) return;
+	if([plurks count] == 0 && [[[self navigationController] viewControllers] count] > 1) canUseTable = NO;
 	if(connection == allRequest && [plurks count] == 0) {
 		privateRequest = [[plurkAPI requestPlurksStartingFrom:nil endingAt:([privatePlurks count] ? [[privatePlurks objectAtIndex:0] posted] : nil) onlyPrivate:YES delegate:self] retain];
 		unreadRequest = [[plurkAPI requestUnreadPlurksWithDelegate:self] retain];
