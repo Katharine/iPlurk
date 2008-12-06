@@ -22,6 +22,7 @@
 	NSURL *currentURL;
 	NSURLConnection *connection;
 	id delegate;
+	NSInteger plurkIDToLoad;
 }
 
 @property(nonatomic, retain) Plurk *firstPlurk;
@@ -31,8 +32,10 @@
 @property(nonatomic, retain) PlurkAPI *plurkAPI;
 @property(nonatomic, assign) id delegate;
 @property(nonatomic, retain) NSURLConnection *connection;
+@property(nonatomic) NSInteger plurkIDToLoad;
 
 - (void)beginReply;
+- (void)finishUISetup;
 - (NSString *)processPlurkContent:(NSString *)content;
 
 

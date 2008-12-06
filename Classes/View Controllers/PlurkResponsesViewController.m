@@ -10,7 +10,7 @@
 
 
 @implementation PlurkResponsesViewController
-@synthesize firstPlurk, webView, avatarPath, emoticonPath, plurkAPI, delegate, connection;
+@synthesize firstPlurk, webView, avatarPath, emoticonPath, plurkAPI, delegate, connection, plurkIDToLoad;
 
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
@@ -33,24 +33,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[[self navigationItem] setTitle:@"Plurk Responses"];
-	if([firstPlurk ownerID] == [plurkAPI userID]) {
-		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(chooseOwnPlurkAction)] animated:NO];
-	} else {
-		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(beginReply)] animated:NO];
-	}
+	
 	[webView setBackgroundColor:[UIColor whiteColor]];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	if(!(connection = [plurkAPI requestResponsesToPlurk:[firstPlurk plurkID] delegate:self])) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Couldn't load responses" message:@"A request to get plurk responses could not be initiated." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-		[alert show];
-		[alert release];
-		[[self navigationController] popViewControllerAnimated:YES];
-	}
 	
 	// Set up a loading screen.
 	NSString *spinner = [NSString stringWithFormat:@"file://%@", [[NSBundle mainBundle] pathForResource:@"LargeWhiteProgressIndicator" ofType:@"gif"], nil];
 	NSString *loadingScreen = [NSString stringWithFormat:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesLoading" ofType:@"html"]], spinner, nil];
 	[webView loadHTMLString:loadingScreen baseURL:nil];
+	
+	if(firstPlurk) {
+		[self finishUISetup];
+	} else if(plurkIDToLoad > 0) {
+		[plurkAPI requestPlurksByIDs:[NSArray arrayWithObject:[NSNumber numberWithInteger:plurkIDToLoad]] delegate:self];
+	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -76,6 +72,20 @@
 	if([self modalViewController]) return;
 	[super viewWillAppear:animated];
 	[webView setDelegate:self];
+}
+
+- (void)finishUISetup {
+	if([firstPlurk ownerID] == [plurkAPI userID]) {
+		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(chooseOwnPlurkAction)] animated:YES];
+	} else {
+		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(beginReply)] animated:YES];
+	}
+	if(!(connection = [plurkAPI requestResponsesToPlurk:[firstPlurk plurkID] delegate:self])) {
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Couldn't load responses" message:@"A request to get plurk responses could not be initiated." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+		[[self navigationController] popViewControllerAnimated:YES];
+	}
 }
 
 - (void)beginReply {
@@ -171,6 +181,7 @@
 	NSLog(@"Finished rendering.");
 }
 
+
 - (NSString *)processPlurkContent:(NSString *)contentString {
 	NSMutableString *content = [NSMutableString stringWithString:contentString];
 	[content replaceOccurrencesOfString:@"http://static.plurk.com/static/emoticons/" withString:[NSString stringWithFormat:@"file://%@", emoticonPath, nil] options:NSLiteralSearch range:NSMakeRange(0, [content length])];
@@ -179,24 +190,48 @@
 }
 
 - (void)connection:(NSURLConnection *)theConnection receivedNewPlurks:(NSArray *)plurks {
-	if([firstPlurk isEqual:[plurks objectAtIndex:0]]) {
-		Plurk *updated = [plurks objectAtIndex:0];
-		firstPlurk.contentRaw = [updated contentRaw];
-		firstPlurk.content = [updated content];
+	if(firstPlurk) {
+		if([plurks count] > 0 && [firstPlurk isEqual:[plurks objectAtIndex:0]]) {
+			Plurk *updated = [plurks objectAtIndex:0];
+			firstPlurk.contentRaw = [updated contentRaw];
+			firstPlurk.content = [updated content];
+		}
+		[[[(UINavigationController *)[self parentViewController] viewControllers] objectAtIndex:0] connection:theConnection receivedNewPlurks:plurks];
+		[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('firstPlurkActualText').innerHTML = \"%@\";", [[self processPlurkContent:[firstPlurk content]] stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""]]];
+	} else {
+		if([plurks count] == 0) {
+			// The plurk presumably does not exist.
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Plurk Not Found" message:@"This plurk does not exist!" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+			[alert show];
+			[alert release];
+			
+			// I hate BOOLs.
+			NSInvocation *invoke = [NSInvocation invocationWithMethodSignature:[[self navigationController] methodSignatureForSelector:@selector(popViewControllerAnimated:)]];
+			[invoke setTarget:[self navigationController]];
+			[invoke setSelector:@selector(popViewControllerAnimated:)];
+			BOOL yes = YES;
+			[invoke setArgument:&yes atIndex:2];
+			[invoke performSelector:@selector(invoke) withObject:nil afterDelay:1];
+		} else {
+			// The plurk does exist! :p
+			firstPlurk = [[plurks objectAtIndex:0] retain];
+			[self finishUISetup];
+		}
 	}
-	[[[(UINavigationController *)[self parentViewController] viewControllers] objectAtIndex:0] connection:theConnection receivedNewPlurks:plurks];
-	[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.getElementById('firstPlurkActualText').innerHTML = \"%@\";", [[self processPlurkContent:[firstPlurk content]] stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""]]];
 }
 
 - (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-	if(navigationType == UIWebViewNavigationTypeOther) return YES;
+	if(navigationType == UIWebViewNavigationTypeOther) {
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+		return YES;
+	}
 	NSLog(@"UIWebView tried to load %@", [[request URL] absoluteString]);
 	UIActionSheet *sheet = nil; 
 	
 	if([[[request URL] host] hasSuffix:@"youtube.com"]) {
 		if([[[request URL] path] isEqual:@"/watch"] || [[[request URL] host] hasPrefix:@"/v/"]) {
 			currentURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://youtube.com%@?%@", [[request URL] path], [[request URL] query]]];
-			sheet = [[UIActionSheet alloc] initWithTitle:@"Opening this YouTube video will close iPlurk." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Watch Video in YouTube", nil];
+			sheet = [[UIActionSheet alloc] initWithTitle:@"Opening this YouTube video will close iPlurk." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Watch YouTube Video", nil];
 		}
 	} else if([[[request URL] host] isEqual:@"phobos.apple.com"]) {
 		currentURL = [request URL];
