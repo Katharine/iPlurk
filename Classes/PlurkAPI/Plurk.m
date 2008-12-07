@@ -10,7 +10,7 @@
 
 @implementation Plurk
 
-@synthesize lang, contentRaw, qualifier, content, posted, limitedTo, ownerDisplayName;
+@synthesize lang, contentRaw, qualifier, content, posted, limitedTo, ownerDisplayName, ownerNickName;
 @synthesize userID, plurkType, plurkID, responseCount, ownerID, responsesSeen, noComments, isUnread;
 
 - (void)dealloc {
@@ -21,6 +21,7 @@
 	[posted release];
 	[limitedTo release];
 	[ownerDisplayName release];
+	[ownerNickName release];
 	[super dealloc];
 }
 

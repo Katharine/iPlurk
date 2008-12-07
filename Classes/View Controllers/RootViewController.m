@@ -171,6 +171,22 @@
 	[controller release];
 }
 
+- (void)displayAlternateTimeline:(NSString *)timeline {
+	if([timeline caseInsensitiveCompare:[[PlurkAPI sharedAPI] userName]] == NSOrderedSame) return;
+	GenericPlurkTimelineViewController *controller = [[GenericPlurkTimelineViewController alloc] initWithNibName:@"GenericPlurkTimelineView" bundle:nil];
+	[controller setTimelineToLoad:timeline];
+	[[self navigationController] pushViewController:controller animated:YES];
+	[controller release];
+}
+
+- (void)displayAlternateTimelineForFriend:(PlurkFriend *)friend {
+	if([friend uid] == [[PlurkAPI sharedAPI] userID]) return;
+	GenericPlurkTimelineViewController *controller = [[GenericPlurkTimelineViewController alloc] initWithNibName:@"GenericPlurkTimelineView" bundle:nil];
+	[controller setTimelineOwner:friend];
+	[[self navigationController] pushViewController:controller animated:YES];
+	[controller release];
+}
+
 - (void)startComposingWithContent:(NSString *)text qualifier:(NSString *)qualifier {
 	WritePlurkTableViewController *controller = [[WritePlurkTableViewController alloc] initWithNibName:@"WritePlurkTableView" bundle:nil];
 	UINavigationController *newController = [[UINavigationController alloc] initWithRootViewController:controller];
@@ -208,34 +224,14 @@
 
 // FileDownloader
 - (void)fileDownloadDidComplete:(NSString *)file {
-	UIImage *img = [UIImage imageWithContentsOfFile:file];
-	int w = img.size.width;
-	int h = img.size.height;
-	
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGContextRef context = CGBitmapContextCreate(NULL, w, h, 8, 4 * w, colorSpace, kCGImageAlphaPremultipliedFirst);
-	
-	CGContextBeginPath(context);
-	addRoundedRectToPath(context, CGRectMake(0, 0, w, h), 10, 10);
-	CGContextClosePath(context);
-	CGContextClip(context);
-	
-	CGContextDrawImage(context, CGRectMake(0, 0, w, h), img.CGImage);
-	
-	CGImageRef imageMasked = CGBitmapContextCreateImage(context);
-	CGContextRelease(context);
-	CGColorSpaceRelease(colorSpace);
-	//[img release];
-	
-	UIImage *newImage = [UIImage imageWithCGImage:imageMasked];
-	NSData *imageData = UIImagePNGRepresentation(newImage);
-	[imageData writeToFile:file atomically:YES];
+	NSLog(@"Download of %@ complete.", file);
+	[FileDownloader addRoundedCorners:file];
 	
 	// Get the ID we're looking for.
 	NSInteger ourID = [[file stringByReplacingOccurrencesOfRegex:@"^.*?([0-9]+)\\.[a-z]{3,4}$" withString:@"$1"] integerValue];
 	
 	// Cache it.
-	[[ProfileImageCache mainCache] cacheImage:newImage forUser:ourID];
+	[[ProfileImageCache mainCache] cacheImage:[UIImage imageWithContentsOfFile:file] forUser:ourID];
 	
 	// Remove it from the downloading list.
 	[filesDownloading removeObject:file];
@@ -245,10 +241,16 @@
 	for(PlurkTableViewCell *cell in cells) {
 		// We might get the "Load more plurks" cell, so check for that first (or we'll crash)
 		if([cell respondsToSelector:@selector(ownerID)] && [cell ownerID] == ourID) {
-			[[cell imageButton] setImage:newImage forState:UIControlStateNormal];
+			[[cell imageButton] setImage:[[ProfileImageCache mainCache] retrieveImageForUser:ourID] forState:UIControlStateNormal];
+			NSLog(@"Displayed image for %d", ourID);
 		}
 	}
 	NSLog(@"Downloaded image for plurker %d", ourID);
+}
+
+- (void)avatarImageWasClicked:(NSInteger)userID {
+	PlurkFriend *friend = [[[PlurkAPI sharedAPI] friendDictionary] valueForKey:[[PlurkAPI sharedAPI] nickNameFromUserID:userID]];
+	[self displayAlternateTimelineForFriend:friend];
 }
 
 #pragma mark UIViewController

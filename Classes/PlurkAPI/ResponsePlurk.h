@@ -11,6 +11,7 @@
 
 @interface ResponsePlurk : NSObject {
 	NSString *userDisplayName;
+	NSString *userNickName;
 	NSInteger userID;
 	NSString *qualifier;
 	NSString *content;
@@ -21,6 +22,7 @@
 }
 
 @property(nonatomic, retain) NSString *userDisplayName;
+@property(nonatomic, retain) NSString *userNickName;
 @property(nonatomic) NSInteger userID;
 @property(nonatomic, retain) NSString *qualifier;
 @property(nonatomic, retain) NSString *content;

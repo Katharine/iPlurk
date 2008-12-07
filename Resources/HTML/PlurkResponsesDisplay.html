@@ -50,6 +50,10 @@
 				clear: none;
 				display: inline;
 			}
+			a.hidden, a:hover.hidden, a:active.hidden, a:visited.hidden {
+				color: black;
+				text-decoration: none;
+			}
 			%@
 		</style>
 		<script type="text/javascript">
@@ -59,7 +63,7 @@
 	<body>
 		<div id="firstPlurk">
 			<img id="firstPlurkerImage" src="%@">
-			<div id="firstPlurkContent"><strong>%@</strong> <span class="qualifier q_%@">%@</span> <span id="firstPlurkActualText">%@</span></div>
+			<div id="firstPlurkContent"><strong><a class="hidden" href="http://www.plurk.com/user/%@">%@</a></strong> <span class="qualifier q_%@">%@</span> <span id="firstPlurkActualText">%@</span></div>
 		</div>
 		<div id="responses">%@</div>
 		<script type="text/javascript">

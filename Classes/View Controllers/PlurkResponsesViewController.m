@@ -142,7 +142,7 @@
 		
 		NSInteger responseNum = 0;
 		for(ResponsePlurk *response in responses) {
-			[responseHTML appendFormat:responseFormat, responseNum, [response userDisplayName], [response qualifier], (([[response qualifier] length] < 2) ? @"" : [response qualifier]), [response content], nil];
+			[responseHTML appendFormat:responseFormat, responseNum, [response userNickName], [response userDisplayName], [response qualifier], (([[response qualifier] length] < 2) ? @"" : [response qualifier]), [response content], nil];
 			++responseNum;
 		}
 	}
@@ -151,6 +151,8 @@
 	NSInteger position = 0;
 	NSRange range;
 	NSMutableArray *namesToDo = [[NSMutableArray alloc] init];
+	
+	NSLog(responseHTML);
 	while((range = [responseHTML rangeOfRegex:@"<a href=\"http://www.plurk.com/([a-zA-Z0-9]+)\" class=\"ex_link\">.+?</a>" options:RKLNoOptions inRange:NSMakeRange(position, [responseHTML length] - position) capture:1 error:NULL]).location != NSNotFound) {
 		NSString *nickname = [responseHTML substringWithRange:range];
 		if(nickname && ![namesToDo containsObject:nickname]) {
@@ -172,7 +174,7 @@
 	BOOL doNotHighlightQualifiers = [[NSUserDefaults standardUserDefaults] boolForKey:@"no_highlight_qualifiers"];
 	
 	NSString *css = !doNotHighlightQualifiers ? [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"css"]] : @"";
-	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, css, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerDisplayName], [firstPlurk qualifier], ([[firstPlurk qualifier] length] < 2 ? @"" : [firstPlurk qualifier]), [firstPlurk content], responseHTML, nil]];
+	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, css, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerNickName], [firstPlurk ownerDisplayName], [firstPlurk qualifier], ([[firstPlurk qualifier] length] < 2 ? @"" : [firstPlurk qualifier]), [firstPlurk content], responseHTML, nil]];
 	[webView loadHTMLString:[self processPlurkContent:html] baseURL:nil];
 	[firstPlurk setIsUnread:0];
 	[firstPlurk setResponseCount:[responses count]];
@@ -185,6 +187,12 @@
 	NSMutableString *content = [NSMutableString stringWithString:contentString];
 	[content replaceOccurrencesOfString:@"http://static.plurk.com/static/emoticons/" withString:[NSString stringWithFormat:@"file://%@", emoticonPath, nil] options:NSLiteralSearch range:NSMakeRange(0, [content length])];
 	[content replaceOccurrencesOfRegex:@"<a[^<>]+?href=\"([^<>]+?)\"[^<>]+?class=\"[^<>]*?pictureservices[^<>]*?\"[^<>]*?>[^<>]+?</a>" withString:@"<a href=\"$1\"><img src=\"$1\" class=\"pictureservices regeximg\"></a>"];
+	
+	// Convert all /user/ references to / references, then convert all / references to /user/ references.
+	// This is to make sure we don't break existing /user/ references, but add all the / references, too.
+	// The distinction is used to enable things and stuff.
+	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/user/([a-zA-Z0-9]+)\" class=\"ex_link\">(.+?)</a>" withString:@"<a href=\"http://www.plurk.com/$1\" class=\"ex_link\">$2</a>" range:NSMakeRange(0, [content length])];
+	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/([a-zA-Z0-9]+)\" class=\"ex_link\">(.+?)</a>" withString:@"<a href=\"http://www.plurk.com/user/$1\" class=\"ex_link\">$2</a>" range:NSMakeRange(0, [content length])];
 	return content;
 }
 
@@ -229,8 +237,9 @@
 	
 	if([[[request URL] host] hasSuffix:@"youtube.com"]) {
 		if([[[request URL] path] isEqual:@"/watch"] || [[[request URL] host] hasPrefix:@"/v/"]) {
-			currentURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://youtube.com%@?%@", [[request URL] path], [[request URL] query]]];
-			sheet = [[UIActionSheet alloc] initWithTitle:@"Opening this YouTube video will close iPlurk." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Watch YouTube Video", nil];
+			return YES;
+			//currentURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://youtube.com%@?%@", [[request URL] path], [[request URL] query]]];
+			//sheet = [[UIActionSheet alloc] initWithTitle:@"Opening this YouTube video will close iPlurk." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Watch YouTube Video", nil];
 		}
 	} else if([[[request URL] host] isEqual:@"phobos.apple.com"]) {
 		currentURL = [request URL];
@@ -246,6 +255,9 @@
 	} else if([[[request URL] host] isEqualToString:@"www.plurk.com"] && [[[request URL] path] hasPrefix:@"/p/"]) {
 		RootViewController *controller = [[[self navigationController] viewControllers] objectAtIndex:0];
 		[controller displayPlurkWithBase36ID:[[[request URL] path] substringFromIndex:3]];
+	} else if([[[request URL] host] isEqualToString:@"www.plurk.com"] && [[[request URL] path] hasPrefix:@"/user/"]) {
+		RootViewController *controller = [[[self navigationController] viewControllers] objectAtIndex:0];
+		[controller displayAlternateTimeline:[[[request URL] path] substringFromIndex:6]];
 	} else {
 		[sheet release];
 		sheet = nil;

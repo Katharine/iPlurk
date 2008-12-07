@@ -16,7 +16,7 @@
 #import "FileDownloader.h"
 #import "ProfileImageCache.h"
 #import "PlurkResponsesViewController.h"
-#import "Quartz.h"
+#import "GenericPlurkTimelineViewController.h"
 
 typedef enum {
 	RootViewTabAll,
@@ -61,6 +61,8 @@ typedef enum {
 - (void)displayPlurkWithBase36ID:(NSString *)plurkID;
 - (void)displayPlurkWithID:(NSInteger)plurkID;
 - (void)displayPlurk:(Plurk *)plurk;
+- (void)displayAlternateTimeline:(NSString *)timeline;
+- (void)displayAlternateTimelineForFriend:(PlurkFriend *)friend;
 
 // PlurkAPIDelegate stuff.
 - (void)plurkLoginDidFinish;

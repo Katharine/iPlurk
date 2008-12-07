@@ -71,6 +71,10 @@
 		NSString *plurkID = [[url path] substringFromIndex:1];
 		RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
 		[controller displayPlurkWithBase36ID:plurkID];
+	} else if([@"user" isEqualToString:[url host]]) {
+		NSString *user = [[url path] substringFromIndex:1];
+		RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
+		[controller displayAlternateTimeline:user];
 	}
 	
 	return handledURL;

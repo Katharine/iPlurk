@@ -125,6 +125,8 @@
 		896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */ = {isa = PBXBuildFile; fileRef = 896700ED0EDCD052003BEE39 /* Qualifiers.css */; };
 		8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */ = {isa = PBXBuildFile; fileRef = 8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */; };
 		89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 89A2B2EE0EE1ADC7009B2C82 /* Icon.png */; };
+		89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */; };
+		89A3B46C0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */; };
 		89E99E590EE087B10046FB0D /* Compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E99E580EE087B10046FB0D /* Compass.png */; };
 		89EECA9F0EE305DA00CC4D95 /* banana_cool.gif in Resources */ = {isa = PBXBuildFile; fileRef = 89EECA970EE305DA00CC4D95 /* banana_cool.gif */; };
 		89EECAA00EE305DA00CC4D95 /* banana_rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 89EECA980EE305DA00CC4D95 /* banana_rock.gif */; };
@@ -406,6 +408,9 @@
 		896700ED0EDCD052003BEE39 /* Qualifiers.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Qualifiers.css; sourceTree = "<group>"; };
 		8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RichTextPlurkTableCell.html; sourceTree = "<group>"; };
 		89A2B2EE0EE1ADC7009B2C82 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenericPlurkTimelineView.xib; sourceTree = "<group>"; };
+		89A3B46A0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericPlurkTimelineViewController.h; sourceTree = "<group>"; };
+		89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericPlurkTimelineViewController.m; sourceTree = "<group>"; };
 		89E99E580EE087B10046FB0D /* Compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass.png; sourceTree = "<group>"; };
 		89EECA970EE305DA00CC4D95 /* banana_cool.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = banana_cool.gif; sourceTree = "<group>"; };
 		89EECA980EE305DA00CC4D95 /* banana_rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = banana_rock.gif; sourceTree = "<group>"; };
@@ -633,6 +638,7 @@
 				3436827F0EB779F000C7524A /* SetupView.xib */,
 				343682840EB779F000C7524A /* WritePlurkTableView.xib */,
 				343682830EB779F000C7524A /* WebPagePreview.xib */,
+				89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */,
 			);
 			path = IB;
 			sourceTree = "<group>";
@@ -668,6 +674,8 @@
 				343682FB0EB77A6C00C7524A /* WebPagePreviewController.m */,
 				343682FC0EB77A6C00C7524A /* WritePlurkTableViewController.h */,
 				343682FD0EB77A6C00C7524A /* WritePlurkTableViewController.m */,
+				89A3B46A0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.h */,
+				89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -833,6 +841,7 @@
 				89EECAA40EE305DA00CC4D95 /* headspin.gif in Resources */,
 				89EECAA50EE305DA00CC4D95 /* heart_beat.gif in Resources */,
 				89EECAA60EE305DA00CC4D95 /* ninja.gif in Resources */,
+				89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -869,6 +878,7 @@
 				343683400EB77A8D00C7524A /* WebViewManager.m in Sources */,
 				343684290EB78AC400C7524A /* PlurkTableViewCell.m in Sources */,
 				343684590EB78BA800C7524A /* Quartz.c in Sources */,
+				89A3B46C0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
