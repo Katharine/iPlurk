@@ -16,5 +16,6 @@
 }
 
 - (FileDownloader *)initFromURL:(NSURL *)url toFile:(NSString *)target notify:(id)delegate;
++ (void)addRoundedCorners:(NSString *)file;
 
 @end

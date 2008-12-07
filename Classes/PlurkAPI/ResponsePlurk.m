@@ -10,10 +10,11 @@
 
 
 @implementation ResponsePlurk
-@synthesize userDisplayName, userID, qualifier, content, contentRaw, plurkID, posted, userHasDisplayPicture;
+@synthesize userDisplayName, userID, qualifier, content, contentRaw, plurkID, posted, userHasDisplayPicture, userNickName;
 
 - (void)dealloc {
 	[userDisplayName release];
+	[userNickName release];
 	[qualifier release];
 	[content release];
 	[contentRaw release];

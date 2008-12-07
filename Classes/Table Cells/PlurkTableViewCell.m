@@ -116,7 +116,9 @@
 }
 
 - (void)imageButtonClicked {
-	// Do something about being clicked.
+	if([delegate respondsToSelector:@selector(avatarImageWasClicked:)]) {
+		[delegate avatarImageWasClicked:ownerID];
+	}
 }
 
 - (NSString *)modifyPlurkHtml:(NSString *)contentRaw {

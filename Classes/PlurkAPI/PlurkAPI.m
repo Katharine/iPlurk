@@ -555,6 +555,7 @@
 		if(!plurk.ownerDisplayName) {
 			[friendsToLookUp addObject:[NSNumber numberWithInteger:[plurk ownerID]]];
 		}
+		plurk.ownerNickName = [self nickNameFromUserID:[plurk ownerID]];
 		
 		if(lastPlurkDate == nil || [[plurk posted] compare:lastPlurkDate] == NSOrderedDescending) {
 			[lastPlurkDate release];
@@ -601,6 +602,7 @@
 		if([response userDisplayName] == (NSString *)[NSNull null] || [[response userDisplayName] length] == 0) {
 			response.userDisplayName = [responder objectForKey:@"nick_name"];
 		}
+		response.userNickName = [responder objectForKey:@"nick_name"];
 		// Add to the temporary friend list if it's not already there.
 		if(![friends objectForKey:[responder objectForKey:@"nick_name"]]) {
 			[friends setObject:[response userDisplayName] forKey:[responder objectForKey:@"nick_name"]];
@@ -653,6 +655,7 @@
 		for(Plurk *plurk in plurks) {
 			if([plurk ownerID] == [newFriend uid]) {
 				plurk.ownerDisplayName = [newFriend displayName];
+				plurk.ownerNickName = [newFriend nickName];
 			}
 		}
 	}

@@ -25,6 +25,7 @@
 	BOOL noComments;
 	NSInteger isUnread;
 	NSString *ownerDisplayName;
+	NSString *ownerNickName;
 }
 
 @property(nonatomic, retain) NSString *lang;
@@ -42,5 +43,6 @@
 @property BOOL noComments;
 @property NSInteger isUnread;
 @property(nonatomic, retain) NSString *ownerDisplayName;
+@property(nonatomic, retain) NSString *ownerNickName;
 
 @end

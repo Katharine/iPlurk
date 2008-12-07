@@ -7,7 +7,8 @@
 //
 
 #import "FileDownloader.h"
-
+#import <CoreGraphics/CoreGraphics.h>
+#import "Quartz.h"
 
 @implementation FileDownloader
 
@@ -35,8 +36,35 @@
 	[data writeToFile:targetFile atomically:NO];
 	[data setLength:0];
 	[data release];
-	[delegate performSelector:@selector(fileDownloadDidComplete:) withObject:targetFile];
+	if([delegate respondsToSelector:@selector(fileDownloadDidComplete:)]) {
+		[delegate performSelector:@selector(fileDownloadDidComplete:) withObject:targetFile];
+	}
 	//[targetFile release];
+}
+
++ (void)addRoundedCorners:(NSString *)file {
+	UIImage *img = [UIImage imageWithContentsOfFile:file];
+	int w = img.size.width;
+	int h = img.size.height;
+	
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	CGContextRef context = CGBitmapContextCreate(NULL, w, h, 8, 4 * w, colorSpace, kCGImageAlphaPremultipliedFirst);
+	
+	CGContextBeginPath(context);
+	addRoundedRectToPath(context, CGRectMake(0, 0, w, h), 10, 10);
+	CGContextClosePath(context);
+	CGContextClip(context);
+	
+	CGContextDrawImage(context, CGRectMake(0, 0, w, h), img.CGImage);
+	
+	CGImageRef imageMasked = CGBitmapContextCreateImage(context);
+	CGContextRelease(context);
+	CGColorSpaceRelease(colorSpace);
+	//[img release];
+	
+	UIImage *newImage = [UIImage imageWithCGImage:imageMasked];
+	NSData *imageData = UIImagePNGRepresentation(newImage);
+	[imageData writeToFile:file atomically:YES];
 }
 
 @end
