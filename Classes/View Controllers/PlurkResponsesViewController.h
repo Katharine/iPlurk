@@ -18,7 +18,6 @@
 	IBOutlet UIWebView *webView;
 	NSString *avatarPath;
 	NSString *emoticonPath;
-	PlurkAPI *plurkAPI;
 	NSURL *currentURL;
 	NSURLConnection *connection;
 	id delegate;
@@ -29,7 +28,6 @@
 @property(nonatomic, retain) UIWebView *webView;
 @property(nonatomic, retain) NSString *avatarPath;
 @property(nonatomic, retain) NSString *emoticonPath;
-@property(nonatomic, retain) PlurkAPI *plurkAPI;
 @property(nonatomic, assign) id delegate;
 @property(nonatomic, retain) NSURLConnection *connection;
 @property(nonatomic) NSInteger plurkIDToLoad;

@@ -31,7 +31,6 @@ typedef enum {
 	NSMutableArray *privatePlurks;
 	NSMutableArray *unreadPlurks;
 	NSMutableArray *currentPlurks;
-	PlurkAPI *plurkAPI;
 	NSString *imageCacheDirectory;
 	NSString *plurkTableCellType;
 	RootViewTab currentTab;
@@ -51,7 +50,6 @@ typedef enum {
 @property(nonatomic, retain) NSMutableArray *privatePlurks;
 @property(nonatomic, retain) NSMutableArray *unreadPlurks;
 @property(nonatomic, assign) NSMutableArray *currentPlurks;
-@property(nonatomic, retain) PlurkAPI *plurkAPI;
 @property(nonatomic, retain) IBOutlet SetupViewController *setupViewController;
 @property(nonatomic, retain) IBOutlet UISegmentedControl *tabs;
 

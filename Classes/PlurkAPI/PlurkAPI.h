@@ -46,6 +46,8 @@ typedef enum {
 @property(nonatomic, retain) NSMutableDictionary *uidToName;
 @property(nonatomic, readonly, retain) PlurkFriend *currentUser;
 
++ (PlurkAPI *)sharedAPI;
+
 - (NSString *)escapeURL:(NSString *)url;
 - (NSURLConnection *)makePostRequestTo:(NSURL *)url withPostData:(NSDictionary *)postData withAPIRequest:(PlurkAPIRequest *)request;
 - (NSURLConnection *)makeRawPostRequestTo:(NSURL *)url withData:(NSString *)data withAPIRequest:(PlurkAPIRequest *)request;

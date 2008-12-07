@@ -11,7 +11,6 @@
 
 @implementation RootViewController
 @synthesize plurks, unreadPlurks, privatePlurks, currentPlurks;
-@synthesize plurkAPI;
 @synthesize setupViewController;
 @synthesize tabs;
 
@@ -53,7 +52,7 @@
 	
 	// Find the right plurk
 	Plurk *plurk = [currentPlurks objectAtIndex:indexPath.row];
-	PlurkFriend *friend = [[plurkAPI friendDictionary] objectForKey:[plurkAPI nickNameFromUserID:[plurk ownerID]]];
+	PlurkFriend *friend = [[[PlurkAPI sharedAPI] friendDictionary] objectForKey:[[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]];
 	
 	// Display text
 	[cell displayPlurk:plurk];
@@ -101,7 +100,7 @@
     // Navigation logic -- create and push a new view controller
 	if([indexPath row] >= [currentPlurks count]) {
 		if(!allRequest) {
-			allRequest = [plurkAPI requestPlurksStartingFrom:[[[currentPlurks lastObject] posted] addTimeInterval:1.0] endingAt:nil onlyPrivate:NO delegate:self];
+			allRequest = [[PlurkAPI sharedAPI] requestPlurksStartingFrom:[[[currentPlurks lastObject] posted] addTimeInterval:1.0] endingAt:nil onlyPrivate:NO delegate:self];
 			[[(LoadMorePlurksCell *)[tableView cellForRowAtIndexPath:indexPath] spinner] startAnimating];
 		}
 		[tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -157,7 +156,6 @@
 	controller.plurkIDToLoad = plurkID;
 	controller.avatarPath = imageCacheDirectory;
 	controller.emoticonPath = [NSString stringWithFormat:@"%@/emoticons/", [[NSBundle mainBundle] resourcePath], nil];
-	controller.plurkAPI = plurkAPI;
 	controller.delegate = self;
 	[self.navigationController pushViewController:controller animated:YES];
 	[controller release];
@@ -168,7 +166,6 @@
 	controller.firstPlurk = plurk;
 	controller.avatarPath = imageCacheDirectory;
 	controller.emoticonPath = [NSString stringWithFormat:@"%@/emoticons/", [[NSBundle mainBundle] resourcePath], nil];
-	controller.plurkAPI = plurkAPI;
 	controller.delegate = self;
 	[self.navigationController pushViewController:controller animated:YES];
 	[controller release];
@@ -178,7 +175,6 @@
 	WritePlurkTableViewController *controller = [[WritePlurkTableViewController alloc] initWithNibName:@"WritePlurkTableView" bundle:nil];
 	UINavigationController *newController = [[UINavigationController alloc] initWithRootViewController:controller];
 	[controller setCreatingNewPlurk:YES];
-	[controller setPlurkAPI:plurkAPI];
 	
 	if(qualifier && [[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"plist"]] containsObject:qualifier]) {
 		[controller setInitialQualifier:qualifier];
@@ -205,7 +201,7 @@
 	[defaults setObject:password forKey:@"plurk_password"];
 	[defaults synchronize];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	[plurkAPI loginUser:username withPassword:password delegate:self];
+	[[PlurkAPI sharedAPI] loginUser:username withPassword:password delegate:self];
 }
 
 
@@ -262,7 +258,7 @@
     [super viewDidLoad];
 	[[self tableView] setScrollsToTop:YES];
 	// Setup
-	if(!plurkAPI) {
+	if(!filesDownloading) {
 		canUseTable = YES;
 		NSLog(@"Initiating...");
 		filesDownloading = [[NSMutableArray alloc] init];
@@ -276,7 +272,6 @@
 		}
 		currentTab = 0;
 		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(startComposing)] animated:NO];
-		plurkAPI = [[PlurkAPI alloc] init];
 		self.plurks = [[NSMutableArray alloc] init];
 		self.privatePlurks = [[NSMutableArray alloc] init];
 		self.unreadPlurks = [[NSMutableArray alloc] init];
@@ -298,7 +293,7 @@
 		}
 		
 		// Try a quick login first.
-		if([plurkAPI quickLoginAs:[defaults stringForKey:@"plurk_username"] withFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]) {
+		if([[PlurkAPI sharedAPI] quickLoginAs:[defaults stringForKey:@"plurk_username"] withFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]) {
 			NSLog(@"Used quick login.");
 			[self plurkLoginDidFinish];
 		} else {
@@ -309,7 +304,7 @@
 			if([username length] && [password length]) {
 				NSLog(@"Attempting to log in as %@.", username);
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-				[plurkAPI loginUser:username withPassword:password delegate:self];
+				[[PlurkAPI sharedAPI] loginUser:username withPassword:password delegate:self];
 			} else {
 				NSLog(@"Asking for login details.");
 				[self presentModalViewController:setupViewController animated:YES];
@@ -422,20 +417,20 @@
 #pragma mark PlurkAPI
 
 - (void)plurkLoginDidFinish {
-	NSLog(@"Creating file: %d", [plurkAPI saveLoginToFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]);
+	NSLog(@"Creating file: %d", [[PlurkAPI sharedAPI] saveLoginToFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]);
 	// If we started creating a plurk before logging in, e.g. using an iplurk://post URL, fill in the name.
 	if([self modalViewController]) {
 		if([[(UINavigationController *)[self modalViewController] topViewController] respondsToSelector:@selector(qualifierCell)]) {
-			[[(PlurkQualifierTableViewCell *)[(WritePlurkTableViewController *)[(UINavigationController *)[self modalViewController] topViewController] qualifierCell] name] setText:[[[plurkAPI friendDictionary] objectForKey:[plurkAPI userName]] displayName]];
+			[[(PlurkQualifierTableViewCell *)[(WritePlurkTableViewController *)[(UINavigationController *)[self modalViewController] topViewController] qualifierCell] name] setText:[[[[PlurkAPI sharedAPI] friendDictionary] objectForKey:[[PlurkAPI sharedAPI] userName]] displayName]];
 		}
 	}
 	// If we're meant to be opening a plurk
 	if(plurkToLoad > 0) {
-		[plurkAPI requestPlurksByIDs:[NSArray arrayWithObject:[NSNumber numberWithInteger:plurkToLoad]] delegate:self];
+		[[PlurkAPI sharedAPI] requestPlurksByIDs:[NSArray arrayWithObject:[NSNumber numberWithInteger:plurkToLoad]] delegate:self];
 	}
 	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	allRequest = [plurkAPI requestPlurksWithDelegate:self];
+	allRequest = [[PlurkAPI sharedAPI] requestPlurksWithDelegate:self];
 };
 
 - (void)plurkLoginDidFail {
@@ -459,16 +454,16 @@
 	if([newPlurks count] == 0) return;
 	if([plurks count] == 0 && [[[self navigationController] viewControllers] count] > 1) canUseTable = NO;
 	if(connection == allRequest && [plurks count] == 0) {
-		privateRequest = [[plurkAPI requestPlurksStartingFrom:nil endingAt:([privatePlurks count] ? [[privatePlurks objectAtIndex:0] posted] : nil) onlyPrivate:YES delegate:self] retain];
-		unreadRequest = [[plurkAPI requestUnreadPlurksWithDelegate:self] retain];
+		privateRequest = [[[PlurkAPI sharedAPI] requestPlurksStartingFrom:nil endingAt:([privatePlurks count] ? [[privatePlurks objectAtIndex:0] posted] : nil) onlyPrivate:YES delegate:self] retain];
+		unreadRequest = [[[PlurkAPI sharedAPI] requestUnreadPlurksWithDelegate:self] retain];
 		NSInteger interval = [[NSUserDefaults standardUserDefaults] integerForKey:@"poll_interval"];
 		if(interval == 0) interval = 60;
 		NSLog(@"Poll interval: %d", interval);
 		if(interval > 0) {
-			[plurkAPI runPeriodicPollWithInterval:interval delegate:self];
+			[[PlurkAPI sharedAPI] runPeriodicPollWithInterval:interval delegate:self];
 		}
 	}
-	if([plurkAPI runningRequests] == 0) {
+	if([[PlurkAPI sharedAPI] runningRequests] == 0) {
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	}
 	NSLog(@"Beginning updates.");
@@ -513,10 +508,10 @@
 			NSUInteger index;
 			if([plurk isUnread] == 1 && (index = [unreadPlurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [unreadPlurks objectAtIndex:index];
-				NSLog(@"Using unreadPlurks instead of privatePlurks for plurk %d from %@", [plurk plurkID], [plurkAPI nickNameFromUserID:[plurk ownerID]]);
+				NSLog(@"Using unreadPlurks instead of privatePlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
 			} else if((index = [plurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [plurks objectAtIndex:index];
-				NSLog(@"Using plurks instead of privatePlurks for plurk %d from %@", [plurk plurkID], [plurkAPI nickNameFromUserID:[plurk ownerID]]);
+				NSLog(@"Using plurks instead of privatePlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
 			}
 			[plurk retain];
 			// Find the right instertion position.
@@ -538,10 +533,10 @@
 			NSUInteger index;
 			if([plurk limitedTo] > 0 && (index = [privatePlurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [privatePlurks objectAtIndex:index];
-				NSLog(@"Using privatePlurks instead of unreadPlurks for plurk %d from %@", [plurk plurkID], [plurkAPI nickNameFromUserID:[plurk ownerID]]);
+				NSLog(@"Using privatePlurks instead of unreadPlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
 			} else if((index = [plurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [plurks objectAtIndex:index];
-				NSLog(@"Using plurks instead of unreadPlurks for plurk %d from %@", [plurk plurkID], [plurkAPI nickNameFromUserID:[plurk ownerID]]);
+				NSLog(@"Using plurks instead of unreadPlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
 			}
 			
 			[plurk retain];
@@ -685,7 +680,7 @@
 		}
 	}
 	if([toFetch count] > 0) {
-		[plurkAPI requestPlurksByIDs:toFetch delegate:self];
+		[[PlurkAPI sharedAPI] requestPlurksByIDs:toFetch delegate:self];
 	}
 }
 
@@ -724,7 +719,7 @@
 		return NO;
 	}
 	PlurkTableViewCell *cell = (PlurkTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-	return ([cell plurkDisplayed] && [[cell plurkDisplayed] ownerID] == [plurkAPI userID]);
+	return ([cell plurkDisplayed] && [[cell plurkDisplayed] ownerID] == [[PlurkAPI sharedAPI] userID]);
 }
 */
 
@@ -773,7 +768,6 @@
 
 - (void)dealloc {
 	[plurks release];
-	[plurkAPI release];
 	[setupViewController release];
 	[filesDownloading release];
     [super dealloc];
