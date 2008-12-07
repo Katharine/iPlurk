@@ -21,7 +21,6 @@
 	BOOL creatingNewPlurk;
 	PlurkEntryTableViewCell *entryCell;
 	PlurkQualifierTableViewCell *qualifierCell;
-	PlurkAPI *plurkAPI;
 	IBOutlet QualifierSelectorTableViewController *qualifierTable;
 	BOOL tryingToQuit;
 	BOOL firstView;
@@ -34,7 +33,6 @@
 @property(nonatomic) BOOL creatingNewPlurk;
 @property(nonatomic, retain) PlurkEntryTableViewCell *entryCell;
 @property(nonatomic, retain) PlurkQualifierTableViewCell *qualifierCell;
-@property(nonatomic, retain) PlurkAPI *plurkAPI;
 @property(nonatomic, retain) IBOutlet QualifierSelectorTableViewController *qualifierTable;
 @property(nonatomic, retain) NSString *initialContent;
 @property(nonatomic, retain) NSString *initialQualifier;

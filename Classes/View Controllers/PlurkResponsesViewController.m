@@ -10,7 +10,7 @@
 
 
 @implementation PlurkResponsesViewController
-@synthesize firstPlurk, webView, avatarPath, emoticonPath, plurkAPI, delegate, connection, plurkIDToLoad;
+@synthesize firstPlurk, webView, avatarPath, emoticonPath, delegate, connection, plurkIDToLoad;
 
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
@@ -45,7 +45,7 @@
 	if(firstPlurk) {
 		[self finishUISetup];
 	} else if(plurkIDToLoad > 0) {
-		[plurkAPI requestPlurksByIDs:[NSArray arrayWithObject:[NSNumber numberWithInteger:plurkIDToLoad]] delegate:self];
+		[[PlurkAPI sharedAPI] requestPlurksByIDs:[NSArray arrayWithObject:[NSNumber numberWithInteger:plurkIDToLoad]] delegate:self];
 	}
 }
 
@@ -57,7 +57,7 @@
 		}
 		NSLog(@"Attempting to cancel connection.");
 		if(connection) {
-			[plurkAPI cancelConnection:connection];
+			[[PlurkAPI sharedAPI] cancelConnection:connection];
 			connection = nil;
 		}
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
@@ -75,12 +75,12 @@
 }
 
 - (void)finishUISetup {
-	if([firstPlurk ownerID] == [plurkAPI userID]) {
+	if([firstPlurk ownerID] == [[PlurkAPI sharedAPI] userID]) {
 		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(chooseOwnPlurkAction)] animated:YES];
 	} else {
 		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(beginReply)] animated:YES];
 	}
-	if(!(connection = [plurkAPI requestResponsesToPlurk:[firstPlurk plurkID] delegate:self])) {
+	if(!(connection = [[PlurkAPI sharedAPI] requestResponsesToPlurk:[firstPlurk plurkID] delegate:self])) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Couldn't load responses" message:@"A request to get plurk responses could not be initiated." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 		[alert show];
 		[alert release];
@@ -92,7 +92,6 @@
 	WritePlurkTableViewController *controller = [[WritePlurkTableViewController alloc] initWithNibName:@"WritePlurkTableView" bundle:nil];
 	UINavigationController *newController = [[UINavigationController alloc] initWithRootViewController:controller];
 	[controller setPlurkToReplyTo:firstPlurk];
-	[controller setPlurkAPI:plurkAPI];
 	[self presentModalViewController:newController animated:YES];
 	[controller release];
 }
@@ -279,19 +278,18 @@
 		}
 		[currentURL release];
 		currentURL = nil;
-	} else if([firstPlurk ownerID] == [plurkAPI userID]) {
+	} else if([firstPlurk ownerID] == [[PlurkAPI sharedAPI] userID]) {
 		// "What do you want to do?" sheet
 		if(buttonIndex == [actionSheet cancelButtonIndex]) {
 			return;
 		} else if(buttonIndex == [actionSheet destructiveButtonIndex]) {
-			[plurkAPI deletePlurk:[firstPlurk plurkID]];
+			[[PlurkAPI sharedAPI] deletePlurk:[firstPlurk plurkID]];
 			[[self navigationController] popViewControllerAnimated:YES];
 			[delegate performSelector:@selector(removePlurk:) withObject:firstPlurk];
 		} else if(buttonIndex == 1) {
 			WritePlurkTableViewController *controller = [[WritePlurkTableViewController alloc] initWithNibName:@"WritePlurkTableView" bundle:nil];
 			UINavigationController *newController = [[UINavigationController alloc] initWithRootViewController:controller];
 			[controller setPlurkToEdit:firstPlurk];
-			[controller setPlurkAPI:plurkAPI];
 			[self presentModalViewController:newController animated:YES];
 			[controller release];
 		} else if(buttonIndex == 2) {
@@ -329,7 +327,6 @@
 	[webView release];
 	[avatarPath release];
 	[emoticonPath release];
-	[plurkAPI release];
 	[connection release];
 	if(currentURL) {
 		[currentURL release];

@@ -10,7 +10,7 @@
 
 
 @implementation WritePlurkTableViewController
-@synthesize plurkToReplyTo, plurkToEdit, creatingNewPlurk, entryCell, qualifierCell, plurkAPI, qualifierTable;
+@synthesize plurkToReplyTo, plurkToEdit, creatingNewPlurk, entryCell, qualifierCell, qualifierTable;
 @synthesize initialContent, initialQualifier;
 
 /*
@@ -59,7 +59,7 @@
 	}
 	NSString *text = [[entryCell text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	PlurkResponsesViewController *parent = (PlurkResponsesViewController *)[(UINavigationController *)[[self parentViewController] parentViewController] topViewController];
-	[plurkAPI makePlurk:text withQualifier:qualifier allowComments:YES delegate:parent];
+	[[PlurkAPI sharedAPI] makePlurk:text withQualifier:qualifier allowComments:YES delegate:parent];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -78,13 +78,13 @@
 	}
 	NSString *text = [entryCell text];
 	PlurkResponsesViewController *parent = (PlurkResponsesViewController *)[(UINavigationController *)[[self parentViewController] parentViewController] topViewController];
-	parent.connection = [plurkAPI respondToPlurk:[plurkToReplyTo plurkID] withQualifier:qualifier content:text delegate:parent];
+	parent.connection = [[PlurkAPI sharedAPI] respondToPlurk:[plurkToReplyTo plurkID] withQualifier:qualifier content:text delegate:parent];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)savePlurk {
 	PlurkResponsesViewController *parent = (PlurkResponsesViewController *)[(UINavigationController *)[[self parentViewController] parentViewController] topViewController];
-	parent.connection = [plurkAPI editPlurk:[plurkToEdit plurkID] setText:[entryCell text] delegate:parent];
+	parent.connection = [[PlurkAPI sharedAPI] editPlurk:[plurkToEdit plurkID] setText:[entryCell text] delegate:parent];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -296,7 +296,7 @@
 			case 0:
 				self.qualifierCell = (PlurkQualifierTableViewCell *)cell;
 				[qualifierCell initUI];
-				[[qualifierCell name] setText:[[plurkAPI currentUser] displayName]];
+				[[qualifierCell name] setText:[[[PlurkAPI sharedAPI] currentUser] displayName]];
 				[[qualifierCell qualifier] setText:@":"];
 				break;
 		}
@@ -407,7 +407,6 @@
 	[plurkToReplyTo release];
 	[plurkToEdit release];
 	[qualifierCell release];
-	[plurkAPI release];
 	[qualifierTable release];
 	[initialContent release];
 	[initialQualifier release];

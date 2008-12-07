@@ -11,6 +11,14 @@
 @implementation PlurkAPI
 @synthesize userID, userName, friendDictionary, uidToName, loggedIn, currentUser;
 
++ (PlurkAPI *)sharedAPI {
+	static PlurkAPI* shared;
+	if(shared == nil) {
+		shared = [[PlurkAPI alloc] init];
+	}
+	return shared;
+}
+
 - (PlurkAPI *)init {
 	if(self = [super init]) {
 		friendDictionary = [[NSMutableDictionary alloc] init];
