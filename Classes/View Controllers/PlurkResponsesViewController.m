@@ -113,6 +113,7 @@
 	NSString *html = [[[NSString stringWithFormat:
 						[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesSingleResponse" ofType:@"html"]],
 						[plurk plurkID],
+						[plurk userNickName],
 						[plurk userDisplayName],
 						[plurk qualifier],
 						(([[plurk qualifier] length] < 2) ? @"" : [plurk qualifier]), 
