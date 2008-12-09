@@ -41,11 +41,11 @@
     [super viewDidAppear:animated];
 	if(!plurks) {
 		plurks = [[NSMutableArray alloc] init];
-		filesDownloading = [[NSMutableArray alloc] init];
+		downloadStarted = NO;
 		if([plurks count] == 0) {
 			if(timelineOwner) {
 				[[self navigationItem] setTitle:[timelineOwner displayName]];
-				[[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO delegate:self];
+				apiConnection = [[[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO delegate:self] retain];
 				connection = nil;
 			} else if(timelineToLoad) {
 				NSLog(@"Loading from http://www.plurk.com/%@", timelineToLoad);
@@ -53,6 +53,7 @@
 				receivedData = [[NSMutableData alloc] init];
 				NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.plurk.com/%@", timelineToLoad, nil]]];
 				connection = [[NSURLConnection connectionWithRequest:request delegate:self] retain];
+				apiConnection = nil;
 				[request release];
 			}
 
@@ -69,7 +70,10 @@
 
 
 - (void)viewDidDisappear:(BOOL)animated {
-	
+	[connection cancel];
+	if(apiConnection != nil) {
+		[[PlurkAPI sharedAPI] cancelConnection:apiConnection];
+	}
 	[super viewDidDisappear:animated];
 }
 
@@ -122,7 +126,7 @@
 			[timelineOwner setNickName:timelineToLoad];
 			[timelineOwner setDisplayName:timelineToLoad];
 			NSLog(@"Got user_id: %d", [timelineOwner uid]);
-			[[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO delegate:self];
+			apiConnection = [[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO delegate:self];
 		}
 	}
 }
@@ -151,9 +155,6 @@
 	
 	// Cache it.
 	[[ProfileImageCache mainCache] cacheImage:[UIImage imageWithContentsOfFile:file] forUser:ourID];
-	
-	// Remove it from the downloading list.
-	[filesDownloading removeObject:file];
 	
 	// Fill it into any currently visible cells.
 	NSArray *cells = [[self tableView] visibleCells];
@@ -211,12 +212,12 @@
 				avatar = [UIImage imageWithContentsOfFile:pathToImage];
 				[[ProfileImageCache mainCache] cacheImage:avatar forUser:[plurk ownerID]];
 			}
-			if(!avatar && ![filesDownloading containsObject:pathToImage]) {
+			if(!avatar && !downloadStarted) {
 				// No cached image. Go get it.
 				NSURL *avatarUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://avatars.plurk.com/%d-medium.gif", [plurk ownerID], nil]];
 				FileDownloader *downloader = [[FileDownloader alloc] initFromURL:avatarUrl toFile:pathToImage notify:self];
 				[downloader release];
-				[filesDownloading addObject:pathToImage];
+				downloadStarted = YES;
 			}
 		}
 		if(avatar) {
@@ -247,9 +248,9 @@
 	[connection release];
 	[timelineOwner release];
 	[plurks release];
-	[filesDownloading release];
 	[timelineToLoad release];
 	[receivedData release];
+	[apiConnection release];
     [super dealloc];
 }
 

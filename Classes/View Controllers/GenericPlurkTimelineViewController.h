@@ -17,9 +17,10 @@
 	PlurkFriend *timelineOwner;
 	NSString *timelineToLoad;
 	NSMutableArray *plurks;
-	NSMutableArray *filesDownloading;
+	BOOL downloadStarted;
 	NSMutableData *receivedData;
 	NSURLConnection *connection;
+	NSURLConnection *apiConnection;
 }
 
 @property(nonatomic, retain) PlurkFriend *timelineOwner;

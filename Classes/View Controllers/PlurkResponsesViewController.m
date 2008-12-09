@@ -238,9 +238,8 @@
 	
 	if([[[request URL] host] hasSuffix:@"youtube.com"]) {
 		if([[[request URL] path] isEqual:@"/watch"] || [[[request URL] host] hasPrefix:@"/v/"]) {
-			return YES;
-			//currentURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://youtube.com%@?%@", [[request URL] path], [[request URL] query]]];
-			//sheet = [[UIActionSheet alloc] initWithTitle:@"Opening this YouTube video will close iPlurk." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Watch YouTube Video", nil];
+			currentURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://youtube.com%@?%@", [[request URL] path], [[request URL] query]]];
+			sheet = [[UIActionSheet alloc] initWithTitle:@"Opening this YouTube video will close iPlurk." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Watch YouTube Video", nil];
 		}
 	} else if([[[request URL] host] isEqual:@"phobos.apple.com"]) {
 		currentURL = [request URL];
@@ -263,6 +262,10 @@
 		[sheet release];
 		sheet = nil;
 		if([webView isLoading]) [webView stopLoading];
+		// Check if we want to change the URL (e.g. for Flickr images)
+		if([[[request URL] host] hasSuffix:@"flickr.com"]) {
+			request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://m.flickr.com/#%@", [[request URL] path]]]];
+		}
 		WebPagePreviewController *controller = [[WebPagePreviewController alloc] initWithNibName:@"WebPagePreview" bundle:nil];
 		UINavigationController *newController = [[UINavigationController alloc] initWithRootViewController:controller];
 		[controller navigationItem].leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:controller action:@selector(closeView)];
