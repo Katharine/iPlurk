@@ -88,9 +88,11 @@
 		NSLog(@"HTTP POST request to %@ could not be initialised.");
 		return nil;
 	}
-	[connections setObject:apiRequest forKey:connection];
+	if(apiRequest != nil) {
+		[connections setObject:apiRequest forKey:connection];
+		[apiRequest release];
+	}
 	[request release];
-	[apiRequest release];
 	return connection;
 }
 
@@ -278,6 +280,12 @@
 
 - (NSURLConnection *)makePlurk:(NSString *)text withQualifier:(NSString *)qualifier allowComments:(BOOL)comments delegate:(id <PlurkAPIDelegate>)delegate {
 	return [self makePlurk:text withQualifier:qualifier allowComments:comments limitedTo:nil delegate:delegate];
+}
+
+- (void)markPlurksAsRead:(NSArray *)plurks {
+	NSURL *url = [NSURL URLWithString:[plurkURLs objectForKey:@"plurk_mark_read"]];
+	NSDictionary *post = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"[%@]", [plurks componentsJoinedByString:@","]] forKey:@"ids"];
+	[self makePostRequestTo:url withPostData:post withAPIRequest:nil];
 }
 
 - (void)runPeriodicPollWithInterval:(NSTimeInterval)interval delegate:(id <PlurkAPIDelegate>)delegate {

@@ -131,11 +131,44 @@
 			currentPlurks = privatePlurks;
 			break;
 	}
+	
+	// Change the button if needed.
+	if(currentTab == RootViewTabUnread && [unreadPlurks count] > 0) {
+		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(confirmMarkAllAsRead)] animated:YES];
+		displayingActionButton = YES;
+	} else if(displayingActionButton) {
+		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(startComposing)] animated:YES];
+		displayingActionButton = NO;
+	}
+		 
 	[[self tableView] reloadData];
 }
 
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if(buttonIndex == 1) { // Compose
+		[self startComposing];
+	} else if(buttonIndex == 0) { // Mark all as read
+		NSMutableArray *plurksToMark = [[NSMutableArray alloc] init];
+		for(Plurk *plurk in unreadPlurks) {
+			[plurksToMark addObject:[NSNumber numberWithInteger:[plurk plurkID]]];
+			[plurk setIsUnread:NO];
+			[plurk setResponsesSeen:[plurk responseCount]];
+		}
+		[[PlurkAPI sharedAPI] markPlurksAsRead:plurksToMark];
+		[unreadPlurks removeAllObjects];
+		[[self tableView] reloadData];
+	}
+}
 
 #pragma mark User Interface
+
+- (void)confirmMarkAllAsRead {
+	UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Mark All As Read", @"Compose New Plurk", nil];
+	[sheet showInView:[self view]];
+	[sheet release];
+}
 
 - (void)displayPlurkWithBase36ID:(NSString *)plurkID {
 	NSInteger number = 0;

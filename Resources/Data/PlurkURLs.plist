@@ -54,5 +54,7 @@
 	<string>http://www.plurk.com/Poll/getResponses/%d</string>
 	<key>user_data</key>
 	<string>http://www.plurk.com/Users/getUserData</string>
+	<key>plurk_mark_read</key>
+	<string>http://www.plurk.com/Responses/markAllRead</string>
 </dict>
 </plist>
