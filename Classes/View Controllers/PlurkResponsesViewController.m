@@ -153,7 +153,6 @@
 	NSRange range;
 	NSMutableArray *namesToDo = [[NSMutableArray alloc] init];
 	
-	NSLog(responseHTML);
 	while((range = [responseHTML rangeOfRegex:@"<a href=\"http://www.plurk.com/([a-zA-Z0-9]+)\" class=\"ex_link\">.+?</a>" options:RKLNoOptions inRange:NSMakeRange(position, [responseHTML length] - position) capture:1 error:NULL]).location != NSNotFound) {
 		NSString *nickname = [responseHTML substringWithRange:range];
 		if(nickname && ![namesToDo containsObject:nickname]) {
