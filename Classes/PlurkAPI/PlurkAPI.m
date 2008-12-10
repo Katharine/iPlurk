@@ -37,7 +37,7 @@
 }
 
 - (NSString *)escapeURL:(NSString *)url {
-	NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)url, NULL, CFSTR("?=&+\\"), kCFStringEncodingUTF8);
+	NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)url, NULL, CFSTR("?=&+\\;"), kCFStringEncodingUTF8);
 	return result;
 }
 
@@ -82,6 +82,7 @@
 	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
 	[request setHTTPShouldHandleCookies:YES];
 	[request setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
+	NSLog(@"Making request to %@ with data %@", [url path], data);
 	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 	if(!connection) {
 		NSLog(@"HTTP POST request to %@ could not be initialised.");
@@ -510,7 +511,7 @@
 }
 
 - (void)handlePlurksReceived:(NSString *)responseString fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate {
-	NSLog(@"Received plurks.");
+	NSLog(@"Received plurks. %@", responseString);
 	responseString = [responseString stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"];
 	NSArray *response = [responseString JSONValue];
 	if(response == nil) {
