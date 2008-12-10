@@ -79,6 +79,9 @@
 		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(chooseOwnPlurkAction)] animated:YES];
 	} else {
 		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(beginReply)] animated:YES];
+		if([firstPlurk noComments]) {
+			[[[self navigationItem] rightBarButtonItem] setEnabled:FALSE];
+		}
 	}
 	if(!(connection = [[PlurkAPI sharedAPI] requestResponsesToPlurk:[firstPlurk plurkID] delegate:self])) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Couldn't load responses" message:@"A request to get plurk responses could not be initiated." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];

@@ -24,7 +24,7 @@ typedef enum {
 	RootViewTabPrivate
 } RootViewTab;
 
-@interface RootViewController : UITableViewController <PlurkAPIDelegate> {
+@interface RootViewController : UITableViewController <PlurkAPIDelegate, UIActionSheetDelegate> {
 	IBOutlet SetupViewController *setupViewController;
 	IBOutlet UISegmentedControl *tabs;
 	NSMutableArray *plurks;
@@ -44,6 +44,7 @@ typedef enum {
 	BOOL enableUserInterfacePaging;
 	CGPoint contentOffset;
 	NSInteger plurkToLoad;
+	BOOL displayingActionButton;
 }
 
 @property(nonatomic, retain) NSMutableArray *plurks;
