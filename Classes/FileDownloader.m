@@ -32,7 +32,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	NSLog(@"Writing %d bytes of data to %@", [data length], targetFile);
+	//NSLog(@"Writing %d bytes of data to %@", [data length], targetFile);
 	[data writeToFile:targetFile atomically:NO];
 	[data setLength:0];
 	[data release];

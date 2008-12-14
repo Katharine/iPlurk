@@ -48,7 +48,7 @@
 				apiConnection = [[[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO delegate:self] retain];
 				connection = nil;
 			} else if(timelineToLoad) {
-				NSLog(@"Loading from http://www.plurk.com/%@", timelineToLoad);
+				//NSLog(@"Loading from http://www.plurk.com/%@", timelineToLoad);
 				[[self navigationItem] setTitle:timelineToLoad];
 				receivedData = [[NSMutableData alloc] init];
 				NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.plurk.com/%@", timelineToLoad, nil]]];
@@ -94,7 +94,7 @@
 #pragma mark NSURLConnection methods
 
 - (void)connection:(NSURLConnection *)theConnection didFailWithError:(NSError *)error {
-	NSLog(@"Loading fail.");
+	//NSLog(@"Loading fail.");
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't open timeline" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alert show];
@@ -110,12 +110,12 @@
 }
 
 - (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)data {
-	NSLog(@"Received more data.");
+	//NSLog(@"Received more data.");
 	[receivedData appendData:data];
 	
 	// Check if we have enough.
 	NSString *string = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-	NSLog(@"Received data: %@", string);
+	//NSLog(@"Received data: %@", string);
 	NSRange range = [string rangeOfRegex:@"var SETTINGS = (\\{.+?\\});" capture:1];
 	if(range.location != NSNotFound) {
 		NSDictionary *data = [[string substringWithRange:range] JSONValue];
@@ -125,7 +125,7 @@
 			[timelineOwner setUid:[[data objectForKey:@"user_id"] integerValue]];
 			[timelineOwner setNickName:timelineToLoad];
 			[timelineOwner setDisplayName:timelineToLoad];
-			NSLog(@"Got user_id: %d", [timelineOwner uid]);
+			//NSLog(@"Got user_id: %d", [timelineOwner uid]);
 			apiConnection = [[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO delegate:self];
 		}
 	}
@@ -207,7 +207,7 @@
 		avatar = [[ProfileImageCache mainCache] retrieveImageForUser:[plurk ownerID]];
 		if(!avatar) {
 			NSString *pathToImage = [NSString stringWithFormat:@"%@/user-%d.gif", imageCacheDirectory, [plurk ownerID], nil];
-			NSLog(@"Looking for image in %@", pathToImage);
+			//NSLog(@"Looking for image in %@", pathToImage);
 			if([[NSFileManager defaultManager] fileExistsAtPath:pathToImage]) {
 				avatar = [UIImage imageWithContentsOfFile:pathToImage];
 				[[ProfileImageCache mainCache] cacheImage:avatar forUser:[plurk ownerID]];

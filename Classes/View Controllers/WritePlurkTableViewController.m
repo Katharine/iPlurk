@@ -123,7 +123,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
 	UIImage *finalImage = nil;
 	if([image size].width > 640 || [image size].height > 640) {
-		NSLog(@"Shrinking image.");
+		//NSLog(@"Shrinking image.");
 		CGSize newSize = [image size];
 		if(newSize.height > 640) {
 			newSize.width *= 640 / newSize.height;
@@ -145,7 +145,7 @@
 }
 
 - (void)postImageWithDict:(UIImage *)finalImage {
-	NSLog(@"Beginning POST.");
+	//NSLog(@"Beginning POST.");
 	NSURL *imageUploadURL = [NSURL URLWithString:@"http://www.plurkpix.com/uploadpix.php"];
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:imageUploadURL];
 	[request setHTTPShouldHandleCookies:NO];
@@ -161,17 +161,17 @@
 	[request setHTTPMethod:@"POST"];
 	NSHTTPURLResponse *response;
 	NSError *error;
-	NSLog(@"Making request");
+	//NSLog(@"Making request");
 	NSData *rawData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	NSString *data = [[NSString alloc] initWithData:rawData encoding:NSASCIIStringEncoding];
 	NSRange range = [data rangeOfRegex:@"src=\"(http://www\\.plurkpix\\.com/pix/[a-zA-Z0-9]+\\.png)\"" capture:1];
 	NSString *imageURL;
 	if(range.location == NSNotFound) {
-		NSLog(@"Upload failed.");
+		//NSLog(@"Upload failed.");
 	} else {
 		imageURL = [data substringWithRange:range];
 	}
-	NSLog(@"%@", imageURL);
+	//NSLog(@"%@", imageURL);
 	
 	// If the upload succeeded, insert the URL.
 	if(imageURL) {
@@ -370,7 +370,7 @@
 	if(firstView) {
 		firstView = NO;
 		if(plurkToEdit) {
-			NSLog(@"Doing stuff.");
+			//NSLog(@"Doing stuff.");
 			entryCell.qualifierEnabled = NO;
 			[[qualifierCell qualifier] setText:[plurkToEdit qualifier]];
 			[qualifierCell setAccessoryType:UITableViewCellAccessoryNone];
