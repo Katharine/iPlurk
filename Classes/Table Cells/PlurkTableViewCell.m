@@ -21,7 +21,7 @@
     if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
         // Initialization code
 		[infoLabel setFont:[UIFont systemFontOfSize:12.0]];
-		NSLog(@"Cell init.");
+		//NSLog(@"Cell init.");
     }
     return self;
 }
@@ -51,7 +51,7 @@
 }
 
 - (void)setContentSelected:(BOOL)selected animated:(BOOL)animated {
-	NSLog(@"Override me!");
+	//NSLog(@"Override me!");
 }
 
 
@@ -65,7 +65,7 @@
 	UIImage *image = [UIImage imageNamed:@"UnreadIndicator.png"];
 	UIImage *selectedImage = [UIImage imageNamed:@"SelectedUnreadIndicator.png"];
 	if(!image || !selectedImage) {
-		NSLog(@"Could not create image.");
+		//NSLog(@"Could not create image.");
 	}
 	[self setImage:image];
 	[self setSelectedImage:selectedImage];
@@ -81,10 +81,10 @@
 
 - (void)markAsWhateverItShouldBeMarkedAs {
 	if([[self plurkDisplayed] isUnread] == 1) {
-		NSLog(@"Marking as unread.");
+		//NSLog(@"Marking as unread.");
 		[self markAsUnread];
 	} else {
-		NSLog(@"Marking as read.");
+		//NSLog(@"Marking as read.");
 		[self markAsRead];
 	}
 	[self renderLabel];
@@ -92,7 +92,7 @@
 
 - (void)renderLabel {
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	[formatter setTimeZone:[NSTimeZone systemTimeZone]];
 	[formatter setDateFormat:@"EEE, dd MMM YYYY HH:mm"];
 	[[self infoLabel] setText:[NSString stringWithFormat:@"%@ | %d response%@, %d unread", [formatter stringFromDate:[plurkDisplayed posted]], [plurkDisplayed responseCount], ([plurkDisplayed responseCount] != 1 ? @"s" : @""), ([plurkDisplayed responseCount] - [plurkDisplayed responsesSeen]), nil]];
 	[formatter release];
@@ -112,7 +112,7 @@
 }
 
 - (void)renderPlurkText {
-	NSLog(@"Override me!");
+	//NSLog(@"Override me!");
 }
 
 - (void)imageButtonClicked {
@@ -129,7 +129,7 @@
 }
 
 - (void)dealloc {
-	NSLog(@"Deallocing cell.");
+	//NSLog(@"Deallocing cell.");
 	//[infoLabel release];
 	//[imageButton release];
 	//[plurkDisplayed release];

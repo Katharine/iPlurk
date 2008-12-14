@@ -18,7 +18,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)flag {
-	NSLog(@"SetupViewController will appear.");
+	//NSLog(@"SetupViewController will appear.");
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *username = [defaults stringForKey:@"plurk_username"];
 	if(username == nil) username = @"";
@@ -27,7 +27,7 @@
 	[usernameField setText:username];
 	[passwordField setText:password];
 	if(![username length]) [usernameField becomeFirstResponder];
-	NSLog(@"Done appearing");
+	//NSLog(@"Done appearing");
 }
 
 - (void)saveLoginDetails {

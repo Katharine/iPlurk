@@ -53,7 +53,7 @@
 				}
 			}
 		}
-		NSLog(@"Posting from URL: %@ %@", qualifier, message);
+		//NSLog(@"Posting from URL: %@ %@", qualifier, message);
 		RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
 		[controller startComposingWithContent:message qualifier:qualifier];
 	} else if([@"view" isEqualToString:[url host]]) {

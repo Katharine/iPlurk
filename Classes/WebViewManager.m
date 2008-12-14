@@ -33,7 +33,7 @@
 		WebViewWithText *desc = [webViews objectAtIndex:i];
 		if([desc webView] == webView) {
 			[webViews removeObjectAtIndex:i];
-			NSLog(@"Removed old instance of webView from queue.");
+			//NSLog(@"Removed old instance of webView from queue.");
 			break;
 		}
 	}
@@ -45,7 +45,7 @@
 	webView.delegate = self;
 	if([webViews count] == 1)
 	{
-		NSLog(@"Starting UIWebView: Nothing running yet.");
+		//NSLog(@"Starting UIWebView: Nothing running yet.");
 		[webView loadHTMLString:text baseURL:nil];
 	}
 	[webViewWithText release];
@@ -54,7 +54,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 	if(![webViews count])
 	{
-		NSLog(@"WARNING: Unexpected webViewDidFinishLoad without any UIWebViews loading!");
+		//NSLog(@"WARNING: Unexpected webViewDidFinishLoad without any UIWebViews loading!");
 		return;
 	}
 	[webViews removeObjectAtIndex:0];

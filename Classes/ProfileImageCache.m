@@ -29,7 +29,7 @@
 	if([userImages respondsToSelector:@selector(setObject:forKey:)]) {
 		[userImages setObject:image forKey:[NSNumber numberWithInteger:user]];
 	} else {
-		NSLog(@"ERROR: userImages isn't a mutable dictionary!");
+		//NSLog(@"ERROR: userImages isn't a mutable dictionary!");
 		[userImages release];
 		[self init];
 	}

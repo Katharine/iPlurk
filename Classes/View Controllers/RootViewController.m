@@ -68,7 +68,7 @@
 		avatar = [[ProfileImageCache mainCache] retrieveImageForUser:[plurk ownerID]];
 		if(!avatar) {
 			NSString *pathToImage = [NSString stringWithFormat:@"%@/user-%d.gif", imageCacheDirectory, [plurk ownerID], nil];
-			NSLog(@"Looking for image in %@", pathToImage);
+			//NSLog(@"Looking for image in %@", pathToImage);
 			if([[NSFileManager defaultManager] fileExistsAtPath:pathToImage]) {
 				avatar = [UIImage imageWithContentsOfFile:pathToImage];
 				[[ProfileImageCache mainCache] cacheImage:avatar forUser:[plurk ownerID]];
@@ -117,7 +117,7 @@
 #pragma mark Interface Builder
 
 - (IBAction)tabHasChanged {
-	NSLog(@"TabHasChanged.");
+	//NSLog(@"TabHasChanged.");
 	currentTab = (RootViewTab)[tabs selectedSegmentIndex];
 	if(currentTab == UISegmentedControlNoSegment) currentTab = RootViewTabAll;
 	switch (currentTab) {
@@ -180,7 +180,7 @@
 		number += mantissa * multiplier;
 		multiplier *= 36;
 	}
-	NSLog(@"Base 36 %@ converted to %d", plurkID, number);
+	//NSLog(@"Base 36 %@ converted to %d", plurkID, number);
 	[self displayPlurkWithID:number];
 }
 
@@ -244,7 +244,7 @@
 }
 
 - (void)userHasSetNewUsername:(NSString *)username andPassword:(NSString *)password {
-	NSLog(@"Storing new login details and attempting to log in as %@", username);
+	//NSLog(@"Storing new login details and attempting to log in as %@", username);
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setObject:username forKey:@"plurk_username"];
 	[defaults setObject:password forKey:@"plurk_password"];
@@ -257,7 +257,7 @@
 
 // FileDownloader
 - (void)fileDownloadDidComplete:(NSString *)file {
-	NSLog(@"Download of %@ complete.", file);
+	//NSLog(@"Download of %@ complete.", file);
 	[FileDownloader addRoundedCorners:file];
 	
 	// Get the ID we're looking for.
@@ -275,10 +275,10 @@
 		// We might get the "Load more plurks" cell, so check for that first (or we'll crash)
 		if([cell respondsToSelector:@selector(ownerID)] && [cell ownerID] == ourID) {
 			[[cell imageButton] setImage:[[ProfileImageCache mainCache] retrieveImageForUser:ourID] forState:UIControlStateNormal];
-			NSLog(@"Displayed image for %d", ourID);
+			//NSLog(@"Displayed image for %d", ourID);
 		}
 	}
-	NSLog(@"Downloaded image for plurker %d", ourID);
+	//NSLog(@"Downloaded image for plurker %d", ourID);
 }
 
 - (void)avatarImageWasClicked:(NSInteger)userID {
@@ -289,13 +289,13 @@
 #pragma mark UIViewController
 
 - (void)viewDidLoad {
-	NSLog(@"View loaded");
+	//NSLog(@"View loaded");
     [super viewDidLoad];
 	[[self tableView] setScrollsToTop:YES];
 	// Setup
 	if(!filesDownloading) {
 		canUseTable = YES;
-		NSLog(@"Initiating...");
+		//NSLog(@"Initiating...");
 		filesDownloading = [[NSMutableArray alloc] init];
 		setupViewController.origin = self;
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -316,32 +316,32 @@
 		
 		// Wipe the cache if requested.
 		if([defaults boolForKey:@"cache_clear"]) {
-			NSLog(@"Clearing cache on request.");
+			//NSLog(@"Clearing cache on request.");
 			[defaults setBool:NO forKey:@"cache_clear"];
 			[[NSFileManager defaultManager] removeItemAtPath:imageCacheDirectory error:NULL];
 		}
 		
 		if(![[NSFileManager defaultManager] fileExistsAtPath:imageCacheDirectory]) {
 			if(![[NSFileManager defaultManager] createDirectoryAtPath:imageCacheDirectory attributes:nil]) {
-				NSLog(@"Couldn't create imageCacheDirectory %@", imageCacheDirectory);
+				//NSLog(@"Couldn't create imageCacheDirectory %@", imageCacheDirectory);
 			}
 		}
 		
 		// Try a quick login first.
 		if([[PlurkAPI sharedAPI] quickLoginAs:[defaults stringForKey:@"plurk_username"] withFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]) {
-			NSLog(@"Used quick login.");
+			//NSLog(@"Used quick login.");
 			[self plurkLoginDidFinish];
 		} else {
-			NSLog(@"Performing standard login.");
+			//NSLog(@"Performing standard login.");
 			// Load specified username and such.
 			NSString *username = [defaults stringForKey:@"plurk_username"];
 			NSString *password = [defaults stringForKey:@"plurk_password"];
 			if([username length] && [password length]) {
-				NSLog(@"Attempting to log in as %@.", username);
+				//NSLog(@"Attempting to log in as %@.", username);
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 				[[PlurkAPI sharedAPI] loginUser:username withPassword:password delegate:self];
 			} else {
-				NSLog(@"Asking for login details.");
+				//NSLog(@"Asking for login details.");
 				[self presentModalViewController:setupViewController animated:YES];
 			}
 		}
@@ -360,17 +360,17 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	NSLog(@"ViewWillAppear - canUseTable = YES");
+	//NSLog(@"ViewWillAppear - canUseTable = YES");
 	canUseTable = YES;
 	BOOL done = NO;
 	// Dealing with the marked plurk.
 	if(selectedRow > -1 && selectedRow < [[self tableView] numberOfRowsInSection:0]) {
 		NSIndexPath *selected = [NSIndexPath indexPathForRow:selectedRow inSection:0];
-		NSLog(@"SelectedRow known.");
+		//NSLog(@"SelectedRow known.");
 		PlurkTableViewCell *cell = (PlurkTableViewCell *)[[self tableView] cellForRowAtIndexPath:selected];
 		if([cell isKindOfClass:[PlurkTableViewCell class]]) {
 			if([[cell plurkDisplayed] isUnread] == 0) {
-				NSLog(@"Dealing with read plurk.");
+				//NSLog(@"Dealing with read plurk.");
 				[[cell plurkDisplayed] setResponsesSeen:[[cell plurkDisplayed] responseCount]];
 				[[self tableView] beginUpdates];
 				if(currentTab == RootViewTabUnread) {
@@ -381,30 +381,29 @@
 				}
 				[[self tableView] endUpdates];
 			}
-			NSLog(@"Marking cell");
+			//NSLog(@"Marking cell");
 			[cell markAsWhateverItShouldBeMarkedAs];
 			done = YES;
 		} else {
-			NSLog(@"Wrong cell type.");
+			//NSLog(@"Wrong cell type.");
 		}
 	}
 	if(!done && selectedPlurk && [selectedPlurk isUnread] == 0) {
-		NSLog(@"selectedPlurk known.");
+		//NSLog(@"selectedPlurk known.");
 		[selectedPlurk setResponsesSeen:[selectedPlurk responseCount]];
 		NSUInteger index;
 		if((index = [unreadPlurks indexOfObject:selectedPlurk]) != NSNotFound) {
-			NSLog(@"Removed plurk.");
+			//NSLog(@"Removed plurk.");
 			[unreadPlurks removeObjectAtIndex:index];
 			[[self tableView] reloadData];
 		} else {
-			NSLog(@"Not an unread plurk, apparently.");
+			//NSLog(@"Not an unread plurk, apparently.");
 		}
 	}
-	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadPlurks count]];
 
-	NSLog(@"Running super");
+	//NSLog(@"Running super");
     [super viewWillAppear:animated];
-	NSLog(@"viewWillAppear done.");
+	//NSLog(@"viewWillAppear done.");
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -452,7 +451,7 @@
 #pragma mark PlurkAPI
 
 - (void)plurkLoginDidFinish {
-	NSLog(@"Creating file: %d", [[PlurkAPI sharedAPI] saveLoginToFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]);
+	//NSLog(@"Creating file: %d", [[PlurkAPI sharedAPI] saveLoginToFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]);
 	// If we started creating a plurk before logging in, e.g. using an iplurk://post URL, fill in the name.
 	if([self modalViewController]) {
 		if([[(UINavigationController *)[self modalViewController] topViewController] respondsToSelector:@selector(qualifierCell)]) {
@@ -493,7 +492,7 @@
 		unreadRequest = [[[PlurkAPI sharedAPI] requestUnreadPlurksWithDelegate:self] retain];
 		NSInteger interval = [[NSUserDefaults standardUserDefaults] integerForKey:@"poll_interval"];
 		if(interval == 0) interval = 60;
-		NSLog(@"Poll interval: %d", interval);
+		//NSLog(@"Poll interval: %d", interval);
 		if(interval > 0) {
 			[[PlurkAPI sharedAPI] runPeriodicPollWithInterval:interval delegate:self];
 		}
@@ -501,8 +500,8 @@
 	if([[PlurkAPI sharedAPI] runningRequests] == 0) {
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	}
-	NSLog(@"Beginning updates.");
-	NSLog(@"Received %d new plurks", [newPlurks count]);
+	//NSLog(@"Beginning updates.");
+	//NSLog(@"Received %d new plurks", [newPlurks count]);
 	if(canUseTable) [[self tableView] beginUpdates];
 	
 	// Check if we'll need to insert an extra row at the end for the "Load more plurks" button.
@@ -511,12 +510,12 @@
 	BOOL insertExtraRow = (currentTab == RootViewTabAll && [plurks count] == 0);
 	
 	for(Plurk *plurk in newPlurks) {
-		NSLog(@"%@ %@ %@", [plurk ownerDisplayName], [plurk qualifier], [plurk contentRaw]);
+		//NSLog(@"%@ %@ %@", [plurk ownerDisplayName], [plurk qualifier], [plurk contentRaw]);
 		NSUInteger index = [currentPlurks indexOfObject:plurk];
 		if(index != NSNotFound) {
-			NSLog(@"Found old plurk %d", [plurk plurkID]);
+			//NSLog(@"Found old plurk %d", [plurk plurkID]);
 			Plurk *oldPlurk = [currentPlurks objectAtIndex:index];
-			NSLog(@"Updating old plurk %d", [plurk plurkID]);
+			//NSLog(@"Updating old plurk %d", [plurk plurkID]);
 			oldPlurk.responseCount = [plurk responseCount];
 			oldPlurk.responsesSeen = [plurk responsesSeen];
 			oldPlurk.isUnread = [plurk isUnread];
@@ -543,10 +542,10 @@
 			NSUInteger index;
 			if([plurk isUnread] == 1 && (index = [unreadPlurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [unreadPlurks objectAtIndex:index];
-				NSLog(@"Using unreadPlurks instead of privatePlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
+				//NSLog(@"Using unreadPlurks instead of privatePlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
 			} else if((index = [plurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [plurks objectAtIndex:index];
-				NSLog(@"Using plurks instead of privatePlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
+				//NSLog(@"Using plurks instead of privatePlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
 			}
 			[plurk retain];
 			// Find the right instertion position.
@@ -568,10 +567,10 @@
 			NSUInteger index;
 			if([plurk limitedTo] > 0 && (index = [privatePlurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [privatePlurks objectAtIndex:index];
-				NSLog(@"Using privatePlurks instead of unreadPlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
+				//NSLog(@"Using privatePlurks instead of unreadPlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
 			} else if((index = [plurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [plurks objectAtIndex:index];
-				NSLog(@"Using plurks instead of unreadPlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
+				//NSLog(@"Using plurks instead of unreadPlurks for plurk %d from %@", [plurk plurkID], [[PlurkAPI sharedAPI] nickNameFromUserID:[plurk ownerID]]);
 			}
 			
 			[plurk retain];
@@ -594,10 +593,10 @@
 			if([plurks containsObject:plurk]) continue;
 			if([plurk limitedTo] > 0 && (index = [privatePlurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [privatePlurks objectAtIndex:index];
-				NSLog(@"Using privatePlurks instead of plurks for plurk %d from %@", [plurk plurkID], [plurk ownerDisplayName]);
+				//NSLog(@"Using privatePlurks instead of plurks for plurk %d from %@", [plurk plurkID], [plurk ownerDisplayName]);
 			} else if([plurk isUnread] == 1 && (index = [unreadPlurks indexOfObject:plurk]) != NSNotFound) {
 				plurk = [unreadPlurks objectAtIndex:index];
-				NSLog(@"Using unreadPlurks instead of plurks for plurk %d from %@", [plurk plurkID], [plurk ownerDisplayName]);
+				//NSLog(@"Using unreadPlurks instead of plurks for plurk %d from %@", [plurk plurkID], [plurk ownerDisplayName]);
 			}
 			
 			[plurk retain];
@@ -615,7 +614,7 @@
 			if(currentTab == RootViewTabAll && canUseTable) [[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:YES];
 		}
 	}
-	[[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadPlurks count]];
+	
 	if(connection == allRequest && canUseTable) {
 		allRequest = nil;
 		NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:([[self tableView] numberOfRowsInSection:0] - 1) inSection:0];
@@ -636,9 +635,9 @@
 		allRequest = nil;
 	}
 	if(canUseTable) {
-		NSLog(@"Ending updates.");
+		//NSLog(@"Ending updates.");
 		if(insertExtraRow) {
-			NSLog(@"Inserting an extra row to compensate for 'show more plurks'.");
+			//NSLog(@"Inserting an extra row to compensate for 'show more plurks'.");
 			[[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[plurks count] inSection:0]] withRowAnimation:YES];
 		}
 		[[self tableView] endUpdates];
@@ -704,8 +703,8 @@
 				for(index = 0; index < [unreadPlurks count] && [realPlurk plurkID] < [[unreadPlurks objectAtIndex:index] plurkID]; ++index);
 				[unreadPlurks insertObject:realPlurk atIndex:index];
 				if(currentTab == RootViewTabUnread) {
-					if(canUseTable) NSLog(@"%d rows in table, %d plurks", [[self tableView] numberOfRowsInSection:0], [unreadPlurks count]);
-					NSLog(@"Inserting row.");
+					if(canUseTable) //NSLog(@"%d rows in table, %d plurks", [[self tableView] numberOfRowsInSection:0], [unreadPlurks count]);
+					//NSLog(@"Inserting row.");
 					if(canUseTable) [[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:YES];
 				}
 				if(currentTab == RootViewTabUnread && index <= selectedRow) {
@@ -794,10 +793,10 @@
 
 - (void)didReceiveMemoryWarning {
 	canUseTable = NO;
-	NSLog(@"Can't use table.");
+	//NSLog(@"Can't use table.");
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
-	NSLog(@"WARNING: didReceiveLowMemoryWarning. Removing images in memory.");
+	//NSLog(@"WARNING: didReceiveLowMemoryWarning. Removing images in memory.");
 	[[ProfileImageCache mainCache] emptyCache];
 }
 

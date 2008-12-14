@@ -27,10 +27,10 @@
 		NSString *urlFile = [[NSBundle mainBundle] pathForResource:@"PlurkURLs" ofType:@"plist"];
 		if(!urlFile)
 		{
-			NSLog(@"ERROR: Failed to locate PlurkURL plist!");
+			//NSLog(@"ERROR: Failed to locate PlurkURL plist!");
 		}
 		plurkURLs = [[NSDictionary alloc] initWithContentsOfFile: urlFile];
-		NSLog(@"Loaded %d url(s) from PlurkURLs plist.", [plurkURLs count]);
+		//NSLog(@"Loaded %d url(s) from PlurkURLs plist.", [plurkURLs count]);
 		knownResponses = [[NSMutableDictionary alloc] init];
 	}
 	return self;
@@ -82,10 +82,10 @@
 	[request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
 	[request setHTTPShouldHandleCookies:YES];
 	[request setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
-	NSLog(@"Making request to %@ with data %@", [url path], data);
+	//NSLog(@"Making request to %@ with data %@", [url path], data);
 	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 	if(!connection) {
-		NSLog(@"HTTP POST request to %@ could not be initialised.");
+		//NSLog(@"HTTP POST request to %@ could not be initialised.");
 		return nil;
 	}
 	if(apiRequest != nil) {
@@ -104,7 +104,7 @@
 	[request setDelegate:delegate];
 	[request setAction:PlurkAPIActionLogin];
 	NSURL *loginURL = [NSURL URLWithString:[plurkURLs objectForKey:@"login"]];
-	NSLog(@"Beginning login request.");
+	//NSLog(@"Beginning login request.");
 	return [self makePostRequestTo:loginURL withPostData:[NSDictionary dictionaryWithObjectsAndKeys:name, @"nick_name", password, @"password", nil] withAPIRequest:request];
 }
 
@@ -114,12 +114,12 @@
 	[save setObject:userName forKey:@"userName"];
 	[save setObject:[currentUser displayName] forKey:@"displayName"];
 	[save setObject:[NSNumber numberWithBool:[currentUser hasProfileImage]] forKey:@"hasProfileImage"];
-	NSLog(@"Saving ret to %@", path);
+	//NSLog(@"Saving ret to %@", path);
 	BOOL ret = [save writeToFile:path atomically:NO];
 	if(ret) {
-		NSLog(@"Success.");
+		//NSLog(@"Success.");
 	} else {
-		NSLog(@"Failed.");
+		//NSLog(@"Failed.");
 	}
 	[save release];
 	return ret;
@@ -127,20 +127,20 @@
 
 - (BOOL)quickLoginAs:(NSString *)username withFile:(NSString *)path {
 	if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-		NSLog(@"QuickLogin file does not exist.");
+		//NSLog(@"QuickLogin file does not exist.");
 		return NO;
 	}
 	if([[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:NULL] fileModificationDate] timeIntervalSinceNow] > 604800) { // One week old data fails.
-		NSLog(@"Ignoring old login data.");
+		//NSLog(@"Ignoring old login data.");
 		return NO;
 	}
 	NSDictionary *load = [NSDictionary dictionaryWithContentsOfFile:path];
 	if(load == nil) {
-		NSLog(@"Load failed.");
+		//NSLog(@"Load failed.");
 		return NO;
 	}
 	if(![[[load objectForKey:@"userName"] lowercaseString] isEqualToString:[username lowercaseString]]) {
-		NSLog(@"Wrong userName");
+		//NSLog(@"Wrong userName");
 		return NO;
 	}
 	userID = [[load objectForKey:@"userID"] integerValue];
@@ -300,14 +300,14 @@
 }
 
 - (void)cancelConnection:(NSURLConnection *)connection {
-	NSLog(@"Cancelling connection.");
+	//NSLog(@"Cancelling connection.");
 	[connection cancel];
 	[connections removeObjectForKey:connection];
 }
 
 // NSTimer poll callback
 - (void)runPoll:(NSTimer *)timer {
-	NSLog(@"Running poll.");
+	//NSLog(@"Running poll.");
 	if(!pollNewConnection) {
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 		[formatter setDateFormat:@"\"yyyy-MM-dd'T'HH:mm:ss\""];
@@ -351,7 +351,7 @@
 	if([request action] == PlurkAPIActionLogin) {
 		NSString *body = [[NSString alloc] initWithData:[request data] encoding:NSUTF8StringEncoding];
 		if([body rangeOfRegex:@"(?m)<script type=\"text/javascript\">(\r|\n|.)*?</script>"].location != NSNotFound) {
-			NSLog(@"Got enough of the login page (%d bytes). Aborting and moving on with processing.", [data length]);
+			//NSLog(@"Got enough of the login page (%d bytes). Aborting and moving on with processing.", [data length]);
 			[connection cancel];
 			[self connectionDidFinishLoading:connection];
 		}
@@ -361,7 +361,7 @@
 };
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	NSLog(@"Error %d loading data from URL: %@", [error code], [error description]);
+	//NSLog(@"Error %d loading data from URL: %@", [error code], [error description]);
 	PlurkAPIRequest *request = [connections objectForKey:connection];
 	if(request) {
 		if([(NSObject *)[request delegate] respondsToSelector:@selector(plurkHTTPRequestAborted:)]) {
@@ -379,12 +379,12 @@
 	[connections removeObjectForKey:connection];
 	NSString *response = [[NSString alloc] initWithData:[request data] encoding:NSUTF8StringEncoding];
 	if(connection == pollNewConnection) {
-		NSLog(@"Handling pollNewConnection response.");
+		//NSLog(@"Handling pollNewConnection response.");
 		[self handlePlurksReceived:response fromConnection:nil delegate:pollDelegate];
 		[pollNewConnection release];
 		pollNewConnection = nil;
 	} else if(connection == pollResponsesConnection) {
-		NSLog(@"Handling pollResponsesConnection response.");
+		//NSLog(@"Handling pollResponsesConnection response.");
 		[self handleResponsePollReceived:response delegate:pollDelegate];
 		[pollResponsesConnection release];
 		pollResponsesConnection = nil;
@@ -412,7 +412,8 @@
 				[self handleFriendsReceived:response forPlurks:[request storage] fromConnection:[request connection] delegate:[request delegate]];
 				break;
 			default:
-				NSLog(@"Received unhandled action type in connectionDidFinishLoading!");
+				//NSLog(@"Received unhandled action type in connectionDidFinishLoading!");
+				break;
 		}
 	}
 	[request release];
@@ -422,32 +423,32 @@
 #pragma mark Internal callbacks
 
 - (void)handleLoginResponse:(NSString *)response delegate:(id <PlurkAPIDelegate>)delegate {
-	NSLog(@"Got plurkcookie!");
+	//NSLog(@"Got plurkcookie!");
 	NSRange uidRange = [response rangeOfRegex:@"\"user_id\": (\\d+)" capture:1];
 	if(uidRange.location == NSNotFound) {
-		NSLog(@"Could not find user's uid. Aborting login :(");
+		//NSLog(@"Could not find user's uid. Aborting login :(");
 		[delegate plurkLoginDidFail];
 		return;
 	}
 	NSString *uidString = [response substringWithRange:uidRange];
 	userID = [uidString integerValue];
 	if(userID <= 0) {
-		NSLog(@"Failed to find a *valid* uid.");
+		//NSLog(@"Failed to find a *valid* uid.");
 		[delegate plurkLoginDidFail];
 		return;
 	}
-	NSLog(@"Found uid %d for user.", userID);
+	//NSLog(@"Found uid %d for user.", userID);
 	
 	// Try and get out the friends.
 	NSRange friendsRange = [response rangeOfRegex:@"var FRIENDS = (\\{.+\\});" capture:1];
 	if(friendsRange.location == NSNotFound) {
-		NSLog(@"Couldn't look up user's friends. Aborting.");
+		//NSLog(@"Couldn't look up user's friends. Aborting.");
 		[delegate plurkLoginDidFail];
 		return;
 	}
 	NSDictionary *friends = [[response substringWithRange:friendsRange] JSONValue];
 	if(friends == nil) {
-		NSLog(@"Error parsing friends. :(");
+		//NSLog(@"Error parsing friends. :(");
 		[delegate plurkLoginDidFail];
 		return;
 	}
@@ -475,15 +476,15 @@
 	// Add ourselves to the friend list.
 	NSRange globalRange = [response rangeOfRegex:@"var GLOBAL = (.+)" capture:1];
 	if(globalRange.location == NSNotFound) {
-		NSLog(@"Couldn't look up global range. Aborting.");
+		//NSLog(@"Couldn't look up global range. Aborting.");
 		[delegate plurkLoginDidFail];
 		return;
 	}
 	NSString *globalStr =  [[response substringWithRange:globalRange] stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"];
 	NSDictionary *global = [globalStr JSONValue];
 	if(global == nil) {
-		NSLog(@"Couldn't parse global range. Aborting.");
-		NSLog(@"%@", [response substringWithRange:globalRange]);
+		//NSLog(@"Couldn't parse global range. Aborting.");
+		//NSLog(@"%@", [response substringWithRange:globalRange]);
 		[delegate plurkLoginDidFail];
 		return;
 	}
@@ -498,7 +499,7 @@
 	friend.uid = userID;
 	// Logged in as the wrong person - oops.
 	if(![[userName lowercaseString] isEqualToString:[[friend nickName] lowercaseString]]) {
-		NSLog(@"Names don't match!");
+		//NSLog(@"Names don't match!");
 		[delegate plurkLoginDidFail];
 		return;
 	}
@@ -513,18 +514,18 @@
 	[friendDictionary setObject:friend forKey:userName];
 	[uidToName setObject:userName forKey:[NSNumber numberWithInteger:userID]];
 	currentUser = [friend retain];
-	NSLog(@"Login successful.");
+	//NSLog(@"Login successful.");
 	loggedIn = YES;
 	[delegate plurkLoginDidFinish];
 }
 
 - (void)handlePlurksReceived:(NSString *)responseString fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate {
-	NSLog(@"Received plurks. %@", responseString);
+	//NSLog(@"Received plurks. %@", responseString);
 	responseString = [responseString stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"];
 	NSArray *response = [responseString JSONValue];
 	if(response == nil) {
-		NSLog(@"Failed to parse JSON for new plurks.");
-		NSLog(@"%@", responseString);
+		//NSLog(@"Failed to parse JSON for new plurks.");
+		//NSLog(@"%@", responseString);
 		return;
 	}
 	NSMutableArray *plurks = [[NSMutableArray alloc] init];
@@ -623,7 +624,7 @@
 }
 
 - (void)handleResponsePollReceived:(NSString *)responseString delegate:(id <PlurkAPIDelegate>)delegate {
-	NSLog(@"Received response poll");
+	//NSLog(@"Received response poll");
 	NSArray *plurksWithResponses = [NSMutableArray arrayWithArray:[[responseString stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"] JSONValue]];
 	NSMutableArray *newPlurks = [[NSMutableArray alloc] init];
 	for(NSDictionary *dict in plurksWithResponses) {
@@ -672,10 +673,10 @@
 }
 
 - (void)handleResponseMade:(NSString *)responseString delegate:(id <PlurkAPIDelegate>)delegate {
-	NSLog(@"Response made: %@", responseString);
+	//NSLog(@"Response made: %@", responseString);
 	NSDictionary *responseRaw = [[[responseString stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"] JSONValue] objectForKey:@"object"];
 	if(responseRaw == nil) {
-		NSLog(@"Unable to parse response!");
+		//NSLog(@"Unable to parse response!");
 		return;
 	}
 	ResponsePlurk *response = [[[ResponsePlurk alloc] init] autorelease];

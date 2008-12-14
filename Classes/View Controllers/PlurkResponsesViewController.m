@@ -55,7 +55,7 @@
 			[webView setDelegate:nil];
 			[webView stopLoading];
 		}
-		NSLog(@"Attempting to cancel connection.");
+		//NSLog(@"Attempting to cancel connection.");
 		if(connection) {
 			[[PlurkAPI sharedAPI] cancelConnection:connection];
 			connection = nil;
@@ -111,7 +111,7 @@
 }
 
 - (void)plurkResponseCompleted:(ResponsePlurk *)plurk {
-	NSLog(@"Completed making response, appending...");
+	//NSLog(@"Completed making response, appending...");
 	NSString *content = [self processPlurkContent:[plurk content]];
 	NSString *html = [[[NSString stringWithFormat:
 						[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesSingleResponse" ofType:@"html"]],
@@ -182,7 +182,7 @@
 	[firstPlurk setIsUnread:0];
 	[firstPlurk setResponseCount:[responses count]];
 	[firstPlurk setResponsesSeen:[firstPlurk responseCount]];
-	NSLog(@"Finished rendering.");
+	//NSLog(@"Finished rendering.");
 }
 
 
@@ -235,7 +235,7 @@
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		return YES;
 	}
-	NSLog(@"UIWebView tried to load %@", [[request URL] absoluteString]);
+	//NSLog(@"UIWebView tried to load %@", [[request URL] absoluteString]);
 	UIActionSheet *sheet = nil; 
 	
 	if([[[request URL] host] hasSuffix:@"youtube.com"]) {
