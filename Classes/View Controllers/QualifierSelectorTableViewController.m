@@ -10,7 +10,7 @@
 
 
 @implementation QualifierSelectorTableViewController
-@synthesize qualifier;
+@synthesize qualifier, delegate, action;
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -68,6 +68,9 @@
 	qualifier = [qualifiers objectAtIndex:[indexPath row]];
 	[[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	if(delegate && action && [delegate respondsToSelector:action]) {
+		[delegate performSelector:action withObject:qualifier];
+	}
 	[[self navigationController] popViewControllerAnimated:YES];
 }
 

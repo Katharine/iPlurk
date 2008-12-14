@@ -28,6 +28,8 @@
     [super viewDidLoad];
 	
 	tryingToQuit = NO;
+	[qualifierTable setDelegate:self];
+	[qualifierTable setAction:@selector(handleQualifierSelected:)];
 	
 	UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(confirmBackButton)];
 	[[self navigationItem] setLeftBarButtonItem:cancel];
@@ -65,9 +67,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	if([[qualifierTable qualifier] length]) {
-		[[qualifierCell qualifier] setText:[qualifierTable qualifier]];
-		entryCell.qualifierEnabled = [[[qualifierCell qualifier] text] isEqual:@":"];
+}
+
+- (void)handleQualifierSelected:(NSString *)qualifier {
+	if([qualifier length]) {
+		[[qualifierCell qualifier] setText:qualifier];
+		entryCell.qualifierEnabled = [qualifier isEqual:@":"];
 	}
 }
 
