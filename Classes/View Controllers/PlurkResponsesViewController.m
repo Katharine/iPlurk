@@ -194,11 +194,21 @@
 	// Convert all /user/ references to / references, then convert all / references to /user/ references.
 	// This is to make sure we don't break existing /user/ references, but add all the / references, too.
 	// The distinction is used to enable things and stuff.
-	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/user/([a-zA-Z0-9]+)\" class=\"ex_link\">(.+?)</a>" withString:@"<a href=\"http://www.plurk.com/$1\" class=\"ex_link\">$2</a>" range:NSMakeRange(0, [content length])];
-	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/([a-zA-Z0-9]+)\" class=\"ex_link\">(.+?)</a>" withString:@"<a href=\"http://www.plurk.com/user/$1\" class=\"ex_link\">$2</a>" range:NSMakeRange(0, [content length])];
+	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/user/([a-zA-Z0-9]+)\" class=\"ex_link\">(.+?)</a>"
+							withString:@"<a href=\"http://www.plurk.com/$1\" class=\"ex_link\">$2</a>"
+								 range:NSMakeRange(0, [content length])
+	];
+	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/([a-zA-Z0-9]+)\" class=\"ex_link\">(.+?)</a>"
+							withString:@"<a href=\"http://www.plurk.com/user/$1\" class=\"ex_link\">$2</a>"
+								 range:NSMakeRange(0, [content length])
+	];
 	
-	// Make YouTube videos playable without exiting iPlurk
-	[content replaceOccurrencesOfRegex:@"<a href=\"http://[a-zA-Z]+\\.youtube\\.com/watch\\?v=([a-zA-Z0-9]+?)\".*?>.+?</a>" withString:@"<div class=\"youtube\"><embed class=\"youtube\" src=\"http://www.youtube.com/v/$1\" type=\"application/x-shockwave-flash\" width=\"60\" height=\"45\"></div>" range:NSMakeRange(0, [content length])];
+	// Make YouTube videos playable without exiting iPlurk. For extra marks, put a label next to it.
+	[content replaceOccurrencesOfRegex:@"<a href=\"http://[a-zA-Z]+\\.youtube\\.com/watch\\?v=([a-zA-Z0-9]+?).*?\".*?>.+?alt=\"(.+?)\".+?</a>"
+							withString:@"<div class=\"youtube\"><embed src=\"http://www.youtube.com/v/$1\" type=\"application/x-shockwave-flash\" width=\"60\" height=\"45\"> <span>$2</span></div>"
+								 range:NSMakeRange(0, [content length])
+	];
+	
 	return content;
 }
 
