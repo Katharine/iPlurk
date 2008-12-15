@@ -61,8 +61,8 @@
 - (void)webView:(UIWebView *)theWebView didFailLoadWithError:(NSError *)error {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	UIAlertView *alert = [[UIAlertView alloc] 
-						  initWithTitle:@"Error"
-						  message:[NSString stringWithFormat:@"The page you were trying to load couldn't be opened:\n\n%@ (%d)", [error localizedDescription], [error code], nil]
+						  initWithTitle:@"Webpage inaccessible"
+						  message:[error localizedDescription]
 						  delegate:self
 						  cancelButtonTitle:@"Dismiss" 
 						  otherButtonTitles:nil
