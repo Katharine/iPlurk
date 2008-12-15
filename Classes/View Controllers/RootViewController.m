@@ -469,7 +469,7 @@
 
 - (void)plurkLoginDidFail {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops!" message:@"You couldn't be logged in to Plurk. Please try an alternative username and password." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login failed" message:@"Please try an alternative username and password." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
 	[alert show];
 	[alert release];
 	
@@ -721,8 +721,8 @@
 - (void)plurkHTTPRequestAborted:(NSError *)error {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	UIAlertView *alert = [[UIAlertView alloc] 
-						  initWithTitle:@"API failure"
-						  message:[NSString stringWithFormat:@"An attempt to load information from Plurk failed:\n\n%@ (%d)", [error localizedDescription], [error code], nil]
+						  initWithTitle:@"Couldn't connect to plurk"
+						  message:[error localizedDescription]
 						  delegate:nil 
 						  cancelButtonTitle:@"Dismiss" 
 						  otherButtonTitles:nil

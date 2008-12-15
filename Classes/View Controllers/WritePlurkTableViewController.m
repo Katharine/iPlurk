@@ -186,7 +186,7 @@
 		[entryCell textViewDidChange:[entryCell textView]];
 	} else {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload failed"
-														message:[NSString stringWithFormat:@"The image upload could not be completed.\n\n%@", [error localizedDescription], nil]
+														message:[error localizedDescription]
 													   delegate:nil
 											  cancelButtonTitle:@"Dismiss"
 											  otherButtonTitles:nil
