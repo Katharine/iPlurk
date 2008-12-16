@@ -206,7 +206,7 @@
 	// iPhone 2.0 software doesn't play nice with YouTube embeds.
 	if(![[[UIDevice currentDevice] systemVersion] isEqual:@"2.0"]) {
 		// Make YouTube videos playable without exiting iPlurk. For extra marks, put a label next to it.
-		[content replaceOccurrencesOfRegex:@"<a href=\"http://[a-zA-Z]+\\.youtube\\.com/watch\\?v=([a-zA-Z0-9]+?).*?\".*?>.+?alt=\"(.+?)\".+?</a>"
+		[content replaceOccurrencesOfRegex:@"<a href=\"http://[a-zA-Z]+\\.youtube\\.com/watch\\?v=([a-zA-Z0-9]+).*?\".*?>.+?alt=\"(.+?)\".+?</a>"
 								withString:@"<div class=\"youtube\"><embed src=\"http://www.youtube.com/v/$1\" type=\"application/x-shockwave-flash\" width=\"60\" height=\"45\"> <span>$2</span></div>"
 									 range:NSMakeRange(0, [content length])
 		];
