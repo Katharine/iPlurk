@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PlurkTableViewCell.h"
+#import "PlurkFormatting.h"
 
 @interface PlurkRichTextTableViewCell : PlurkTableViewCell {
 	IBOutlet UIWebView *plurkContent;
@@ -19,5 +20,6 @@
 
 - (void)renderPlurkText;
 - (void)setContentSelected:(BOOL)selected animated:(BOOL)animated;
+- (NSString *)modifyPlurkHtml:(NSString *)contentRaw;
 
 @end

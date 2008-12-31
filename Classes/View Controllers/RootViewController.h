@@ -17,6 +17,7 @@
 #import "ProfileImageCache.h"
 #import "PlurkResponsesViewController.h"
 #import "GenericPlurkTimelineViewController.h"
+#import "PlurkFormatting.h"
 
 typedef enum {
 	RootViewTabAll,
@@ -31,7 +32,6 @@ typedef enum {
 	NSMutableArray *privatePlurks;
 	NSMutableArray *unreadPlurks;
 	NSMutableArray *currentPlurks;
-	NSString *imageCacheDirectory;
 	NSString *plurkTableCellType;
 	RootViewTab currentTab;
 	NSURLConnection *allRequest;

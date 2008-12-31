@@ -180,10 +180,8 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *plurkTableCellType;
-	static NSString *imageCacheDirectory;
-	if(!plurkTableCellType || !imageCacheDirectory) {
+	if(!plurkTableCellType) {
 		plurkTableCellType = ([[NSUserDefaults standardUserDefaults] boolForKey:@"ui_richtext"] ? @"PlurkRichTextTableViewCell" : @"PlurkPlainTextTableViewCell");
-		imageCacheDirectory = [[NSString stringWithFormat:@"%@/tmp/avatars", NSHomeDirectory(), nil] retain];
 	}
 	// Produce a cell from somewhere.
     PlurkTableViewCell *cell = nil;
@@ -206,7 +204,7 @@
 		UIImage *avatar = nil;
 		avatar = [[ProfileImageCache mainCache] retrieveImageForUser:[plurk ownerID]];
 		if(!avatar) {
-			NSString *pathToImage = [NSString stringWithFormat:@"%@/user-%d.gif", imageCacheDirectory, [plurk ownerID], nil];
+			NSString *pathToImage = [PlurkFormatting avatarPathForUserID:[plurk ownerID]];
 			//NSLog(@"Looking for image in %@", pathToImage);
 			if([[NSFileManager defaultManager] fileExistsAtPath:pathToImage]) {
 				avatar = [UIImage imageWithContentsOfFile:pathToImage];

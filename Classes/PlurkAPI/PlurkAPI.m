@@ -561,6 +561,9 @@
 		}
 		plurk.noComments = [(NSNumber *)[plurkDict objectForKey:@"no_comments"] boolValue];
 		plurk.isUnread = [(NSNumber *)[plurkDict objectForKey:@"is_unread"] integerValue];
+		if([plurk isUnread] == 0 && [plurk responseCount] > [plurk responsesSeen]) {
+			plurk.isUnread = 1;
+		}
 		plurk.ownerDisplayName = [[friendDictionary objectForKey:[self nickNameFromUserID:[plurk ownerID]]] displayName];
 		if(!plurk.ownerDisplayName) {
 			[friendsToLookUp addObject:[NSNumber numberWithInteger:[plurk ownerID]]];

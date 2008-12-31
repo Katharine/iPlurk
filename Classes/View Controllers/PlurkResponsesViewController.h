@@ -11,13 +11,12 @@
 #import "WebPagePreviewController.h"
 #import "WritePlurkTableViewController.h"
 #import "PlurkEntryTableViewCell.h"
+#import "PlurkFormatting.h"
 
 @class RootViewController;
 @interface PlurkResponsesViewController : UIViewController <PlurkAPIDelegate, UIWebViewDelegate, UIActionSheetDelegate> {
 	Plurk *firstPlurk;
 	IBOutlet UIWebView *webView;
-	NSString *avatarPath;
-	NSString *emoticonPath;
 	NSURL *currentURL;
 	NSURLConnection *connection;
 	id delegate;
@@ -26,8 +25,6 @@
 
 @property(nonatomic, retain) Plurk *firstPlurk;
 @property(nonatomic, retain) UIWebView *webView;
-@property(nonatomic, retain) NSString *avatarPath;
-@property(nonatomic, retain) NSString *emoticonPath;
 @property(nonatomic, assign) id delegate;
 @property(nonatomic, retain) NSURLConnection *connection;
 @property(nonatomic) NSInteger plurkIDToLoad;

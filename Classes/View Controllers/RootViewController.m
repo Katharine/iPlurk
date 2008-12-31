@@ -67,7 +67,7 @@
 		UIImage *avatar = nil;
 		avatar = [[ProfileImageCache mainCache] retrieveImageForUser:[plurk ownerID]];
 		if(!avatar) {
-			NSString *pathToImage = [NSString stringWithFormat:@"%@/user-%d.gif", imageCacheDirectory, [plurk ownerID], nil];
+			NSString *pathToImage = [PlurkFormatting avatarPathForUserID:[plurk ownerID]];
 			//NSLog(@"Looking for image in %@", pathToImage);
 			if([[NSFileManager defaultManager] fileExistsAtPath:pathToImage]) {
 				avatar = [UIImage imageWithContentsOfFile:pathToImage];
@@ -187,8 +187,6 @@
 - (void)displayPlurkWithID:(NSInteger)plurkID {
 	PlurkResponsesViewController *controller = [[PlurkResponsesViewController alloc] initWithNibName:@"PlurkResponsesView" bundle:nil];
 	controller.plurkIDToLoad = plurkID;
-	controller.avatarPath = imageCacheDirectory;
-	controller.emoticonPath = [NSString stringWithFormat:@"%@/emoticons/", [[NSBundle mainBundle] resourcePath], nil];
 	controller.delegate = self;
 	[self.navigationController pushViewController:controller animated:YES];
 	[controller release];
@@ -197,8 +195,6 @@
 - (void)displayPlurk:(Plurk *)plurk {
 	PlurkResponsesViewController *controller = [[PlurkResponsesViewController alloc] initWithNibName:@"PlurkResponsesView" bundle:nil];
 	controller.firstPlurk = plurk;
-	controller.avatarPath = imageCacheDirectory;
-	controller.emoticonPath = [NSString stringWithFormat:@"%@/emoticons/", [[NSBundle mainBundle] resourcePath], nil];
 	controller.delegate = self;
 	[self.navigationController pushViewController:controller animated:YES];
 	[controller release];
@@ -275,6 +271,7 @@
 		// We might get the "Load more plurks" cell, so check for that first (or we'll crash)
 		if([cell respondsToSelector:@selector(ownerID)] && [cell ownerID] == ourID) {
 			[[cell imageButton] setImage:[[ProfileImageCache mainCache] retrieveImageForUser:ourID] forState:UIControlStateNormal];
+			[cell setNeedsLayout];
 			//NSLog(@"Displayed image for %d", ourID);
 		}
 	}
@@ -311,19 +308,19 @@
 		self.privatePlurks = [[NSMutableArray alloc] init];
 		self.unreadPlurks = [[NSMutableArray alloc] init];
 		self.currentPlurks = plurks;
-		imageCacheDirectory = [[NSString stringWithFormat:@"%@/tmp/avatars", NSHomeDirectory(), nil] retain];
 		// Load username/password and log in. Also reset avatar cache switch.
+		
+		NSString *avatarCache = [PlurkFormatting avatarPath];
 		
 		// Wipe the cache if requested.
 		if([defaults boolForKey:@"cache_clear"]) {
 			//NSLog(@"Clearing cache on request.");
 			[defaults setBool:NO forKey:@"cache_clear"];
-			[[NSFileManager defaultManager] removeItemAtPath:imageCacheDirectory error:NULL];
+			[[NSFileManager defaultManager] removeItemAtPath:avatarCache error:NULL];
 		}
 		
-		if(![[NSFileManager defaultManager] fileExistsAtPath:imageCacheDirectory]) {
-			if(![[NSFileManager defaultManager] createDirectoryAtPath:imageCacheDirectory attributes:nil]) {
-				//NSLog(@"Couldn't create imageCacheDirectory %@", imageCacheDirectory);
+		if(![[NSFileManager defaultManager] fileExistsAtPath:avatarCache]) {
+			if(![[NSFileManager defaultManager] createDirectoryAtPath:avatarCache attributes:nil]) {
 			}
 		}
 		
