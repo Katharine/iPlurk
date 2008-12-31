@@ -36,7 +36,6 @@
 - (void)displayPlurk:(Plurk *)plurk;
 - (void)updatePlurkMetadata;
 - (void)renderLabel;
-- (NSString *)modifyPlurkHtml:(NSString *)contentRaw;
 - (IBAction)imageButtonClicked;
 
 @end

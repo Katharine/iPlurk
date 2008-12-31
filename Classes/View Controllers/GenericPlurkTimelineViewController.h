@@ -12,6 +12,7 @@
 #import "ProfileImageCache.h"
 #import "FileDownloader.h"
 #import "RootViewController.h"
+#import "PlurkFormatting.h"
 
 @interface GenericPlurkTimelineViewController : UITableViewController <PlurkAPIDelegate, UITableViewDelegate> {
 	PlurkFriend *timelineOwner;

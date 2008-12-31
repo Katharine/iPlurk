@@ -10,7 +10,7 @@
 
 
 @implementation PlurkResponsesViewController
-@synthesize firstPlurk, webView, avatarPath, emoticonPath, delegate, connection, plurkIDToLoad;
+@synthesize firstPlurk, webView, delegate, connection, plurkIDToLoad;
 
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
@@ -136,7 +136,7 @@
 - (void)receivedPlurkResponses:(NSArray *)responses withResponders:(NSDictionary *)responders {	
 	NSString *htmlTemplate = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesDisplay" ofType:@"html"]];
 	NSString *avatarURL = [NSString stringWithFormat:@"file://%@", [[NSBundle mainBundle] pathForResource:@"NoAvatarAvailable" ofType:@"png"], nil];
-	NSString *realAvatarPath = [NSString stringWithFormat:@"%@/user-%d.gif", avatarPath, [firstPlurk ownerID], nil];
+	NSString *realAvatarPath = [PlurkFormatting avatarPathForUserID:[firstPlurk ownerID]];
 	if([[NSFileManager defaultManager] fileExistsAtPath:realAvatarPath]) {
 		avatarURL = [NSString stringWithFormat:@"file://%@", realAvatarPath];
 	}
@@ -187,8 +187,7 @@
 
 
 - (NSString *)processPlurkContent:(NSString *)contentString {
-	NSMutableString *content = [NSMutableString stringWithString:contentString];
-	[content replaceOccurrencesOfString:@"http://static.plurk.com/static/emoticons/" withString:[NSString stringWithFormat:@"file://%@", emoticonPath, nil] options:NSLiteralSearch range:NSMakeRange(0, [content length])];
+	NSMutableString *content = [NSMutableString stringWithString:[PlurkFormatting addSmiliesToPlurk:contentString]];
 	[content replaceOccurrencesOfRegex:@"<a[^<>]+?href=\"([^<>]+?)\"[^<>]+?class=\"[^<>]*?pictureservices[^<>]*?\"[^<>]*?>[^<>]+?</a>" withString:@"<a href=\"$1\"><img src=\"$1\" class=\"pictureservices regeximg\"></a>"];
 	
 	// Convert all /user/ references to / references, then convert all / references to /user/ references.
@@ -360,8 +359,6 @@
 - (void)dealloc {
 	[firstPlurk release];
 	[webView release];
-	[avatarPath release];
-	[emoticonPath release];
 	[connection release];
 	if(currentURL) {
 		[currentURL release];

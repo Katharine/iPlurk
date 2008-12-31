@@ -52,4 +52,9 @@
 	[html release];
 }
 
+- (NSString *)modifyPlurkHtml:(NSString *)contentRaw {
+	NSString *content = [contentRaw stringByReplacingOccurrencesOfRegex:@"<img src=\"(.+?)\".*?>" withString:@"$1"];
+	return [PlurkFormatting addSmiliesToPlurk:content];
+}
+
 @end

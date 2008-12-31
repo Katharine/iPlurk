@@ -121,13 +121,6 @@
 	}
 }
 
-- (NSString *)modifyPlurkHtml:(NSString *)contentRaw {
-	NSMutableString *content = [NSMutableString stringWithString:[contentRaw stringByReplacingOccurrencesOfRegex:@"<img src=\"(.+?)\".*?>" withString:@"$1"]];
-	NSString *emoticonFormat = [NSString stringWithFormat:@"<img src=\"file://%@/emoticons/$1\">", [[NSBundle mainBundle] resourcePath], nil];
-	[content replaceOccurrencesOfRegex:@"http://static.plurk.com/static/emoticons/((.+?)(\\.gif|\\.png))" withString:emoticonFormat];
-	return content;
-}
-
 - (void)dealloc {
 	//NSLog(@"Deallocing cell.");
 	//[infoLabel release];
