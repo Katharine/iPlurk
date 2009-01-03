@@ -77,6 +77,7 @@
 	if(!qualifierEnabled) return nil;
 	NSString *text = [[[self textView] text] lowercaseString];
 	for(NSString *qual in qualifiers) {
+		if([qual isEqualToString:@":"]) continue;
 		if([text hasPrefix:qual]) return qual;
 	}
 	return nil;
