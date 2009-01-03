@@ -19,7 +19,6 @@
 		NSString *file = [content substringWithRange:match];
 		NSString *newPath = [NSString stringWithFormat:emoticonPath, file, nil];
 		NSString *newURL = [NSString stringWithFormat:@"file://%@", newPath, nil];
-		NSLog(@"newPath: %@", newPath);
 		if([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
 			[content replaceOccurrencesOfString:[NSString stringWithFormat:@"http://statics.plurk.com/%@", file, nil] withString:newURL options:NSLiteralSearch range:NSMakeRange(0, [content length])];
 			match.length += [newPath length] - [[NSString stringWithFormat:@"http://statics.plurk.com/", file, nil] length];

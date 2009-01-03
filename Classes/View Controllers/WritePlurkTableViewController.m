@@ -150,16 +150,29 @@
 }
 
 - (void)postImageWithDict:(UIImage *)finalImage {
-	//NSLog(@"Beginning POST.");
+	// Decide on JPEG or PNG upload
+	BOOL useJPEG = YES;
+	if([finalImage size].height == 480 && [finalImage size].width == 320) useJPEG = NO;
+	
 	NSURL *imageUploadURL = [NSURL URLWithString:@"http://up.plu.cc/upload.php"];
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:imageUploadURL];
 	[request setHTTPShouldHandleCookies:NO];
 	[request setValue:@"multipart/form-data, boundary=AaB03x" forHTTPHeaderField:@"Content-type"];
 	
 	NSMutableData *postData = [[NSMutableData alloc] init];
-	[postData appendData:[@"--AaB03x\r\ncontent-disposition: form-data; name=\"image\"; filename=\"iplurk.png\"\r\nContent-Type: application/x-iplurk-image\r\nContent-Transfer-Encoding: binary\r\n\r\n" 
+	NSString *contentType = nil;
+	if(useJPEG) {
+		contentType = @"application/x-iplurk-jpeg";
+	} else {
+		contentType = @"application/x-iplurk-image";
+	}
+	[postData appendData:[[NSString stringWithFormat:@"--AaB03x\r\ncontent-disposition: form-data; name=\"image\"; filename=\"iplurk.png\"\r\nContent-Type: %@\r\nContent-Transfer-Encoding: binary\r\n\r\n", contentType, nil] 
 						  dataUsingEncoding:NSUTF8StringEncoding]];
-	[postData appendData:UIImagePNGRepresentation(finalImage)];
+	if(useJPEG) {
+		[postData appendData:UIImageJPEGRepresentation(finalImage, 0.8)];
+	} else {
+		[postData appendData:UIImagePNGRepresentation(finalImage)];
+	}
 	[postData appendData:[@"\r\n--AaB03x--" dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setValue:[[NSNumber numberWithUnsignedInteger:[postData length]] stringValue] forHTTPHeaderField:@"Content-Length"];
 	[request setHTTPBody:postData];
