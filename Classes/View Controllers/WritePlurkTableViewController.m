@@ -151,13 +151,13 @@
 
 - (void)postImageWithDict:(UIImage *)finalImage {
 	//NSLog(@"Beginning POST.");
-	NSURL *imageUploadURL = [NSURL URLWithString:@"http://www.plurkpix.com/uploadpix.php"];
+	NSURL *imageUploadURL = [NSURL URLWithString:@"http://up.plu.cc/upload.php"];
 	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:imageUploadURL];
 	[request setHTTPShouldHandleCookies:NO];
 	[request setValue:@"multipart/form-data, boundary=AaB03x" forHTTPHeaderField:@"Content-type"];
 	
 	NSMutableData *postData = [[NSMutableData alloc] init];
-	[postData appendData:[@"--AaB03x\r\ncontent-disposition: form-data; name=\"MAX_FILE_SIZE\"\r\n\r\n4096000\r\n--AaB03x\r\ncontent-disposition: form-data; name=\"file\"; filename=\"image.png\"\r\nContent-Type: image/png\r\nContent-Transfer-Encoding: binary\r\n\r\n" 
+	[postData appendData:[@"--AaB03x\r\ncontent-disposition: form-data; name=\"image\"; filename=\"iplurk.png\"\r\nContent-Type: application/x-iplurk-image\r\nContent-Transfer-Encoding: binary\r\n\r\n" 
 						  dataUsingEncoding:NSUTF8StringEncoding]];
 	[postData appendData:UIImagePNGRepresentation(finalImage)];
 	[postData appendData:[@"\r\n--AaB03x--" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -168,15 +168,10 @@
 	NSError *error;
 	//NSLog(@"Making request");
 	NSData *rawData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	NSString *data = [[NSString alloc] initWithData:rawData encoding:NSASCIIStringEncoding];
-	NSRange range = [data rangeOfRegex:@"src=\"(http://www\\.plurkpix\\.com/pix/[a-zA-Z0-9]+\\.png)\"" capture:1];
-	NSString *imageURL;
-	if(range.location == NSNotFound) {
-		//NSLog(@"Upload failed.");
-	} else {
-		imageURL = [data substringWithRange:range];
+	NSString *imageURL = nil;
+	if([response statusCode] == 200) {
+		imageURL = [[NSString alloc] initWithData:rawData encoding:NSASCIIStringEncoding];
 	}
-	//NSLog(@"%@", imageURL);
 	
 	// If the upload succeeded, insert the URL.
 	if(imageURL) {
