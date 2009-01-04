@@ -138,9 +138,13 @@
 			newSize.height *= 640 / newSize.width;
 			newSize.width = 640;
 		}
+		
 		// This message does actually work, but is undocumented and not in the headers. Should try something else.
-		finalImage = [image _imageScaledToSize:newSize interpolationQuality:1];
-		//[image release];
+		if([image respondsToSelector:@selector(_imageScaledToSize:interpolationQuality:)]) {
+			finalImage = [image _imageScaledToSize:newSize interpolationQuality:1];
+		} else {
+			finalImage = image;
+		}
 	} else {
 		finalImage = image;
 	}
