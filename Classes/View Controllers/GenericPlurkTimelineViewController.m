@@ -1,9 +1,9 @@
 //
-//  GenericPlurkTimelineViewController.m
+//  GenericPlurkTimelineViewController.h
 //  iPlurk
 //
-//  Created by AjaxLife Developments on 07/12/2008.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Created on 07/12/2008.
+//  Copyright 2008 AjaxLife Developments. All rights reserved.
 //
 
 #import "GenericPlurkTimelineViewController.h"
