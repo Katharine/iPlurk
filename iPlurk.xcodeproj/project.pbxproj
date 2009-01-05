@@ -855,7 +855,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/$(PLATFORM_NAME).sdk";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Anthony Freeling Ltd";
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -866,7 +866,7 @@
 					"-ljson",
 				);
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "D78A95D6-8C90-48B8-A329-44A44BF64C60";
+				PROVISIONING_PROFILE = "FC9CF93C-7F81-4DDE-96AC-07EB8F9AA145";
 				SDKROOT = iphoneos2.2;
 			};
 			name = AppStore;
