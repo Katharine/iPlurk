@@ -132,6 +132,7 @@
 		890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */ = {isa = PBXBuildFile; fileRef = 890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */; };
 		896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */ = {isa = PBXBuildFile; fileRef = 896700ED0EDCD052003BEE39 /* Qualifiers.css */; };
 		8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */ = {isa = PBXBuildFile; fileRef = 8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */; };
+		899F50F40F12990B0057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif in CopyFiles */ = {isa = PBXBuildFile; fileRef = 899F50E90F1298C40057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif */; };
 		89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 89A2B2EE0EE1ADC7009B2C82 /* Icon.png */; };
 		89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */; };
 		89A3B46C0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */; };
@@ -182,6 +183,7 @@
 				349746A00F0B8D91007852B4 /* 8eb05ca7a32301ba16c9496bcad893c4.gif in CopyFiles */,
 				349746A10F0B8D91007852B4 /* 900f3dd0adaad9142d567caf6bfb1311.gif in CopyFiles */,
 				349746A20F0B8D91007852B4 /* 919b87048fdf7bd59dae457f4284b20b.gif in CopyFiles */,
+				899F50F40F12990B0057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif in CopyFiles */,
 				349746A30F0B8D91007852B4 /* 9454d15bcaf411b159dcc147ebc3f0eb.gif in CopyFiles */,
 				349746A40F0B8D91007852B4 /* 95ace5ba1097301b5206a9e0fb431624.gif in CopyFiles */,
 				349746A50F0B8D91007852B4 /* 95e69aa508d4bb435706b9db0a610dad.gif in CopyFiles */,
@@ -371,6 +373,7 @@
 		890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LargeWhiteProgressIndicator.gif; sourceTree = "<group>"; };
 		896700ED0EDCD052003BEE39 /* Qualifiers.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Qualifiers.css; sourceTree = "<group>"; };
 		8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RichTextPlurkTableCell.html; sourceTree = "<group>"; };
+		899F50E90F1298C40057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 92b595a573d25dd5e39a57b5d56d4d03.gif; sourceTree = "<group>"; };
 		89A2B2EE0EE1ADC7009B2C82 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenericPlurkTimelineView.xib; sourceTree = "<group>"; };
 		89A3B46A0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericPlurkTimelineViewController.h; sourceTree = "<group>"; };
@@ -631,6 +634,7 @@
 				3497461A0F0B8D49007852B4 /* 8eb05ca7a32301ba16c9496bcad893c4.gif */,
 				3497461B0F0B8D49007852B4 /* 900f3dd0adaad9142d567caf6bfb1311.gif */,
 				3497461C0F0B8D49007852B4 /* 919b87048fdf7bd59dae457f4284b20b.gif */,
+				899F50E90F1298C40057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif */,
 				3497461D0F0B8D49007852B4 /* 9454d15bcaf411b159dcc147ebc3f0eb.gif */,
 				3497461E0F0B8D49007852B4 /* 95ace5ba1097301b5206a9e0fb431624.gif */,
 				3497461F0F0B8D49007852B4 /* 95e69aa508d4bb435706b9db0a610dad.gif */,
