@@ -25,6 +25,7 @@ typedef enum {
 	PlurkGender gender;
 	NSString *pageTitle;
 	NSString *location;
+	NSString *avatar;
 }
 
 @property(nonatomic, retain) NSString *displayName;
@@ -37,5 +38,6 @@ typedef enum {
 @property PlurkGender gender;
 @property(nonatomic, retain) NSString *pageTitle;
 @property(nonatomic, retain) NSString *location;
+@property(nonatomic, retain) NSString *avatar;
 
 @end

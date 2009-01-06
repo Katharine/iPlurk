@@ -193,11 +193,11 @@
 	// Convert all /user/ references to / references, then convert all / references to /user/ references.
 	// This is to make sure we don't break existing /user/ references, but add all the / references, too.
 	// The distinction is used to enable things and stuff.
-	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/user/([a-zA-Z0-9]+)\" class=\"ex_link\">(.+?)</a>"
+	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/user/([a-zA-Z0-9_]+)\" class=\"ex_link\">(.+?)</a>"
 							withString:@"<a href=\"http://www.plurk.com/$1\" class=\"ex_link\">$2</a>"
 								 range:NSMakeRange(0, [content length])
 	];
-	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/([a-zA-Z0-9]+)\" class=\"ex_link\">(.+?)</a>"
+	[content replaceOccurrencesOfRegex:@"<a href=\"http://www.plurk.com/([a-zA-Z0-9_]+)\" class=\"ex_link\">(.+?)</a>"
 							withString:@"<a href=\"http://www.plurk.com/user/$1\" class=\"ex_link\">$2</a>"
 								 range:NSMakeRange(0, [content length])
 	];

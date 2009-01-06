@@ -469,6 +469,10 @@
 		friend.gender = (PlurkGender)[(NSNumber *)[friendDict objectForKey:@"gender"] integerValue];
 		friend.pageTitle = [friendDict objectForKey:@"page_title"];
 		friend.location = [friendDict objectForKey:@"location"];
+		friend.avatar = [friendDict objectForKey:@"avatar"];
+		if(friend.avatar == (NSString *)[NSNull null]) {
+			friend.avatar = @"";
+		}
 		[friendDictionary setObject:friend forKey:friend.nickName];
 		[uidToName setObject:friend.nickName forKey:[NSNumber numberWithInteger:friend.uid]];
 	}
@@ -511,6 +515,10 @@
 	friend.gender = (PlurkGender)[(NSNumber *)[friendDict objectForKey:@"gender"] integerValue];
 	friend.pageTitle = [pageUser objectForKey:@"page_title"];
 	friend.location = [pageUser objectForKey:@"location"];
+	friend.avatar = [pageUser objectForKey:@"avatar"];
+	if(friend.avatar == (NSString *)[NSNull null]) {
+		friend.avatar = @"";
+	}
 	[friendDictionary setObject:friend forKey:userName];
 	[uidToName setObject:userName forKey:[NSNumber numberWithInteger:userID]];
 	currentUser = [friend retain];
@@ -663,6 +671,10 @@
 		newFriend.uid = [[friend objectForKey:@"uid"] integerValue];
 		newFriend.gender = (PlurkGender)[[friend objectForKey:@"gender"] integerValue];
 		newFriend.hasProfileImage = [[friend objectForKey:@"has_profile_image"] boolValue];
+		newFriend.avatar = [friend objectForKey:@"avatar"];
+		if(newFriend.avatar == (NSString *)[NSNull null]) {
+			newFriend.avatar = @"";
+		}
 		[friendDictionary setObject:newFriend forKey:[newFriend nickName]];
 		[uidToName setObject:[newFriend nickName] forKey:[NSNumber numberWithInteger:[newFriend uid]]];
 		for(Plurk *plurk in plurks) {

@@ -10,7 +10,7 @@
 
 
 @implementation PlurkFriend
-@synthesize fullName, displayName, nickName, relationship, pageTitle, location;
+@synthesize fullName, displayName, nickName, relationship, pageTitle, location, avatar;
 @synthesize uid, hasProfileImage, karma, gender;
 
 - (void)dealloc {
@@ -20,6 +20,7 @@
 	[fullName release];
 	[pageTitle release];
 	[location release];
+	[avatar release];
 	[super dealloc];
 }
 
