@@ -75,7 +75,7 @@
 			}
 			if(!avatar && ![filesDownloading containsObject:pathToImage]) {
 				// No cached image. Go get it.
-				NSURL *avatarUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://avatars.plurk.com/%d-medium.gif", [plurk ownerID], nil]];
+				NSURL *avatarUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://avatars.plurk.com/%d-medium%@.gif", [plurk ownerID], [friend avatar], nil]];
 				FileDownloader *downloader = [[FileDownloader alloc] initFromURL:avatarUrl toFile:pathToImage notify:self];
 				[downloader release];
 				[filesDownloading addObject:pathToImage];
