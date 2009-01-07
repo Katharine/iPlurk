@@ -25,7 +25,7 @@ typedef enum {
 	RootViewTabPrivate
 } RootViewTab;
 
-@interface RootViewController : UITableViewController <PlurkAPIDelegate, UIActionSheetDelegate> {
+@interface UserTimelineTableViewController : UITableViewController <PlurkAPIDelegate, UIActionSheetDelegate> {
 	IBOutlet SetupViewController *setupViewController;
 	IBOutlet UISegmentedControl *tabs;
 	NSMutableArray *plurks;

@@ -7,19 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-@class RootViewController;
+@class UserTimelineTableViewController;
 
 @interface SetupViewController : UIViewController <UITextFieldDelegate> {
 	IBOutlet UITextField *usernameField;
 	IBOutlet UITextField *passwordField;
 	IBOutlet UIButton *doneButton;
-	RootViewController *origin;
+	UserTimelineTableViewController *origin;
 }
 
 @property(nonatomic, retain) UITextField *usernameField;
 @property(nonatomic, retain) UITextField *passwordField;
 @property(nonatomic, retain) UIButton *doneButton;
-@property(nonatomic, retain) RootViewController *origin;
+@property(nonatomic, retain) UserTimelineTableViewController *origin;
 
 - (IBAction)saveLoginDetails;
 

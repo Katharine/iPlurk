@@ -6,10 +6,10 @@
 //  Copyright AjaxLife Developments 2008. All rights reserved.
 //
 
-#import "RootViewController.h"
+#import "UserTimelineTableViewController.h"
 
 
-@implementation RootViewController
+@implementation UserTimelineTableViewController
 @synthesize plurks, unreadPlurks, privatePlurks, currentPlurks;
 @synthesize setupViewController;
 @synthesize tabs;

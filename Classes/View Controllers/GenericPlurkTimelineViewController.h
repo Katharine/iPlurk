@@ -11,7 +11,7 @@
 #import "PlurkTableViewCell.h"
 #import "ProfileImageCache.h"
 #import "FileDownloader.h"
-#import "RootViewController.h"
+#import "UserTimelineTableViewController.h"
 #import "PlurkFormatting.h"
 
 @interface GenericPlurkTimelineViewController : UITableViewController <PlurkAPIDelegate, UITableViewDelegate> {
