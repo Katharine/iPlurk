@@ -7,7 +7,7 @@
 //
 
 #import "iPlurkAppDelegate.h"
-#import "RootViewController.h"
+#import "UserTimelineTableViewController.h"
 
 
 @implementation iPlurkAppDelegate
@@ -54,13 +54,13 @@
 			}
 		}
 		//NSLog(@"Posting from URL: %@ %@", qualifier, message);
-		RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
+		UserTimelineTableViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
 		[controller startComposingWithContent:message qualifier:qualifier];
 	} else if([@"view" isEqualToString:[url host]]) {
 		handledURL = YES;
 		NSInteger plurkID = [[[url path] substringFromIndex:1] integerValue];
 		if(plurkID > 0) {
-			RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
+			UserTimelineTableViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
 			[controller displayPlurkWithID:plurkID];
 		} else {
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Couldn't open plurk" message:@"A valid plurk was not specified." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
@@ -69,11 +69,11 @@
 		}
 	} else if([@"p" isEqualToString:[url host]]) {
 		NSString *plurkID = [[url path] substringFromIndex:1];
-		RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
+		UserTimelineTableViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
 		[controller displayPlurkWithBase36ID:plurkID];
 	} else if([@"user" isEqualToString:[url host]]) {
 		NSString *user = [[url path] substringFromIndex:1];
-		RootViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
+		UserTimelineTableViewController *controller = [[navigationController viewControllers] objectAtIndex:0];
 		[controller displayAlternateTimeline:user];
 	}
 	

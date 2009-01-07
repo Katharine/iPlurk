@@ -235,7 +235,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	RootViewController *controller = [[[self navigationController] viewControllers] objectAtIndex:0];
+	UserTimelineTableViewController *controller = [[[self navigationController] viewControllers] objectAtIndex:0];
 	[controller displayPlurk:[plurks objectAtIndex:[indexPath row]]];
 }
 

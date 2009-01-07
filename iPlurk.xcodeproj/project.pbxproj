@@ -23,7 +23,7 @@
 		343682D00EB779F000C7524A /* PlurkResponsesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827B0EB779F000C7524A /* PlurkResponsesView.xib */; };
 		343682D10EB779F000C7524A /* PlurkRichTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827C0EB779F000C7524A /* PlurkRichTextTableViewCell.xib */; };
 		343682D20EB779F000C7524A /* QualifierSelectorTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */; };
-		343682D30EB779F000C7524A /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827E0EB779F000C7524A /* RootViewController.xib */; };
+		343682D30EB779F000C7524A /* UserTimetableTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827E0EB779F000C7524A /* UserTimetableTableView.xib */; };
 		343682D40EB779F000C7524A /* SetupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827F0EB779F000C7524A /* SetupView.xib */; };
 		343682D80EB779F000C7524A /* WebPagePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682830EB779F000C7524A /* WebPagePreview.xib */; };
 		343682D90EB779F000C7524A /* WritePlurkTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682840EB779F000C7524A /* WritePlurkTableView.xib */; };
@@ -35,7 +35,7 @@
 		343682E60EB77A3C00C7524A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 343682E50EB77A3C00C7524A /* Settings.bundle */; };
 		343682FE0EB77A6C00C7524A /* PlurkResponsesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682F10EB77A6C00C7524A /* PlurkResponsesViewController.m */; };
 		343682FF0EB77A6C00C7524A /* QualifierSelectorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682F30EB77A6C00C7524A /* QualifierSelectorTableViewController.m */; };
-		343683000EB77A6C00C7524A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682F50EB77A6C00C7524A /* RootViewController.m */; };
+		343683000EB77A6C00C7524A /* UserTimelineTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682F50EB77A6C00C7524A /* UserTimelineTableViewController.m */; };
 		343683010EB77A6C00C7524A /* SetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682F70EB77A6C00C7524A /* SetupViewController.m */; };
 		343683030EB77A6C00C7524A /* WebPagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682FB0EB77A6C00C7524A /* WebPagePreviewController.m */; };
 		343683040EB77A6C00C7524A /* WritePlurkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343682FD0EB77A6C00C7524A /* WritePlurkTableViewController.m */; };
@@ -237,7 +237,7 @@
 		3436827B0EB779F000C7524A /* PlurkResponsesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlurkResponsesView.xib; sourceTree = "<group>"; };
 		3436827C0EB779F000C7524A /* PlurkRichTextTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlurkRichTextTableViewCell.xib; sourceTree = "<group>"; };
 		3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QualifierSelectorTableView.xib; sourceTree = "<group>"; };
-		3436827E0EB779F000C7524A /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
+		3436827E0EB779F000C7524A /* UserTimetableTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserTimetableTableView.xib; sourceTree = "<group>"; };
 		3436827F0EB779F000C7524A /* SetupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetupView.xib; sourceTree = "<group>"; };
 		343682830EB779F000C7524A /* WebPagePreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebPagePreview.xib; sourceTree = "<group>"; };
 		343682840EB779F000C7524A /* WritePlurkTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WritePlurkTableView.xib; sourceTree = "<group>"; };
@@ -253,8 +253,8 @@
 		343682F10EB77A6C00C7524A /* PlurkResponsesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlurkResponsesViewController.m; sourceTree = "<group>"; };
 		343682F20EB77A6C00C7524A /* QualifierSelectorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QualifierSelectorTableViewController.h; sourceTree = "<group>"; };
 		343682F30EB77A6C00C7524A /* QualifierSelectorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QualifierSelectorTableViewController.m; sourceTree = "<group>"; };
-		343682F40EB77A6C00C7524A /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		343682F50EB77A6C00C7524A /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		343682F40EB77A6C00C7524A /* UserTimelineTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTimelineTableViewController.h; sourceTree = "<group>"; };
+		343682F50EB77A6C00C7524A /* UserTimelineTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTimelineTableViewController.m; sourceTree = "<group>"; };
 		343682F60EB77A6C00C7524A /* SetupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupViewController.h; sourceTree = "<group>"; };
 		343682F70EB77A6C00C7524A /* SetupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupViewController.m; sourceTree = "<group>"; };
 		343682FA0EB77A6C00C7524A /* WebPagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPagePreviewController.h; sourceTree = "<group>"; };
@@ -497,7 +497,7 @@
 				3436827B0EB779F000C7524A /* PlurkResponsesView.xib */,
 				3436827C0EB779F000C7524A /* PlurkRichTextTableViewCell.xib */,
 				3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */,
-				3436827E0EB779F000C7524A /* RootViewController.xib */,
+				3436827E0EB779F000C7524A /* UserTimetableTableView.xib */,
 				3436827F0EB779F000C7524A /* SetupView.xib */,
 				343682840EB779F000C7524A /* WritePlurkTableView.xib */,
 				343682830EB779F000C7524A /* WebPagePreview.xib */,
@@ -529,8 +529,8 @@
 				343682F10EB77A6C00C7524A /* PlurkResponsesViewController.m */,
 				343682F20EB77A6C00C7524A /* QualifierSelectorTableViewController.h */,
 				343682F30EB77A6C00C7524A /* QualifierSelectorTableViewController.m */,
-				343682F40EB77A6C00C7524A /* RootViewController.h */,
-				343682F50EB77A6C00C7524A /* RootViewController.m */,
+				343682F40EB77A6C00C7524A /* UserTimelineTableViewController.h */,
+				343682F50EB77A6C00C7524A /* UserTimelineTableViewController.m */,
 				343682F60EB77A6C00C7524A /* SetupViewController.h */,
 				343682F70EB77A6C00C7524A /* SetupViewController.m */,
 				343682FA0EB77A6C00C7524A /* WebPagePreviewController.h */,
@@ -730,7 +730,7 @@
 				343682D00EB779F000C7524A /* PlurkResponsesView.xib in Resources */,
 				343682D10EB779F000C7524A /* PlurkRichTextTableViewCell.xib in Resources */,
 				343682D20EB779F000C7524A /* QualifierSelectorTableView.xib in Resources */,
-				343682D30EB779F000C7524A /* RootViewController.xib in Resources */,
+				343682D30EB779F000C7524A /* UserTimetableTableView.xib in Resources */,
 				343682D40EB779F000C7524A /* SetupView.xib in Resources */,
 				343682D80EB779F000C7524A /* WebPagePreview.xib in Resources */,
 				343682D90EB779F000C7524A /* WritePlurkTableView.xib in Resources */,
@@ -766,7 +766,7 @@
 				34CB4D270EAFDDA80089842C /* RegexKitLite.m in Sources */,
 				343682FE0EB77A6C00C7524A /* PlurkResponsesViewController.m in Sources */,
 				343682FF0EB77A6C00C7524A /* QualifierSelectorTableViewController.m in Sources */,
-				343683000EB77A6C00C7524A /* RootViewController.m in Sources */,
+				343683000EB77A6C00C7524A /* UserTimelineTableViewController.m in Sources */,
 				343683010EB77A6C00C7524A /* SetupViewController.m in Sources */,
 				343683030EB77A6C00C7524A /* WebPagePreviewController.m in Sources */,
 				343683040EB77A6C00C7524A /* WritePlurkTableViewController.m in Sources */,

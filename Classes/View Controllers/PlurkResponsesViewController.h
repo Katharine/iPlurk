@@ -13,7 +13,7 @@
 #import "PlurkEntryTableViewCell.h"
 #import "PlurkFormatting.h"
 
-@class RootViewController;
+@class UserTimelineTableViewController;
 @interface PlurkResponsesViewController : UIViewController <PlurkAPIDelegate, UIWebViewDelegate, UIActionSheetDelegate> {
 	Plurk *firstPlurk;
 	IBOutlet UIWebView *webView;
