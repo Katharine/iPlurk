@@ -45,6 +45,7 @@ typedef enum {
 	CGPoint contentOffset;
 	NSInteger plurkToLoad;
 	BOOL displayingActionButton;
+	BOOL showSpringboardBadge;
 }
 
 @property(nonatomic, retain) NSMutableArray *plurks;

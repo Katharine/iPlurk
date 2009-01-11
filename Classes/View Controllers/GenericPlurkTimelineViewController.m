@@ -163,6 +163,12 @@
 	}
 }
 
+- (void)plurkHTTPRequestAborted:(NSError *)error {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Loading Timeline Failed" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+	[alert show];
+	[alert release];
+	[[self navigationController] popViewControllerAnimated:YES];
+}
 
 #pragma mark Table view methods
 

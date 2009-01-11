@@ -158,6 +158,8 @@
 		}
 		[[PlurkAPI sharedAPI] markPlurksAsRead:plurksToMark];
 		[unreadPlurks removeAllObjects];
+		
+		if(showSpringboardBadge) [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 		[[self tableView] reloadData];
 	}
 }
@@ -302,6 +304,15 @@
 		} else {
 			plurkTableCellType = @"PlurkPlainTextTableViewCell";
 		}
+		
+		NSLog(@"ShowUnreadCount: %@", [defaults stringForKey:@"show_unread_count"]);
+		if([[defaults stringForKey:@"show_unread_count"] isEqualToString:@"0"]) {
+			showSpringboardBadge = NO;
+			[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+		} else {
+			showSpringboardBadge = YES;
+		}
+		
 		currentTab = 0;
 		[[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(startComposing)] animated:NO];
 		self.plurks = [[NSMutableArray alloc] init];
@@ -397,7 +408,7 @@
 			//NSLog(@"Not an unread plurk, apparently.");
 		}
 	}
-
+	if(showSpringboardBadge) [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadPlurks count]];
 	//NSLog(@"Running super");
     [super viewWillAppear:animated];
 	//NSLog(@"viewWillAppear done.");
@@ -640,6 +651,7 @@
 		[[self tableView] endUpdates];
 		[[self tableView] setNeedsDisplay];
 	}
+	if(showSpringboardBadge) [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadPlurks count]];
 }
 
 - (void)receivedPlurkResponsePoll:(NSArray *)newResponses {
@@ -718,7 +730,7 @@
 - (void)plurkHTTPRequestAborted:(NSError *)error {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	UIAlertView *alert = [[UIAlertView alloc] 
-						  initWithTitle:@"Couldn't connect to plurk"
+						  initWithTitle:@"Couldn't connect to Plurk"
 						  message:[error localizedDescription]
 						  delegate:nil 
 						  cancelButtonTitle:@"Dismiss" 
