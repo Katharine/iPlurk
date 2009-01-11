@@ -497,7 +497,7 @@
 	PlurkFriend *friend = [[PlurkFriend alloc] init];
 	friend.nickName = [pageUser objectForKey:@"nick_name"];
 	friend.displayName = [pageUser objectForKey:@"display_name"];
-	if([friend displayName] == (NSString *)[NSNull null]) {
+	if([friend displayName] == (NSString *)[NSNull null] || [[friend displayName] length] == 0) {
 		friend.displayName = [friend nickName];
 	}
 	friend.uid = userID;
@@ -534,6 +534,22 @@
 	if(response == nil) {
 		//NSLog(@"Failed to parse JSON for new plurks.");
 		//NSLog(@"%@", responseString);
+		return;
+	}
+	if([response isKindOfClass:[NSDictionary class]]) {
+		NSString *errorString = [(NSDictionary *)response objectForKey:@"error"];
+		NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
+		if(!errorString) {
+			[userInfo setValue:@"Unknown error" forKey:NSLocalizedDescriptionKey];
+		} else if([errorString isEqualToString:@"NoReadPermissionError"]) {
+			[userInfo setValue:@"You do not have permission to read this timeline." forKey:NSLocalizedDescriptionKey];
+		} else {
+			[userInfo setValue:errorString forKey:NSLocalizedDescriptionKey];
+		}
+		NSError *error = [[NSError alloc] initWithDomain:@"PlurkAPI" code:1 userInfo:userInfo];
+		if([delegate respondsToSelector:@selector(plurkHTTPRequestAborted:)]) {
+			[delegate plurkHTTPRequestAborted:error];
+		}
 		return;
 	}
 	NSMutableArray *plurks = [[NSMutableArray alloc] init];

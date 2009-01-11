@@ -98,13 +98,9 @@
 			<key>Title</key>
 			<string>Highlight qualifiers</string>
 			<key>Key</key>
-			<string>no_highlight_qualifiers</string>
+			<string>highlight_qualifiers</string>
 			<key>DefaultValue</key>
 			<true/>
-			<key>TrueValue</key>
-			<string>NO</string>
-			<key>FalseValue</key>
-			<string>YES</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -115,10 +111,6 @@
 			<string>ui_richtext</string>
 			<key>DefaultValue</key>
 			<false/>
-			<key>TrueValue</key>
-			<string>YES</string>
-			<key>FalseValue</key>
-			<string>NO</string>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -129,10 +121,22 @@
 			<string>ui_paging</string>
 			<key>DefaultValue</key>
 			<false/>
-			<key>TrueValue</key>
-			<string>YES</string>
-			<key>FalseValue</key>
-			<string>NO</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Home Screen</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Display unread count</string>
+			<key>Key</key>
+			<string>show_unread_count</string>
+			<key>DefaultValue</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>Type</key>
@@ -149,10 +153,6 @@
 			<string>cache_clear</string>
 			<key>DefaultValue</key>
 			<false/>
-			<key>TrueValue</key>
-			<string>YES</string>
-			<key>FalseValue</key>
-			<string>NO</string>
 		</dict>
 	</array>
 </dict>

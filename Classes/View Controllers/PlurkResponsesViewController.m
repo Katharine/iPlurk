@@ -174,7 +174,7 @@
 	// Check if we should highlight qualifiers. It's inverted because if the user has not shown a preference,
 	// this'll be NO, and we want the default to be YES. The preference switch is inverted incidentally - 
 	// ON = NO and OFF = YES. Hooray weirdness.
-	BOOL doNotHighlightQualifiers = [[NSUserDefaults standardUserDefaults] boolForKey:@"no_highlight_qualifiers"];
+	BOOL doNotHighlightQualifiers = [[[NSUserDefaults standardUserDefaults] stringForKey:@"highlight_qualifiers"] isEqualToString:@"0"];
 	
 	NSString *css = !doNotHighlightQualifiers ? [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"css"]] : @"";
 	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, css, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerNickName], [firstPlurk ownerDisplayName], [firstPlurk qualifier], ([[firstPlurk qualifier] length] < 2 ? @"" : [firstPlurk qualifier]), [firstPlurk content], responseHTML, nil]];
@@ -256,11 +256,11 @@
 	// The YouTube case should never happen, but we leave this to catch anything missed earlier.
 	if([[[request URL] host] hasSuffix:@"youtube.com"]) {
 		if([[[request URL] path] isEqual:@"/watch"] || [[[request URL] host] hasPrefix:@"/v/"]) {
-			currentURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://youtube.com%@?%@", [[request URL] path], [[request URL] query]]];
+			currentURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://youtube.com%@?%@", [[request URL] path], [[request URL] query], nil]];
 			sheet = [[UIActionSheet alloc] initWithTitle:@"Opening this YouTube video will close iPlurk." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Watch YouTube Video", nil];
 		}
-	} else if([[[request URL] host] isEqual:@"phobos.apple.com"]) {
-		currentURL = [request URL];
+	} else if([[[request URL] host] isEqual:@"phobos.apple.com"] || [[[request URL] host] isEqual:@"itunes.apple.com"]) {
+		currentURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://phobos.apple.com%@?%@", [[request URL] path], [[request URL] query], nil]];
 		sheet = [[UIActionSheet alloc] initWithTitle:@"Following this link will close iPlurk and launch the iTunes Store" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Visit the iTunes Store", nil];
 	} else if(([[[request URL] host] isEqual:@"itunes.com"] || [[[request URL] host] hasSuffix:@".itunes.com"]) && [[[request URL] path] hasPrefix:@"/app/"]) {
 		currentURL = [request URL];

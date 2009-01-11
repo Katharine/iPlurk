@@ -33,7 +33,7 @@
 
 - (void)initWithCoder:(NSCoder *)coder {
 	htmlTemplate = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RichTextPlurkTableCell" ofType:@"html"]];
-	if(![[NSUserDefaults standardUserDefaults] boolForKey:@"no_highlight_qualifiers"]) {
+	if(![[[NSUserDefaults standardUserDefaults] stringForKey:@"highlight_qualifiers"] isEqualToString:@"0"]) {
 		qualifierCSS = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"css"]];
 	} else {
 		qualifierCSS = @"";
@@ -53,8 +53,7 @@
 }
 
 - (NSString *)modifyPlurkHtml:(NSString *)contentRaw {
-	NSString *content = [contentRaw stringByReplacingOccurrencesOfRegex:@"<img src=\"(.+?)\".*?>" withString:@"$1"];
-	return [PlurkFormatting addSmiliesToPlurk:content];
+	return [[PlurkFormatting addSmiliesToPlurk:contentRaw] stringByReplacingOccurrencesOfRegex:@"<img src=\"([^f].+?)\".*?>" withString:@"$1"];
 }
 
 @end
