@@ -136,6 +136,9 @@
 		89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 89A2B2EE0EE1ADC7009B2C82 /* Icon.png */; };
 		89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */; };
 		89A3B46C0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */; };
+		89CD0C960F3133410075FE75 /* QualifierDetails.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89CD0C950F3133410075FE75 /* QualifierDetails.plist */; };
+		89CD0CA70F3135AC0075FE75 /* Qualifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD0CA60F3135AC0075FE75 /* Qualifiers.m */; };
+		89DD38F30F1BB9A300190BB5 /* Unread.png in Resources */ = {isa = PBXBuildFile; fileRef = 89DD38F20F1BB9A300190BB5 /* Unread.png */; };
 		89E99E590EE087B10046FB0D /* Compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E99E580EE087B10046FB0D /* Compass.png */; };
 /* End PBXBuildFile section */
 
@@ -378,6 +381,10 @@
 		89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenericPlurkTimelineView.xib; sourceTree = "<group>"; };
 		89A3B46A0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericPlurkTimelineViewController.h; sourceTree = "<group>"; };
 		89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericPlurkTimelineViewController.m; sourceTree = "<group>"; };
+		89CD0C950F3133410075FE75 /* QualifierDetails.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = QualifierDetails.plist; sourceTree = "<group>"; };
+		89CD0CA50F3135AC0075FE75 /* Qualifiers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Qualifiers.h; sourceTree = "<group>"; };
+		89CD0CA60F3135AC0075FE75 /* Qualifiers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Qualifiers.m; sourceTree = "<group>"; };
+		89DD38F20F1BB9A300190BB5 /* Unread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Unread.png; sourceTree = "<group>"; };
 		89E99E580EE087B10046FB0D /* Compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -513,6 +520,7 @@
 				343682860EB779F000C7524A /* Default.png */,
 				89A2B2EE0EE1ADC7009B2C82 /* Icon.png */,
 				89E99E580EE087B10046FB0D /* Compass.png */,
+				89DD38F20F1BB9A300190BB5 /* Unread.png */,
 				343682880EB779F000C7524A /* PlurkLogo.png */,
 				3436862F0EB7BAE600C7524A /* NoAvatarAvailable.png */,
 				343682890EB779F000C7524A /* PrivatePlurk.png */,
@@ -581,6 +589,8 @@
 				3436832B0EB77A7900C7524A /* PlurkFriend.m */,
 				3436832C0EB77A7900C7524A /* ResponsePlurk.h */,
 				3436832D0EB77A7900C7524A /* ResponsePlurk.m */,
+				89CD0CA50F3135AC0075FE75 /* Qualifiers.h */,
+				89CD0CA60F3135AC0075FE75 /* Qualifiers.m */,
 			);
 			path = PlurkAPI;
 			sourceTree = "<group>";
@@ -589,6 +599,7 @@
 			isa = PBXGroup;
 			children = (
 				343684CB0EB797B000C7524A /* PlurkURLs.plist */,
+				89CD0C950F3133410075FE75 /* QualifierDetails.plist */,
 				343684CC0EB797B000C7524A /* Qualifiers.plist */,
 			);
 			path = Data;
@@ -751,6 +762,8 @@
 				89E99E590EE087B10046FB0D /* Compass.png in Resources */,
 				89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */,
 				89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */,
+				89DD38F30F1BB9A300190BB5 /* Unread.png in Resources */,
+				89CD0C960F3133410075FE75 /* QualifierDetails.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -789,6 +802,7 @@
 				343684590EB78BA800C7524A /* Quartz.c in Sources */,
 				89A3B46C0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m in Sources */,
 				349745570F0B8B8C007852B4 /* PlurkFormatting.m in Sources */,
+				89CD0CA70F3135AC0075FE75 /* Qualifiers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

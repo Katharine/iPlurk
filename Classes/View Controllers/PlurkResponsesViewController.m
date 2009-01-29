@@ -131,6 +131,8 @@
 	[firstPlurk setResponsesSeen:[firstPlurk responseCount]];
 	NSString *script = [NSString stringWithFormat:@"var node = document.createElement('div'); node.innerHTML = \"%@\"; document.getElementById('responses').appendChild(node); node.scrollIntoView();", html, nil];
 	[webView stringByEvaluatingJavaScriptFromString:script];
+	UserTimelineTableViewController *controller = [[[self navigationController] viewControllers] objectAtIndex:0];
+	[controller respondedToPlurk:firstPlurk];
 }
 
 - (void)receivedPlurkResponses:(NSArray *)responses withResponders:(NSDictionary *)responders {	

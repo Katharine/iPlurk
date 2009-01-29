@@ -63,7 +63,7 @@ typedef enum {
 - (BOOL)saveLoginToFile:(NSString *)path;
 - (BOOL)quickLoginAs:(NSString *)username withFile:(NSString *)path;
 
-- (NSURLConnection *)requestPlurksFrom:(NSInteger)user startingFrom:(NSDate *)startDate endingAt:(NSDate *)endDate onlyPrivate:(BOOL)onlyPrivate delegate:(id <PlurkAPIDelegate>)delegate;
+- (NSURLConnection *)requestPlurksFrom:(NSInteger)user startingFrom:(NSDate *)startDate endingAt:(NSDate *)endDate onlyPrivate:(BOOL)onlyPrivate onlyResponded:(BOOL)onlyResponded onlyMine:(BOOL)onlyMine delegate:(id <PlurkAPIDelegate>)delegate;
 - (NSURLConnection *)requestPlurksStartingFrom:(NSDate *)startDate endingAt:(NSDate *)endDate onlyPrivate:(BOOL)onlyPrivate delegate:(id <PlurkAPIDelegate>)delegate;
 - (NSURLConnection *)requestPlurksWithDelegate:(id <PlurkAPIDelegate>)delegate;
 - (NSURLConnection *)requestResponsesToPlurk:(NSInteger)plurkID delegate:(id <PlurkAPIDelegate>)delegate;
