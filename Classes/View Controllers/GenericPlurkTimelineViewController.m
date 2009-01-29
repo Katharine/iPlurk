@@ -45,7 +45,7 @@
 		if([plurks count] == 0) {
 			if(timelineOwner) {
 				[[self navigationItem] setTitle:[timelineOwner displayName]];
-				apiConnection = [[[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO delegate:self] retain];
+				apiConnection = [[[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO onlyResponded:NO onlyMine:NO delegate:self] retain];
 				connection = nil;
 			} else if(timelineToLoad) {
 				//NSLog(@"Loading from http://www.plurk.com/%@", timelineToLoad);
@@ -126,7 +126,7 @@
 			[timelineOwner setNickName:timelineToLoad];
 			[timelineOwner setDisplayName:timelineToLoad];
 			//NSLog(@"Got user_id: %d", [timelineOwner uid]);
-			apiConnection = [[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO delegate:self];
+			apiConnection = [[PlurkAPI sharedAPI] requestPlurksFrom:[timelineOwner uid] startingFrom:nil endingAt:nil onlyPrivate:NO onlyResponded:NO onlyMine:NO delegate:self];
 		}
 	}
 }

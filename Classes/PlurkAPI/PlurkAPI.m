@@ -109,6 +109,7 @@
 }
 
 - (BOOL)saveLoginToFile:(NSString *)path {
+	if([[NSFileManager defaultManager] fileExistsAtPath:path]) return NO;
 	NSMutableDictionary *save = [[NSMutableDictionary alloc] init];
 	[save setObject:[NSNumber numberWithInteger:userID] forKey:@"userID"];
 	[save setObject:userName forKey:@"userName"];
@@ -131,7 +132,7 @@
 		return NO;
 	}
 	if([[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:NULL] fileModificationDate] timeIntervalSinceNow] > 604800) { // One week old data fails.
-		//NSLog(@"Ignoring old login data.");
+		[[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
 		return NO;
 	}
 	NSDictionary *load = [NSDictionary dictionaryWithContentsOfFile:path];
@@ -155,14 +156,14 @@
 #pragma mark Making requests
 
 - (NSURLConnection *)requestPlurksWithDelegate:(id <PlurkAPIDelegate>)delegate {
-	return [self requestPlurksFrom:-1 startingFrom:nil endingAt:nil onlyPrivate:NO delegate:delegate];
+	return [self requestPlurksFrom:-1 startingFrom:nil endingAt:nil onlyPrivate:NO onlyResponded:NO onlyMine:NO delegate:delegate];
 }
 
 - (NSURLConnection *)requestPlurksStartingFrom:(NSDate *)startDate endingAt:(NSDate *)endDate onlyPrivate:(BOOL)onlyPrivate delegate:(id <PlurkAPIDelegate>)delegate {
-	return [self requestPlurksFrom:-1 startingFrom:startDate endingAt:endDate onlyPrivate:onlyPrivate delegate:delegate];
+	return [self requestPlurksFrom:-1 startingFrom:startDate endingAt:endDate onlyPrivate:onlyPrivate onlyResponded:NO onlyMine:NO delegate:delegate];
 }
 
-- (NSURLConnection *)requestPlurksFrom:(NSInteger)user startingFrom:(NSDate *)startDate endingAt:(NSDate *)endDate onlyPrivate:(BOOL)onlyPrivate delegate:(id <PlurkAPIDelegate>)delegate {
+- (NSURLConnection *)requestPlurksFrom:(NSInteger)user startingFrom:(NSDate *)startDate endingAt:(NSDate *)endDate onlyPrivate:(BOOL)onlyPrivate onlyResponded:(BOOL)onlyResponded onlyMine:(BOOL)onlyMine delegate:(id <PlurkAPIDelegate>)delegate {
 	if(user < 0) user = userID;
 	NSMutableDictionary *query = [NSMutableDictionary dictionaryWithObject:[[NSString stringWithFormat:@"%d", user, nil] autorelease] forKey:@"user_id"];
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -177,6 +178,12 @@
 	[formatter release];
 	if(onlyPrivate) {
 		[query setObject:@"1" forKey:@"only_private"];
+	}
+	if(onlyResponded) {
+		[query setObject:@"1" forKey:@"only_responded"];
+	}
+	if(onlyMine) {
+		[query setObject:[NSString stringWithFormat:@"[%i]", user, nil] forKey:@"user_ids"];
 	}
 	PlurkAPIRequest *request = [[PlurkAPIRequest alloc] init];
 	[request setDelegate:delegate];

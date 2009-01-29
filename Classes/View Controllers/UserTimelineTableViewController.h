@@ -21,22 +21,29 @@
 
 typedef enum {
 	RootViewTabAll,
-	RootViewTabUnread,
-	RootViewTabPrivate
+	RootViewTabMine,
+	RootViewTabPrivate,
+	RootViewTabReplied,
+	RootViewTabNone = -1
 } RootViewTab;
 
 @interface UserTimelineTableViewController : UITableViewController <PlurkAPIDelegate, UIActionSheetDelegate> {
 	IBOutlet SetupViewController *setupViewController;
 	IBOutlet UISegmentedControl *tabs;
+	NSMutableArray *masterPlurkArray;
 	NSMutableArray *plurks;
 	NSMutableArray *privatePlurks;
 	NSMutableArray *unreadPlurks;
+	NSMutableArray *myPlurks;
+	NSMutableArray *repliedPlurks;
 	NSMutableArray *currentPlurks;
 	NSString *plurkTableCellType;
 	RootViewTab currentTab;
 	NSURLConnection *allRequest;
 	NSURLConnection *privateRequest;
 	NSURLConnection *unreadRequest;
+	NSURLConnection *mineRequest;
+	NSURLConnection *repliedRequest;
 	NSInteger selectedRow;
 	NSMutableArray *filesDownloading;
 	Plurk *selectedPlurk;
@@ -44,20 +51,17 @@ typedef enum {
 	BOOL enableUserInterfacePaging;
 	CGPoint contentOffset;
 	NSInteger plurkToLoad;
-	BOOL displayingActionButton;
 	BOOL showSpringboardBadge;
+	BOOL showingUnread;
 }
 
-@property(nonatomic, retain) NSMutableArray *plurks;
-@property(nonatomic, retain) NSMutableArray *privatePlurks;
-@property(nonatomic, retain) NSMutableArray *unreadPlurks;
-@property(nonatomic, assign) NSMutableArray *currentPlurks;
 @property(nonatomic, retain) IBOutlet SetupViewController *setupViewController;
 @property(nonatomic, retain) IBOutlet UISegmentedControl *tabs;
 
 - (IBAction)tabHasChanged;
 
 - (void)userHasSetNewUsername:(NSString *)username andPassword:(NSString *)password;
+- (void)toggleUnread;
 - (void)startComposing;
 - (void)startComposingWithContent:(NSString *)content qualifier:(NSString *)qualifier;
 - (void)displayPlurkWithBase36ID:(NSString *)plurkID;
@@ -65,6 +69,8 @@ typedef enum {
 - (void)displayPlurk:(Plurk *)plurk;
 - (void)displayAlternateTimeline:(NSString *)timeline;
 - (void)displayAlternateTimelineForFriend:(PlurkFriend *)friend;
+- (NSUInteger)addNewPlurk:(Plurk *)plurk toPlurkArray:(NSMutableArray *)array usedForTab:(RootViewTab)tab;
+- (void)respondedToPlurk:(Plurk *)plurk;
 
 // PlurkAPIDelegate stuff.
 - (void)plurkLoginDidFinish;
