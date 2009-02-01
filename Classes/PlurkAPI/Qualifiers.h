@@ -14,7 +14,12 @@
 }
 
 + (Qualifiers *)sharedQualifiers;
-- (UIColor *)getQualifierColour:(NSString *)qualifier;
++ (NSArray *)list;
++ (NSDictionary *)languages;
++ (NSString *)defaultQualifier;
++ (NSString *)defaultLanguage;
+
+- (UIColor *)colourForQualifier:(NSString *)qualifier;
 - (NSString *)translateQualifier:(NSString *)qualifier to:(NSString *)language;
 
 @end

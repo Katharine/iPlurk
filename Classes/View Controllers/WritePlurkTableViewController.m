@@ -10,7 +10,8 @@
 
 
 @implementation WritePlurkTableViewController
-@synthesize plurkToReplyTo, plurkToEdit, creatingNewPlurk, entryCell, qualifierCell, qualifierTable;
+@synthesize plurkToReplyTo, plurkToEdit, creatingNewPlurk, entryCell, qualifierCell, languageCell;
+@synthesize qualifierTable, languageTable;
 @synthesize initialContent, initialQualifier;
 
 /*
@@ -52,16 +53,18 @@
 	[[self navigationItem] setRightBarButtonItem:send];
 	[send release];
 	firstView = YES;
+	
+	[self setQualifierLanguage:[Qualifiers defaultLanguage]];
 }
 
 - (void)submitNewPlurk {
-	NSString *qualifier = [[qualifierCell qualifier] text];
+	NSString *qual = [[qualifierCell qualifier] text];
 	if([entryCell qualifier]) {
-		qualifier = [entryCell qualifier];
+		qual = [entryCell qualifier];
 	}
 	NSString *text = [[entryCell text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	PlurkResponsesViewController *parent = (PlurkResponsesViewController *)[(UINavigationController *)[[self parentViewController] parentViewController] topViewController];
-	[[PlurkAPI sharedAPI] makePlurk:text withQualifier:qualifier allowComments:YES delegate:parent];
+	[[PlurkAPI sharedAPI] makePlurk:text withQualifier:qual allowComments:YES limitedTo:nil language:qualifierLanguage delegate:parent];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -69,21 +72,27 @@
 	[super viewWillAppear:animated];
 }
 
-- (void)handleQualifierSelected:(NSString *)qualifier {
-	if([qualifier length]) {
-		[[qualifierCell qualifier] setText:qualifier];
+- (void)handleQualifierSelected:(NSString *)qualifierSelected {
+	if([qualifierSelected length] > 0) {
+		qualifier = [qualifierSelected retain];
+		NSString *translation = [[Qualifiers sharedQualifiers] translateQualifier:qualifier to:qualifierLanguage];
+		if([translation length] > 0) {
+			[[qualifierCell qualifier] setText:translation];
+		} else {
+			[[qualifierCell qualifier] setText:qualifier];
+		}
 		entryCell.qualifierEnabled = [qualifier isEqual:@":"];
 	}
 }
 
 - (void)submitReply {
-	NSString *qualifier = [[qualifierCell qualifier] text];
+	NSString *qual = [[qualifierCell qualifier] text];
 	if([entryCell qualifier]) {
-		qualifier = [entryCell qualifier];
+		qual = [entryCell qualifier];
 	}
 	NSString *text = [entryCell text];
 	PlurkResponsesViewController *parent = (PlurkResponsesViewController *)[(UINavigationController *)[[self parentViewController] parentViewController] topViewController];
-	parent.connection = [[PlurkAPI sharedAPI] respondToPlurk:[plurkToReplyTo plurkID] withQualifier:qualifier content:text delegate:parent];
+	parent.connection = [[PlurkAPI sharedAPI] respondToPlurk:[plurkToReplyTo plurkID] withQualifier:qual content:text language:qualifierLanguage delegate:parent];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -233,6 +242,19 @@
 	[sheet release];
 }
 
+- (void)setQualifierLanguage:(NSString *)language {
+	if([language isEqualToString:qualifierLanguage]) return;
+	qualifierLanguage = [language retain];
+	NSString *translated = [[Qualifiers sharedQualifiers] translateQualifier:qualifier to:qualifierLanguage];
+	if([translated length] == 0 && [qualifier length] > 1) {
+		translated = [[Qualifiers sharedQualifiers] translateQualifier:@"says" to:qualifierLanguage];
+	}
+	[[qualifierCell qualifier] setText:translated];
+	[languageCell setText:[[Qualifiers languages] objectForKey:qualifierLanguage]];
+	[qualifierTable setLanguage:qualifierLanguage];
+	[entryCell setLanguage:qualifierLanguage];
+}
+
 - (void)actionSheet:(UIActionSheet *)sheet clickedButtonAtIndex:(NSInteger)index {
 	if(tryingToQuit) {
 		tryingToQuit = NO;
@@ -265,7 +287,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	switch (section) {
 		case 0:
-			return 2;
+			if(creatingNewPlurk) {
+				return 3;
+			} else {
+				return 2;
+			}
 		case 1:
 			return 1;
 	}
@@ -286,6 +312,9 @@
     static NSString *CellIdentifier = nil;
 	if([indexPath section] == 0) {
 		switch ([indexPath row]) {
+			case 2:
+				CellIdentifier = @"PlurkLanguageSelectionTableViewCell";
+				break;
 			case 1:
 				CellIdentifier = @"PlurkEntryTableViewCell";
 				break;
@@ -298,13 +327,22 @@
 	}
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-		UIViewController *viewController = [[UIViewController alloc] initWithNibName:CellIdentifier bundle:nil];
-		cell = (UITableViewCell *)viewController.view;
-		[viewController release];
+		@try {
+			UIViewController *viewController = [[UIViewController alloc] initWithNibName:CellIdentifier bundle:nil];
+			cell = (UITableViewCell *)viewController.view;
+			[viewController release];
+		} @catch (NSException *exception) {
+			cell = [[UITableViewCell alloc] init];
+		}
 	}
     // Configure the cell
 	if([indexPath section] == 0) {
 		switch ([indexPath row]) {
+			case 2:
+				self.languageCell = (PlurkLanguageSelectionTableViewCell *)cell;
+				[languageCell initUI];
+				[languageCell setText:[[Qualifiers languages] objectForKey:[Qualifiers defaultLanguage]]];
+				break;
 			case 1:
 				self.entryCell = (PlurkEntryTableViewCell *)cell;
 				[entryCell initUI];
@@ -345,6 +383,8 @@
 	}
 	if([indexPath row] == 0 && [indexPath section] == 0) {
 		[[self navigationController] pushViewController:qualifierTable animated:YES];
+	} else if([indexPath row] == 2 && [indexPath section] == 0) {
+		[[self navigationController] pushViewController:languageTable animated:YES];
 	}
 }
 
@@ -389,7 +429,8 @@
 		if(plurkToEdit) {
 			//NSLog(@"Doing stuff.");
 			entryCell.qualifierEnabled = NO;
-			[[qualifierCell qualifier] setText:[plurkToEdit qualifier]];
+			[self setQualifierLanguage:[plurkToEdit lang]];
+			[[qualifierCell qualifier] setText:[[Qualifiers sharedQualifiers] translateQualifier:[plurkToEdit qualifier] to:qualifierLanguage]];
 			[qualifierCell setAccessoryType:UITableViewCellAccessoryNone];
 			[entryCell setText:[plurkToEdit contentRaw]];	
 		} else {
@@ -397,8 +438,17 @@
 				[entryCell setText:initialContent];
 			}
 			if(initialQualifier) {
-				[[qualifierCell qualifier] setText:initialQualifier];
+				qualifier = [initialQualifier retain];
 				[entryCell setQualifierEnabled:NO];
+			}
+			if(creatingNewPlurk) {
+				qualifierLanguage = [Qualifiers defaultLanguage];
+				[languageTable setSelectedLang:qualifierLanguage];
+				[languageTable setDelegate:self];
+				[languageTable setAction:@selector(setQualifierLanguage:)];
+			}
+			if(plurkToReplyTo) {
+				[self setQualifierLanguage:[plurkToReplyTo lang]];
 			}
 		}
 	}
@@ -413,11 +463,11 @@
 - (void)viewDidDisappear:(BOOL)animated {
 }
 */
-/*
+
 - (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+    // Do nothing. :o
 }
-*/
+
 
 - (void)dealloc {
 	[entryCell release];

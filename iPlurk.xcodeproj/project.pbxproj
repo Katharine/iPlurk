@@ -130,6 +130,11 @@
 		89010FED0EBCDBA500E990A7 /* FileUploadPending.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89010FEC0EBCDBA500E990A7 /* FileUploadPending.xib */; };
 		890110000EBCDD3400E990A7 /* PlurkResponsesLoading.html in Resources */ = {isa = PBXBuildFile; fileRef = 89010FFF0EBCDD3400E990A7 /* PlurkResponsesLoading.html */; };
 		890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */ = {isa = PBXBuildFile; fileRef = 890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */; };
+		8913D39B0F32676D00B69214 /* PlurkLanguageSelectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8913D39A0F32676D00B69214 /* PlurkLanguageSelectionTableViewCell.xib */; };
+		8913D3A00F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D39F0F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.m */; };
+		8913D3BB0F346A6500B69214 /* QualifierLanguages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8913D3BA0F346A6500B69214 /* QualifierLanguages.plist */; };
+		8913D3BD0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8913D3BC0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib */; };
+		8913D3C20F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D3C10F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m */; };
 		896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */ = {isa = PBXBuildFile; fileRef = 896700ED0EDCD052003BEE39 /* Qualifiers.css */; };
 		8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */ = {isa = PBXBuildFile; fileRef = 8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */; };
 		899F50F40F12990B0057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif in CopyFiles */ = {isa = PBXBuildFile; fileRef = 899F50E90F1298C40057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif */; };
@@ -374,6 +379,13 @@
 		89010FEC0EBCDBA500E990A7 /* FileUploadPending.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FileUploadPending.xib; sourceTree = "<group>"; };
 		89010FFF0EBCDD3400E990A7 /* PlurkResponsesLoading.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PlurkResponsesLoading.html; sourceTree = "<group>"; };
 		890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LargeWhiteProgressIndicator.gif; sourceTree = "<group>"; };
+		8913D39A0F32676D00B69214 /* PlurkLanguageSelectionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlurkLanguageSelectionTableViewCell.xib; sourceTree = "<group>"; };
+		8913D39E0F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlurkLanguageSelectionTableViewCell.h; sourceTree = "<group>"; };
+		8913D39F0F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlurkLanguageSelectionTableViewCell.m; sourceTree = "<group>"; };
+		8913D3BA0F346A6500B69214 /* QualifierLanguages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = QualifierLanguages.plist; sourceTree = "<group>"; };
+		8913D3BC0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QualifierLanguageSelectorTableView.xib; sourceTree = "<group>"; };
+		8913D3C00F346E9700B69214 /* QualifierLanguageSelectorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QualifierLanguageSelectorTableViewController.h; sourceTree = "<group>"; };
+		8913D3C10F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QualifierLanguageSelectorTableViewController.m; sourceTree = "<group>"; };
 		896700ED0EDCD052003BEE39 /* Qualifiers.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Qualifiers.css; sourceTree = "<group>"; };
 		8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RichTextPlurkTableCell.html; sourceTree = "<group>"; };
 		899F50E90F1298C40057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 92b595a573d25dd5e39a57b5d56d4d03.gif; sourceTree = "<group>"; };
@@ -509,6 +521,8 @@
 				343682840EB779F000C7524A /* WritePlurkTableView.xib */,
 				343682830EB779F000C7524A /* WebPagePreview.xib */,
 				89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */,
+				8913D39A0F32676D00B69214 /* PlurkLanguageSelectionTableViewCell.xib */,
+				8913D3BC0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib */,
 			);
 			path = IB;
 			sourceTree = "<group>";
@@ -547,6 +561,8 @@
 				343682FD0EB77A6C00C7524A /* WritePlurkTableViewController.m */,
 				89A3B46A0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.h */,
 				89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */,
+				8913D3C00F346E9700B69214 /* QualifierLanguageSelectorTableViewController.h */,
+				8913D3C10F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -569,6 +585,8 @@
 				343683120EB77A7400C7524A /* PlurkTableCellProtocol.h */,
 				343683130EB77A7400C7524A /* PlurkTableViewCell.h */,
 				343684280EB78AC400C7524A /* PlurkTableViewCell.m */,
+				8913D39E0F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.h */,
+				8913D39F0F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.m */,
 			);
 			path = "Table Cells";
 			sourceTree = "<group>";
@@ -601,6 +619,7 @@
 				343684CB0EB797B000C7524A /* PlurkURLs.plist */,
 				89CD0C950F3133410075FE75 /* QualifierDetails.plist */,
 				343684CC0EB797B000C7524A /* Qualifiers.plist */,
+				8913D3BA0F346A6500B69214 /* QualifierLanguages.plist */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -764,6 +783,9 @@
 				89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */,
 				89DD38F30F1BB9A300190BB5 /* Unread.png in Resources */,
 				89CD0C960F3133410075FE75 /* QualifierDetails.plist in Resources */,
+				8913D39B0F32676D00B69214 /* PlurkLanguageSelectionTableViewCell.xib in Resources */,
+				8913D3BB0F346A6500B69214 /* QualifierLanguages.plist in Resources */,
+				8913D3BD0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,6 +825,8 @@
 				89A3B46C0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m in Sources */,
 				349745570F0B8B8C007852B4 /* PlurkFormatting.m in Sources */,
 				89CD0CA70F3135AC0075FE75 /* Qualifiers.m in Sources */,
+				8913D3A00F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.m in Sources */,
+				8913D3C20F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

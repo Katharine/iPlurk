@@ -10,7 +10,7 @@
 
 
 @implementation QualifierSelectorTableViewController
-@synthesize qualifier, delegate, action;
+@synthesize qualifier, delegate, action, language;
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -25,9 +25,9 @@
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	qualifiers = [[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"plist"]] retain];
 	if(nil == qualifier) {
-		qualifier = [qualifiers objectAtIndex:0];
+		qualifier = [Qualifiers defaultQualifier];
+		translations = [[NSMutableArray alloc] init];
 	}
 }
 
@@ -39,7 +39,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [qualifiers count];
+    return [translations count];
 }
 
 
@@ -53,8 +53,8 @@
     }
 	
     // Configure the cell
-    cell.text = [qualifiers objectAtIndex:[indexPath row]];
-	if(cell.text == qualifier) {
+    cell.text = [[translations objectAtIndex:[indexPath row]] objectForKey:@"translation"];
+	if([[translations objectAtIndex:[indexPath row]] objectForKey:@"qualifier"] == qualifier) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	} else {
 		cell.accessoryType = UITableViewCellAccessoryNone;
@@ -64,9 +64,14 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[qualifiers indexOfObject:qualifier] inSection:0]] setAccessoryType:UITableViewCellAccessoryNone];
-	qualifier = [qualifiers objectAtIndex:[indexPath row]];
+	
+	for(NSInteger i = 0; i < [[self tableView] numberOfRowsInSection:0]; ++i) {
+		[[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]] setAccessoryType:UITableViewCellAccessoryNone];
+	}
 	[[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
+	
+	qualifier = [[translations objectAtIndex:[indexPath row]] objectForKey:@"qualifier"];
+	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	if(delegate && action && [delegate respondsToSelector:action]) {
 		[delegate performSelector:action withObject:qualifier];
@@ -103,11 +108,18 @@
 */
 
 
-/*
 - (void)viewWillAppear:(BOOL)animated {
+	[translations removeAllObjects];
+	for(NSString *qual in [Qualifiers list]) {
+		NSString *translation = [[Qualifiers sharedQualifiers] translateQualifier:qual to:language];
+		if([translation length] == 0 && [qual length] > 1) continue;
+		[translations addObject:[NSDictionary dictionaryWithObjectsAndKeys:qual, @"qualifier", translation, @"translation", nil]];
+	}
+	[[self tableView] reloadData];
     [super viewWillAppear:animated];
 }
-*/
+
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -130,6 +142,8 @@
 
 - (void)dealloc {
 	[qualifier release];
+	[translations release];
+	[language release];
     [super dealloc];
 }
 

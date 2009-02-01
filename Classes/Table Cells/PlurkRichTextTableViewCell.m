@@ -47,7 +47,9 @@
 - (void)renderPlurkText {
 	[[self plurkContent] setBackgroundColor:[UIColor clearColor]];
 	Plurk* plurk = [self plurkDisplayed];
-	NSString *html = [[NSString alloc] initWithFormat:htmlTemplate, qualifierCSS, [plurk ownerDisplayName], [plurk qualifier], ([[plurk qualifier] length] < 2 ? @"" : [plurk qualifier]), [self modifyPlurkHtml:[plurk content]], nil];
+	NSString *qualifier = [[Qualifiers sharedQualifiers] translateQualifier:[plurk qualifier] to:[plurk lang]];
+	if(qualifier == nil) qualifier = [plurk qualifier];
+	NSString *html = [[NSString alloc] initWithFormat:htmlTemplate, qualifierCSS, [plurk ownerDisplayName], [plurk qualifier], qualifier, [self modifyPlurkHtml:[plurk content]], nil];
 	[[WebViewManager manager] setUpWebView:[self plurkContent] withText:html];
 	[html release];
 }

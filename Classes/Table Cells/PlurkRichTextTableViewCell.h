@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PlurkTableViewCell.h"
 #import "PlurkFormatting.h"
+#import "Qualifiers.h"
 
 @interface PlurkRichTextTableViewCell : PlurkTableViewCell {
 	IBOutlet UIWebView *plurkContent;

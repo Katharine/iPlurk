@@ -218,7 +218,8 @@
 	return [self makePostRequestTo:url withPostData:post withAPIRequest:request];
 }
 
-- (NSURLConnection *)respondToPlurk:(NSInteger)plurk withQualifier:(NSString *)qualifier content:(NSString *)content delegate:(id <PlurkAPIDelegate>)delegate {
+- (NSURLConnection *)respondToPlurk:(NSInteger)plurk withQualifier:(NSString *)qualifier content:(NSString *)content language:(NSString *)lang delegate:(id <PlurkAPIDelegate>)delegate {
+	if(!lang) lang = @"en";
 	NSURL *url = [NSURL URLWithString:[plurkURLs objectForKey:@"plurk_respond"]];
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	[formatter setDateFormat:@"\"yyyy-MM-dd'T'HH:mm:ss\""];
@@ -229,7 +230,7 @@
 	NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys: posted, @"posted",
 																	  qualifier, @"qualifier",
 																	  content, @"content",
-																	  @"en", @"lang",
+																	  lang, @"lang",
 																	  uidString, @"p_uid",
 																	  uidString, @"uid",
 																	  [[NSNumber numberWithInteger:plurk] stringValue], @"plurk_id",
@@ -259,13 +260,13 @@
 	return [self makePostRequestTo:url withPostData:query withAPIRequest:request];
 }
 
-- (NSURLConnection *)makePlurk:(NSString *)text withQualifier:(NSString *)qualifier allowComments:(BOOL)comments limitedTo:(NSArray *)limited delegate:(id <PlurkAPIDelegate>)delegate {
+- (NSURLConnection *)makePlurk:(NSString *)text withQualifier:(NSString *)qualifier allowComments:(BOOL)comments limitedTo:(NSArray *)limited language:(NSString *)lang delegate:(id <PlurkAPIDelegate>)delegate {
 	NSURL *url = [NSURL URLWithString:[plurkURLs objectForKey:@"plurk_add"]];
 	NSMutableDictionary *query = [[NSMutableDictionary alloc] init];
 	[query setObject:[[NSNumber numberWithInteger:userID] stringValue] forKey:@"uid"];
 	[query setObject:qualifier forKey:@"qualifier"];
 	[query setObject:text forKey:@"content"];
-	[query setObject:@"en" forKey:@"lang"];
+	[query setObject:lang forKey:@"lang"];
 	[query setObject:(comments ? @"0" : @"1") forKey:@"no_comments"];
 	
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -286,7 +287,7 @@
 }
 
 - (NSURLConnection *)makePlurk:(NSString *)text withQualifier:(NSString *)qualifier allowComments:(BOOL)comments delegate:(id <PlurkAPIDelegate>)delegate {
-	return [self makePlurk:text withQualifier:qualifier allowComments:comments limitedTo:nil delegate:delegate];
+	return [self makePlurk:text withQualifier:qualifier allowComments:comments limitedTo:nil language:@"en" delegate:delegate];
 }
 
 - (void)markPlurksAsRead:(NSArray *)plurks {

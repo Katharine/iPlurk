@@ -39,12 +39,13 @@
 - (void)renderPlurkText {
 	Plurk *plurk = [self plurkDisplayed];
 	NSString *qualifier = [[Qualifiers sharedQualifiers] translateQualifier:[plurk qualifier] to:[plurk lang]];
+	if(qualifier == nil) qualifier = [plurk qualifier];
 	CGSize qualifierNameSize = CGSizeMake(0, 0);
 	// If we aren't highlighting qualifiers
 	if([[plurk qualifier] isEqualToString:@":"] || [[[NSUserDefaults standardUserDefaults] stringForKey:@"highlight_qualifiers"] isEqualToString:@"0"]) {
 		[self renderTextQualifier:qualifier];
 	} else {
-		UIColor *qualifierColour = [[Qualifiers sharedQualifiers] getQualifierColour:[plurk qualifier]];
+		UIColor *qualifierColour = [[Qualifiers sharedQualifiers] colourForQualifier:[plurk qualifier]];
 		if(qualifierColour) {
 			[plurkNameAction setText:[plurk ownerDisplayName]];
 			CGSize size = [[plurk ownerDisplayName] sizeWithFont:[UIFont boldSystemFontOfSize:12.0]];
