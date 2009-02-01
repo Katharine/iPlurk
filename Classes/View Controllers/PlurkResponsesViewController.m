@@ -113,13 +113,15 @@
 - (void)plurkResponseCompleted:(ResponsePlurk *)plurk {
 	//NSLog(@"Completed making response, appending...");
 	NSString *content = [self processPlurkContent:[plurk content]];
+	NSString *qualifier = [[Qualifiers sharedQualifiers] translateQualifier:[plurk qualifier] to:[firstPlurk lang]];
+	if(qualifier == nil) qualifier = [plurk qualifier];
 	NSString *html = [[[NSString stringWithFormat:
 						[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesSingleResponse" ofType:@"html"]],
 						[plurk plurkID],
 						[[PlurkAPI sharedAPI] userName],
 						[plurk userDisplayName],
 						[plurk qualifier],
-						(([[plurk qualifier] length] < 2) ? @"" : [plurk qualifier]), 
+						qualifier, 
 						content,
 						nil
 					   ]
@@ -148,7 +150,9 @@
 		
 		NSInteger responseNum = 0;
 		for(ResponsePlurk *response in responses) {
-			[responseHTML appendFormat:responseFormat, responseNum, [response userNickName], [response userDisplayName], [response qualifier], (([[response qualifier] length] < 2) ? @"" : [response qualifier]), [response content], nil];
+			NSString *qualifier = [[Qualifiers sharedQualifiers] translateQualifier:[response qualifier] to:[firstPlurk lang]];
+			if(qualifier == nil) qualifier = [response qualifier];
+			[responseHTML appendFormat:responseFormat, responseNum, [response userNickName], [response userDisplayName], [response qualifier], qualifier, [response content], nil];
 			++responseNum;
 		}
 	}
@@ -179,7 +183,9 @@
 	BOOL doNotHighlightQualifiers = [[[NSUserDefaults standardUserDefaults] stringForKey:@"highlight_qualifiers"] isEqualToString:@"0"];
 	
 	NSString *css = !doNotHighlightQualifiers ? [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"css"]] : @"";
-	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, css, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerNickName], [firstPlurk ownerDisplayName], [firstPlurk qualifier], ([[firstPlurk qualifier] length] < 2 ? @"" : [firstPlurk qualifier]), [firstPlurk content], responseHTML, nil]];
+	NSString *qualifier = [[Qualifiers sharedQualifiers] translateQualifier:[firstPlurk qualifier] to:[firstPlurk lang]];
+	if(qualifier == nil) qualifier = [firstPlurk qualifier];
+	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, css, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerNickName], [firstPlurk ownerDisplayName], [firstPlurk qualifier], qualifier, [firstPlurk content], responseHTML, nil]];
 	[webView loadHTMLString:[self processPlurkContent:html] baseURL:nil];
 	[firstPlurk setIsUnread:0];
 	[firstPlurk setResponseCount:[responses count]];

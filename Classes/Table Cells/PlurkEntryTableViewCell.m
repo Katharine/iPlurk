@@ -40,7 +40,7 @@
 }
 
 - (void)textViewDidChange:(UITextView *)view {
-	NSInteger charactersRemaining = 140 - [[textView text] length] + (qualifierEnabled ? [[self qualifier] length] : 0);
+	NSInteger charactersRemaining = 140 - [[textView text] length] + (qualifierEnabled ? [[self translated] length] : 0);
 	[[self counterLabel] setText:[NSString stringWithFormat:@"%d characters remaining", charactersRemaining, nil]];
 	if(changeTarget && changeAction) {
 		[changeTarget performSelector:changeAction withObject:[textView text]];
@@ -78,9 +78,31 @@
 	NSString *text = [[[self textView] text] lowercaseString];
 	for(NSString *qual in qualifiers) {
 		if([qual isEqualToString:@":"]) continue;
-		if([text hasPrefix:qual]) return qual;
+		NSString *translation = [[Qualifiers sharedQualifiers] translateQualifier:qual to:language];
+		if([translation length] == 0) continue;
+		if([text hasPrefix:translation]) return qual;
 	}
 	return nil;
+}
+
+- (NSString *)translated {
+	NSString *qual = [self qualifier]; // This is somewhat tedious to find.
+	NSString *translation = [[Qualifiers sharedQualifiers] translateQualifier:qual to:language];
+	if(translation && [translation length] > 0 && [qual length] > 1) {
+		return translation;
+	}
+	return [self qualifier];
+}
+
+- (void)setLanguage:(NSString *)lang {
+	if([language isEqualToString:lang]) return;
+	[language release];
+	language = [lang retain];
+	[self textViewDidChange:textView]; // Recount and such.
+}
+
+- (NSString *)language {
+	return language;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Qualifiers.h"
 
 @interface PlurkEntryTableViewCell : UITableViewCell <UITextViewDelegate> {
 	IBOutlet UITextView *textView;
@@ -16,6 +16,7 @@
 	SEL changeAction;
 	BOOL qualifierEnabled;
 	NSArray *qualifiers;
+	NSString *language;
 }
 
 @property(nonatomic, retain) IBOutlet UITextView *textView;
@@ -25,7 +26,10 @@
 - (NSString *)text;
 - (NSString *)setText:(NSString *)text;
 - (NSString *)qualifier;
+- (NSString *)translated;
 - (void)initUI;
 - (void)setChangeAction:(SEL)action target:(id)target;
+- (void)setLanguage:(NSString *)language;
+- (NSString *)language;
 
 @end
