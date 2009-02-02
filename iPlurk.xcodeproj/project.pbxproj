@@ -143,7 +143,11 @@
 		89A3B46C0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */; };
 		89CD0C960F3133410075FE75 /* QualifierDetails.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89CD0C950F3133410075FE75 /* QualifierDetails.plist */; };
 		89CD0CA70F3135AC0075FE75 /* Qualifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD0CA60F3135AC0075FE75 /* Qualifiers.m */; };
+		89D8CC210F379A5F004CBE40 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8CC200F379A5F004CBE40 /* Base64.m */; };
+		89D8CC600F37A481004CBE40 /* DefaultAvatarImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 89D8CC5F0F37A481004CBE40 /* DefaultAvatarImage.png */; };
 		89DD38F30F1BB9A300190BB5 /* Unread.png in Resources */ = {isa = PBXBuildFile; fileRef = 89DD38F20F1BB9A300190BB5 /* Unread.png */; };
+		89E046DB0F3756FD00006217 /* AvatarCache.sql in Resources */ = {isa = PBXBuildFile; fileRef = 89E046DA0F3756FD00006217 /* AvatarCache.sql */; };
+		89E046ED0F37629E00006217 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E046EC0F37629E00006217 /* libsqlite3.dylib */; };
 		89E99E590EE087B10046FB0D /* Compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 89E99E580EE087B10046FB0D /* Compass.png */; };
 /* End PBXBuildFile section */
 
@@ -396,7 +400,12 @@
 		89CD0C950F3133410075FE75 /* QualifierDetails.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = QualifierDetails.plist; sourceTree = "<group>"; };
 		89CD0CA50F3135AC0075FE75 /* Qualifiers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Qualifiers.h; sourceTree = "<group>"; };
 		89CD0CA60F3135AC0075FE75 /* Qualifiers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Qualifiers.m; sourceTree = "<group>"; };
+		89D8CC1F0F379A5F004CBE40 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		89D8CC200F379A5F004CBE40 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
+		89D8CC5F0F37A481004CBE40 /* DefaultAvatarImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultAvatarImage.png; sourceTree = "<group>"; };
 		89DD38F20F1BB9A300190BB5 /* Unread.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Unread.png; sourceTree = "<group>"; };
+		89E046DA0F3756FD00006217 /* AvatarCache.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = AvatarCache.sql; sourceTree = "<group>"; };
+		89E046EC0F37629E00006217 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		89E99E580EE087B10046FB0D /* Compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Compass.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -409,6 +418,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				343683990EB7844F00C7524A /* libicucore.dylib in Frameworks */,
+				89E046ED0F37629E00006217 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +467,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				343683980EB7844F00C7524A /* libicucore.dylib */,
+				89E046EC0F37629E00006217 /* libsqlite3.dylib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -473,6 +484,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				89E046DA0F3756FD00006217 /* AvatarCache.sql */,
 				343684CA0EB797B000C7524A /* Data */,
 				343682700EB779F000C7524A /* HTML */,
 				343682730EB779F000C7524A /* IB */,
@@ -530,6 +542,7 @@
 		343682850EB779F000C7524A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				89D8CC5F0F37A481004CBE40 /* DefaultAvatarImage.png */,
 				890110320EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif */,
 				343682860EB779F000C7524A /* Default.png */,
 				89A2B2EE0EE1ADC7009B2C82 /* Icon.png */,
@@ -702,6 +715,8 @@
 			children = (
 				34CB4D250EAFDDA80089842C /* RegexKitLite.h */,
 				34CB4D260EAFDDA80089842C /* RegexKitLite.m */,
+				89D8CC1F0F379A5F004CBE40 /* Base64.h */,
+				89D8CC200F379A5F004CBE40 /* Base64.m */,
 			);
 			path = External;
 			sourceTree = "<group>";
@@ -786,6 +801,8 @@
 				8913D39B0F32676D00B69214 /* PlurkLanguageSelectionTableViewCell.xib in Resources */,
 				8913D3BB0F346A6500B69214 /* QualifierLanguages.plist in Resources */,
 				8913D3BD0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib in Resources */,
+				89E046DB0F3756FD00006217 /* AvatarCache.sql in Resources */,
+				89D8CC600F37A481004CBE40 /* DefaultAvatarImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,6 +844,7 @@
 				89CD0CA70F3135AC0075FE75 /* Qualifiers.m in Sources */,
 				8913D3A00F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.m in Sources */,
 				8913D3C20F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m in Sources */,
+				89D8CC210F379A5F004CBE40 /* Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -147,19 +147,20 @@
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
-- (void)fileDownloadDidComplete:(NSString *)file {
-	[FileDownloader addRoundedCorners:file];
+- (void)fileDownloadWithIdentifier:(NSNumber *)identifier completedWithData:(NSData *)data {
+	UIImage *img = [FileDownloader addRoundedCorners:[UIImage imageWithData:data]];
 	
 	// Get the ID we're looking for.
-	NSInteger ourID = [[file stringByReplacingOccurrencesOfRegex:@"^.*?([0-9]+)\\.[a-z]{3,4}$" withString:@"$1"] integerValue];
+	NSInteger user = [timelineOwner uid];
+	NSInteger avatar = [[timelineOwner avatar] integerValue];
 	
 	// Cache it.
-	[[ProfileImageCache mainCache] cacheImage:[UIImage imageWithContentsOfFile:file] forUser:ourID];
+	[[ProfileImageCache mainCache] cacheImage:img forUser:user avatarNumber:avatar];
 	
 	// Fill it into any currently visible cells.
 	NSArray *cells = [[self tableView] visibleCells];
 	for(PlurkTableViewCell *cell in cells) {
-		[[cell imageButton] setImage:[[ProfileImageCache mainCache] retrieveImageForUser:ourID] forState:UIControlStateNormal];
+		[[cell imageButton] setImage:img forState:UIControlStateNormal];
 	}
 }
 
@@ -208,18 +209,12 @@
 	// Try loading a cached image, if we want one at all.
 	if([friend hasProfileImage]) {
 		UIImage *avatar = nil;
-		avatar = [[ProfileImageCache mainCache] retrieveImageForUser:[plurk ownerID]];
+		avatar = [[ProfileImageCache mainCache] retrieveImageForUser:[plurk ownerID] avatarNumber:[[friend avatar] integerValue]];
 		if(!avatar) {
-			NSString *pathToImage = [PlurkFormatting avatarPathForUserID:[plurk ownerID]];
-			//NSLog(@"Looking for image in %@", pathToImage);
-			if([[NSFileManager defaultManager] fileExistsAtPath:pathToImage]) {
-				avatar = [UIImage imageWithContentsOfFile:pathToImage];
-				[[ProfileImageCache mainCache] cacheImage:avatar forUser:[plurk ownerID]];
-			}
 			if(!avatar && !downloadStarted) {
 				// No cached image. Go get it.
 				NSURL *avatarUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://avatars.plurk.com/%d-medium%@.gif", [plurk ownerID], [friend avatar], nil]];
-				FileDownloader *downloader = [[FileDownloader alloc] initFromURL:avatarUrl toFile:pathToImage notify:self];
+				FileDownloader *downloader = [[FileDownloader alloc] initFromURL:avatarUrl withIdentifier:nil delegate:self];
 				[downloader release];
 				downloadStarted = YES;
 			}
@@ -227,6 +222,8 @@
 		if(avatar) {
 			[[cell imageButton] setImage:[avatar retain] forState:UIControlStateNormal];
 		}
+	} else {
+		[[cell imageButton] setImage:[UIImage imageNamed:@"DefaultAvatarImage.png"] forState:UIControlStateNormal];
 	}
 	
 	// Set the disclosure indicator, since it seems to like vanishing.

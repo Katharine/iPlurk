@@ -82,6 +82,11 @@
 			[[qualifierCell qualifier] setText:qualifier];
 		}
 		entryCell.qualifierEnabled = [qualifier isEqual:@":"];
+		[qualifierTable setQualifier:qualifier];
+		if(![[[NSUserDefaults standardUserDefaults] stringForKey:@"persist_qualifier"] isEqualToString:@"0"]) {
+			NSLog(@"Saving qualifier: %@", qualifier);
+			[[NSUserDefaults standardUserDefaults] setObject:qualifier forKey:@"last_qualifier"];
+		}
 	}
 }
 
@@ -135,6 +140,13 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
+	if([picker sourceType] == UIImagePickerControllerSourceTypeCamera) {
+		if(![[[NSUserDefaults standardUserDefaults] stringForKey:@"photo_save"] isEqualToString:@"0"]) { // Default on, if not set.
+			UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+			NSLog(@"Saved image to photo library.");
+			
+		}
+	}
 	UIImage *finalImage = nil;
 	if([image size].width > 640 || [image size].height > 640) {
 		//NSLog(@"Shrinking image.");
@@ -253,6 +265,7 @@
 	[languageCell setText:[[Qualifiers languages] objectForKey:qualifierLanguage]];
 	[qualifierTable setLanguage:qualifierLanguage];
 	[entryCell setLanguage:qualifierLanguage];
+	[[NSUserDefaults standardUserDefaults] setObject:qualifierLanguage forKey:@"last_language"];
 }
 
 - (void)actionSheet:(UIActionSheet *)sheet clickedButtonAtIndex:(NSInteger)index {
@@ -437,8 +450,14 @@
 			if(initialContent) {
 				[entryCell setText:initialContent];
 			}
+			if(!initialQualifier) {
+				if(![[[NSUserDefaults standardUserDefaults] stringForKey:@"persist_qualifier"] isEqualToString:@"0"]) {
+					initialQualifier = [[NSUserDefaults standardUserDefaults] objectForKey:@"last_qualifier"];
+					NSLog(@"Loaded qualifier: %@", initialQualifier);
+				}
+			}
 			if(initialQualifier) {
-				qualifier = [initialQualifier retain];
+				[self handleQualifierSelected:initialQualifier];
 				[entryCell setQualifierEnabled:NO];
 			}
 			if(creatingNewPlurk) {

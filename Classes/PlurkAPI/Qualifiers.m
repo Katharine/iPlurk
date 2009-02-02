@@ -39,6 +39,10 @@
 }
 
 + (NSString *)defaultLanguage {
+	NSString *lastLanguage = [[NSUserDefaults standardUserDefaults] stringForKey:@"last_language"];
+	if(lastLanguage != nil) {
+		return lastLanguage;
+	}
 	NSString *language = [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0];
 	if([[Qualifiers languages] objectForKey:language] != nil) {
 		return language;

@@ -45,7 +45,7 @@ typedef enum {
 	NSURLConnection *mineRequest;
 	NSURLConnection *repliedRequest;
 	NSInteger selectedRow;
-	NSMutableArray *filesDownloading;
+	NSMutableDictionary *filesDownloading;
 	Plurk *selectedPlurk;
 	BOOL canUseTable;
 	BOOL enableUserInterfacePaging;
@@ -77,6 +77,6 @@ typedef enum {
 - (void)plurkLoginDidFail;
 - (void)plurkHTTPRequestAborted:(NSError *)error;
 - (void)connection:(NSURLConnection*)connection receivedNewPlurks:(NSArray *)plurks;
-- (void)fileDownloadDidComplete:(NSString *)file;
+- (void)fileDownloadWithIdentifier:(NSNumber *)identifier completedWithData:(NSData *)data;
 - (void)receivedPlurkResponsePoll:(NSArray *)newResponses;
 @end

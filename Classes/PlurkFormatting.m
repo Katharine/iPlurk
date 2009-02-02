@@ -27,12 +27,4 @@
 	return content;
 }
 
-+ (NSString *)avatarPathForUserID:(NSInteger)user {
-	return [NSString stringWithFormat:@"%@user-%d.gif", [self avatarPath], user, nil];
-}
-
-+ (NSString *)avatarPath {
-	return [NSString stringWithFormat:@"%@/tmp/avatars/", NSHomeDirectory(), nil];
-}
-
 @end

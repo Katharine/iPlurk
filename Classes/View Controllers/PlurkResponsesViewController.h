@@ -12,6 +12,8 @@
 #import "WritePlurkTableViewController.h"
 #import "PlurkEntryTableViewCell.h"
 #import "PlurkFormatting.h"
+#import "ProfileImageCache.h"
+#import "Base64.h"
 
 @class UserTimelineTableViewController;
 @interface PlurkResponsesViewController : UIViewController <PlurkAPIDelegate, UIWebViewDelegate, UIActionSheetDelegate> {

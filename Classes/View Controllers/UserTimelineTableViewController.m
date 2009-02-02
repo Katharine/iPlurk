@@ -64,25 +64,21 @@
 	// Try loading a cached image, if we want one at all.
 	if([friend hasProfileImage]) {
 		UIImage *avatar = nil;
-		avatar = [[ProfileImageCache mainCache] retrieveImageForUser:[plurk ownerID]];
-		if(!avatar) {
-			NSString *pathToImage = [PlurkFormatting avatarPathForUserID:[plurk ownerID]];
-			//NSLog(@"Looking for image in %@", pathToImage);
-			if([[NSFileManager defaultManager] fileExistsAtPath:pathToImage]) {
-				avatar = [UIImage imageWithContentsOfFile:pathToImage];
-				[[ProfileImageCache mainCache] cacheImage:avatar forUser:[plurk ownerID]];
-			}
-			if(!avatar && ![filesDownloading containsObject:pathToImage]) {
-				// No cached image. Go get it.
-				NSURL *avatarUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://avatars.plurk.com/%d-medium%@.gif", [plurk ownerID], [friend avatar], nil]];
-				FileDownloader *downloader = [[FileDownloader alloc] initFromURL:avatarUrl toFile:pathToImage notify:self];
-				[downloader release];
-				[filesDownloading addObject:pathToImage];
-			}
-		}
-		if(avatar) {
+		NSLog(@"Trying cache.");
+		avatar = [[ProfileImageCache mainCache] retrieveImageForUser:[plurk ownerID] avatarNumber:[[friend avatar] integerValue]];
+		if(!avatar && ![filesDownloading objectForKey:[NSNumber numberWithInteger:[plurk ownerID]]]) {
+			NSLog(@"Cache failed.");
+			// No cached image. Go get it.
+			NSURL *avatarUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://avatars.plurk.com/%d-medium%@.gif", [plurk ownerID], [friend avatar], nil]];
+			FileDownloader *downloader = [[FileDownloader alloc] initFromURL:avatarUrl withIdentifier:[NSNumber numberWithInteger:[plurk ownerID]] delegate:self];
+			[downloader release];
+			[filesDownloading setObject:[friend avatar] forKey:[NSNumber numberWithInteger:[plurk ownerID]]];
+		} else {
+			NSLog(@"Cache succeeded.");
 			[[cell imageButton] setImage:[avatar retain] forState:UIControlStateNormal];
 		}
+	} else {
+		[[cell imageButton] setImage:[UIImage imageNamed:@"DefaultAvatarImage.png"] forState:UIControlStateNormal];
 	}
 	
 	// Set the disclosure indicator, since it seems to like vanishing.
@@ -272,25 +268,26 @@
 
 
 // FileDownloader
-- (void)fileDownloadDidComplete:(NSString *)file {
+- (void)fileDownloadWithIdentifier:(NSNumber *)identifier completedWithData:(NSData *)data {
 	//NSLog(@"Download of %@ complete.", file);
-	[FileDownloader addRoundedCorners:file];
+	UIImage *img = [FileDownloader addRoundedCorners:[UIImage imageWithData:data]];
 	
 	// Get the ID we're looking for.
-	NSInteger ourID = [[file stringByReplacingOccurrencesOfRegex:@"^.*?([0-9]+)\\.[a-z]{3,4}$" withString:@"$1"] integerValue];
+	NSInteger ourID = [identifier integerValue];
+	NSInteger avatar = [[filesDownloading objectForKey:identifier] integerValue];
 	
 	// Cache it.
-	[[ProfileImageCache mainCache] cacheImage:[UIImage imageWithContentsOfFile:file] forUser:ourID];
+	[[ProfileImageCache mainCache] cacheImage:img forUser:ourID avatarNumber:avatar];
 	
 	// Remove it from the downloading list.
-	[filesDownloading removeObject:file];
+	[filesDownloading removeObjectForKey:identifier];
 	
 	// Fill it into any currently visible cells.
 	NSArray *cells = [[self tableView] visibleCells];
 	for(PlurkTableViewCell *cell in cells) {
 		// We might get the "Load more plurks" cell, so check for that first (or we'll crash)
 		if([cell respondsToSelector:@selector(ownerID)] && [cell ownerID] == ourID) {
-			[[cell imageButton] setImage:[[ProfileImageCache mainCache] retrieveImageForUser:ourID] forState:UIControlStateNormal];
+			[[cell imageButton] setImage:img forState:UIControlStateNormal];
 			[cell setNeedsLayout];
 			//NSLog(@"Displayed image for %d", ourID);
 		}
@@ -317,7 +314,7 @@
 	if(!filesDownloading) {
 		canUseTable = YES;
 		//NSLog(@"Initiating...");
-		filesDownloading = [[NSMutableArray alloc] init];
+		filesDownloading = [[NSMutableDictionary alloc] init];
 		setupViewController.origin = self;
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		enableUserInterfacePaging = [defaults boolForKey:@"ui_paging"];
@@ -347,18 +344,11 @@
 		currentPlurks = plurks;
 		// Load username/password and log in. Also reset avatar cache switch.
 		
-		NSString *avatarCache = [PlurkFormatting avatarPath];
-		
 		// Wipe the cache if requested.
 		if([defaults boolForKey:@"cache_clear"]) {
 			//NSLog(@"Clearing cache on request.");
+			[[ProfileImageCache mainCache] purgeDiskCache];
 			[defaults setBool:NO forKey:@"cache_clear"];
-			[[NSFileManager defaultManager] removeItemAtPath:avatarCache error:NULL];
-		}
-		
-		if(![[NSFileManager defaultManager] fileExistsAtPath:avatarCache]) {
-			if(![[NSFileManager defaultManager] createDirectoryAtPath:avatarCache attributes:nil]) {
-			}
 		}
 		
 		// Try a quick login first.
