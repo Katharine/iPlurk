@@ -25,6 +25,13 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+	if(selected) {
+		[languageLabel setTextColor:[UIColor whiteColor]];
+		[selectedLanguageLabel setTextColor:[UIColor whiteColor]];
+	} else {
+		[languageLabel setTextColor:[UIColor blackColor]];
+		[selectedLanguageLabel setTextColor:[UIColor blackColor]];
+	}
 }
 
 - (void)initUI {

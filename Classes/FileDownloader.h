@@ -10,12 +10,12 @@
 
 
 @interface FileDownloader : NSObject {
-	NSString *targetFile;
+	id identifier;
 	NSMutableData *data;
 	id delegate;
 }
 
-- (FileDownloader *)initFromURL:(NSURL *)url toFile:(NSString *)target notify:(id)delegate;
-+ (void)addRoundedCorners:(NSString *)file;
+- (FileDownloader *)initFromURL:(NSURL *)url withIdentifier:(id)ident delegate:(id)del;
++ (UIImage *)addRoundedCorners:(UIImage *)img;
 
 @end

@@ -139,11 +139,15 @@
 
 - (void)receivedPlurkResponses:(NSArray *)responses withResponders:(NSDictionary *)responders {	
 	NSString *htmlTemplate = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesDisplay" ofType:@"html"]];
-	NSString *avatarURL = [NSString stringWithFormat:@"file://%@", [[NSBundle mainBundle] pathForResource:@"NoAvatarAvailable" ofType:@"png"], nil];
-	NSString *realAvatarPath = [PlurkFormatting avatarPathForUserID:[firstPlurk ownerID]];
-	if([[NSFileManager defaultManager] fileExistsAtPath:realAvatarPath]) {
-		avatarURL = [NSString stringWithFormat:@"file://%@", realAvatarPath];
+	NSString *avatarURL;
+	
+	UIImage *image = [[ProfileImageCache mainCache] retrieveImageForUser:[firstPlurk ownerID]];
+	if(image != nil) {
+		avatarURL = [NSString stringWithFormat:@"data:image/png;base64,%@", [UIImagePNGRepresentation(image) base64Encoding], nil];
+	} else {
+		avatarURL = [NSString stringWithFormat:@"data:image/png;base64,%@", [UIImagePNGRepresentation([UIImage imageNamed:@"DefaultAvatarImage.png"]) base64Encoding], nil];
 	}
+	
 	NSMutableString *responseHTML = [[NSMutableString alloc] init];
 	if([responses count] > 0) {
 		NSString *responseFormat = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesSingleResponse" ofType:@"html"]];

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <sqlite3.h>
 
 @interface ProfileImageCache : NSObject {
 	NSMutableDictionary *userImages;
@@ -15,11 +15,13 @@
 
 + (ProfileImageCache *) mainCache;
 - (ProfileImageCache *) init;
-- (void)cacheImage:(UIImage *)image forUser:(NSInteger)user;
+- (void)cacheImage:(UIImage *)image forUser:(NSInteger)user avatarNumber:(NSInteger)avatar;
 - (void)removeImageForUser:(NSInteger)user;
 - (void)emptyCache;
+- (void)purgeDiskCache;
 - (void)dealloc;
+- (UIImage *)retrieveImageForUser:(NSInteger)user avatarNumber:(NSInteger)avatar;
 - (UIImage *)retrieveImageForUser:(NSInteger)user;
-- (BOOL)cacheContainsImageForUser:(NSInteger)user;
+- (BOOL)cacheContainsImageForUser:(NSInteger)user avatarNumber:(NSInteger)avatar;
 
 @end

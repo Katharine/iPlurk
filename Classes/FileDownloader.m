@@ -12,8 +12,8 @@
 
 @implementation FileDownloader
 
-- (FileDownloader *)initFromURL:(NSURL *)url toFile:(NSString *)target notify:(id)aDelegate {
-	targetFile = [target retain];
+- (FileDownloader *)initFromURL:(NSURL *)url withIdentifier:(id)aId delegate:(id)aDelegate {
+	identifier = [aId retain];
 	delegate = aDelegate;
 	data = [[NSMutableData alloc] init];
 	NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
@@ -33,17 +33,14 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	//NSLog(@"Writing %d bytes of data to %@", [data length], targetFile);
-	[data writeToFile:targetFile atomically:NO];
+	if([delegate respondsToSelector:@selector(fileDownloadWithIdentifier:completedWithData:)]) {
+		[delegate performSelector:@selector(fileDownloadWithIdentifier:completedWithData:) withObject:identifier withObject:data];
+	}
 	[data setLength:0];
 	[data release];
-	if([delegate respondsToSelector:@selector(fileDownloadDidComplete:)]) {
-		[delegate performSelector:@selector(fileDownloadDidComplete:) withObject:targetFile];
-	}
-	//[targetFile release];
 }
 
-+ (void)addRoundedCorners:(NSString *)file {
-	UIImage *img = [UIImage imageWithContentsOfFile:file];
++ (UIImage *)addRoundedCorners:(UIImage *)img {
 	int w = img.size.width;
 	int h = img.size.height;
 	
@@ -63,8 +60,7 @@
 	//[img release];
 	
 	UIImage *newImage = [UIImage imageWithCGImage:imageMasked];
-	NSData *imageData = UIImagePNGRepresentation(newImage);
-	[imageData writeToFile:file atomically:YES];
+	return newImage;
 }
 
 @end

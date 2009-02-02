@@ -27,6 +27,8 @@
     [super viewDidLoad];
 	if(nil == qualifier) {
 		qualifier = [Qualifiers defaultQualifier];
+	}
+	if(nil == translations) {
 		translations = [[NSMutableArray alloc] init];
 	}
 }
@@ -54,7 +56,7 @@
 	
     // Configure the cell
     cell.text = [[translations objectAtIndex:[indexPath row]] objectForKey:@"translation"];
-	if([[translations objectAtIndex:[indexPath row]] objectForKey:@"qualifier"] == qualifier) {
+	if([[[translations objectAtIndex:[indexPath row]] objectForKey:@"qualifier"] isEqualToString:qualifier]) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	} else {
 		cell.accessoryType = UITableViewCellAccessoryNone;
