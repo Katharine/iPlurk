@@ -7,7 +7,6 @@
 //
 
 #import "iPlurkAppDelegate.h"
-#import "UserTimelineTableViewController.h"
 
 
 @implementation iPlurkAppDelegate
@@ -17,6 +16,7 @@
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+	[[CrashReporter sharedReporter] enableCrashReports];
 	
 	// Configure and show the window
 	[window addSubview:[navigationController view]];
@@ -79,7 +79,6 @@
 	
 	return handledURL;
 }
-
 
 - (void)dealloc {
 	[navigationController release];

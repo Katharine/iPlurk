@@ -141,6 +141,8 @@
 		89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 89A2B2EE0EE1ADC7009B2C82 /* Icon.png */; };
 		89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */; };
 		89A3B46C0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */; };
+		89CAAD900F39057C00F3BF7F /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CAAD8E0F39057C00F3BF7F /* CrashReporter.m */; };
+		89CAADA60F39061C00F3BF7F /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89CAADA50F39061C00F3BF7F /* CrashReporter.framework */; };
 		89CD0C960F3133410075FE75 /* QualifierDetails.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89CD0C950F3133410075FE75 /* QualifierDetails.plist */; };
 		89CD0CA70F3135AC0075FE75 /* Qualifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CD0CA60F3135AC0075FE75 /* Qualifiers.m */; };
 		89D8CC210F379A5F004CBE40 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D8CC200F379A5F004CBE40 /* Base64.m */; };
@@ -397,6 +399,9 @@
 		89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenericPlurkTimelineView.xib; sourceTree = "<group>"; };
 		89A3B46A0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericPlurkTimelineViewController.h; sourceTree = "<group>"; };
 		89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericPlurkTimelineViewController.m; sourceTree = "<group>"; };
+		89CAAD8E0F39057C00F3BF7F /* CrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashReporter.m; sourceTree = "<group>"; };
+		89CAAD8F0F39057C00F3BF7F /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
+		89CAADA50F39061C00F3BF7F /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
 		89CD0C950F3133410075FE75 /* QualifierDetails.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = QualifierDetails.plist; sourceTree = "<group>"; };
 		89CD0CA50F3135AC0075FE75 /* Qualifiers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Qualifiers.h; sourceTree = "<group>"; };
 		89CD0CA60F3135AC0075FE75 /* Qualifiers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Qualifiers.m; sourceTree = "<group>"; };
@@ -419,6 +424,7 @@
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				343683990EB7844F00C7524A /* libicucore.dylib in Frameworks */,
 				89E046ED0F37629E00006217 /* libsqlite3.dylib in Frameworks */,
+				89CAADA60F39061C00F3BF7F /* CrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +442,8 @@
 				1D3623250D0F684500981E51 /* iPlurkAppDelegate.m */,
 				343683370EB77A8D00C7524A /* FileDownloader.h */,
 				343683380EB77A8D00C7524A /* FileDownloader.m */,
+				89CAAD8E0F39057C00F3BF7F /* CrashReporter.m */,
+				89CAAD8F0F39057C00F3BF7F /* CrashReporter.h */,
 				343683390EB77A8D00C7524A /* ProfileImageCache.h */,
 				3436833A0EB77A8D00C7524A /* ProfileImageCache.m */,
 				3436833B0EB77A8D00C7524A /* WebViewManager.h */,
@@ -496,11 +504,12 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				89CAADA50F39061C00F3BF7F /* CrashReporter.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
 			);
-			name = Frameworks;
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 		343682700EB779F000C7524A /* HTML */ = {
@@ -845,6 +854,7 @@
 				8913D3A00F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.m in Sources */,
 				8913D3C20F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m in Sources */,
 				89D8CC210F379A5F004CBE40 /* Base64.m in Sources */,
+				89CAAD900F39057C00F3BF7F /* CrashReporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -856,6 +866,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -870,6 +884,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPlurk_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
@@ -903,6 +921,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPlurk_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
@@ -936,6 +958,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPlurk_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;

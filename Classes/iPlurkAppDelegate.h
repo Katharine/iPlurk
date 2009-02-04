@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CrashReporter.h"
+#import "UserTimelineTableViewController.h"
 
 @interface iPlurkAppDelegate : NSObject <UIApplicationDelegate> {
     
