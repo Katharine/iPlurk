@@ -352,6 +352,7 @@
 		}
 		
 		// Try a quick login first.
+		NSLog(@"Going to do logging in stuff.");
 		if([[PlurkAPI sharedAPI] quickLoginAs:[defaults stringForKey:@"plurk_username"] withFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]) {
 			//NSLog(@"Used quick login.");
 			[self plurkLoginDidFinish];
@@ -398,9 +399,10 @@
 				[[cell plurkDisplayed] setResponsesSeen:[[cell plurkDisplayed] responseCount]];
 				[[self tableView] beginUpdates];
 				if(showingUnread) {
-					[unreadPlurks removeObjectAtIndex:selectedRow];
+					[currentPlurks removeObjectAtIndex:selectedRow];
 					[[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:selected] withRowAnimation:YES];
-				} else {
+				}
+				if(unreadPlurks != currentPlurks) {
 					[unreadPlurks removeObject:[cell plurkDisplayed]];
 				}
 				[[self tableView] endUpdates];

@@ -9,7 +9,7 @@
 #import "PlurkAPI.h"
 
 @implementation PlurkAPI
-@synthesize userID, userName, friendDictionary, uidToName, loggedIn, currentUser;
+@synthesize userID, userName, friendDictionary, uidToName, loggedIn, currentUser, hasTenFriends;
 
 + (PlurkAPI *)sharedAPI {
 	static PlurkAPI* shared;
@@ -115,6 +115,8 @@
 	[save setObject:userName forKey:@"userName"];
 	[save setObject:[currentUser displayName] forKey:@"displayName"];
 	[save setObject:[NSNumber numberWithBool:[currentUser hasProfileImage]] forKey:@"hasProfileImage"];
+	[save setObject:[NSNumber numberWithFloat:[currentUser karma]] forKey:@"karma"];
+	[save setObject:[NSNumber numberWithBool:hasTenFriends] forKey:@"hasTenFriends"];
 	//NSLog(@"Saving ret to %@", path);
 	BOOL ret = [save writeToFile:path atomically:NO];
 	if(ret) {
@@ -127,6 +129,7 @@
 }
 
 - (BOOL)quickLoginAs:(NSString *)username withFile:(NSString *)path {
+	NSLog(@"Nop.");
 	if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		//NSLog(@"QuickLogin file does not exist.");
 		return NO;
@@ -149,7 +152,19 @@
 	currentUser = [[[PlurkFriend alloc] init] retain];
 	currentUser.displayName = [load objectForKey:@"displayName"];
 	currentUser.hasProfileImage = [[load objectForKey:@"hasProfileImage"] boolValue];
+	NSLog(@"Meep.");
+	currentUser.karma = [[load objectForKey:@"karma"] floatValue];
+	hasTenFriends = [[load objectForKey:@"hasTenFriends"] boolValue];
 	loggedIn = YES;
+	
+	NSLog(@"Going to request karma.");
+	// Request new karma and such.
+	PlurkAPIRequest *request = [[PlurkAPIRequest alloc] init];
+	[request setAction:PlurkAPIActionGetUpdatableData];
+	NSDictionary *param = [NSDictionary dictionaryWithObject:[[NSNumber numberWithInteger:userID] stringValue] forKey:@"page_uid"];
+	NSURL *url = [NSURL URLWithString:[plurkURLs objectForKey:@"plurk_get_user_data"]];
+	[self makePostRequestTo:url withPostData:param withAPIRequest:request];
+	NSLog(@"Completed quicklogin.");
 	return YES;
 }
 
@@ -419,6 +434,11 @@
 			case PlurkAPIActionRequestFriendsForNewPlurks:
 				[self handleFriendsReceived:response forPlurks:[request storage] fromConnection:[request connection] delegate:[request delegate]];
 				break;
+			case PlurkAPIActionGetUpdatableData:
+				NSLog(@"Got response");
+				[[self currentUser] setKarma:[[[response JSONValue] objectForKey:@"karma"] floatValue]];
+				NSLog(@"Set karma.");
+				break;
 			default:
 				//NSLog(@"Received unhandled action type in connectionDidFinishLoading!");
 				break;
@@ -502,6 +522,7 @@
 	}
 	
 	NSDictionary *pageUser = [global objectForKey:@"page_user"];
+	hasTenFriends = ([[pageUser objectForKey:@"recruited"] integerValue] >= 10);
 	PlurkFriend *friend = [[PlurkFriend alloc] init];
 	friend.nickName = [pageUser objectForKey:@"nick_name"];
 	friend.displayName = [pageUser objectForKey:@"display_name"];
@@ -531,6 +552,9 @@
 	[uidToName setObject:userName forKey:[NSNumber numberWithInteger:userID]];
 	currentUser = [friend retain];
 	//NSLog(@"Login successful.");
+	
+	
+	
 	loggedIn = YES;
 	[delegate plurkLoginDidFinish];
 }

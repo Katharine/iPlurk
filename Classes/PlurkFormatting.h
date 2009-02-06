@@ -14,7 +14,5 @@
 }
 
 + (NSString *)addSmiliesToPlurk:(NSString *)plurkHTML;
-+ (NSString *)avatarPath;
-+ (NSString *)avatarPathForUserID:(NSInteger)userID;
 
 @end

@@ -37,10 +37,12 @@ typedef enum {
 	NSDate *lastPlurkDate;
 	NSMutableDictionary *knownResponses;
 	PlurkFriend *currentUser;
+	BOOL hasTenFriends;
 }
 
 @property(readonly) BOOL loggedIn;
 @property(readonly) NSInteger userID;
+@property(readonly) BOOL hasTenFriends;
 @property(nonatomic, readonly, retain) NSString *userName;
 @property(nonatomic, retain) NSMutableDictionary *friendDictionary;
 @property(nonatomic, retain) NSMutableDictionary *uidToName;

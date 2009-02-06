@@ -107,6 +107,22 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
+- (void)startEmoticonSelector {
+	EmoticonPanelController *panel = [[EmoticonPanelController alloc] initWithNibName:@"EmoticonSelector" bundle:nil];
+	[panel setDelegate:self];
+	[panel setAction:@selector(insertEmoticon:)];
+	[[panel view] setFrame:CGRectMake(0, 420, 320, 254)];
+	[[self view] addSubview:[panel view]];
+	[panel animateIn];
+}
+
+- (void)insertEmoticon:(NSString *)emoticon {
+	NSString *oldText = [[entryCell textView] text];
+	NSString *newText = [[NSString stringWithFormat:@"%@ %@", oldText, emoticon, nil] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	[[entryCell textView] setText:newText];
+	[entryCell textViewDidChange:[entryCell textView]];
+}
+
 - (void)startPhotoChooser {
 	if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
@@ -169,8 +185,18 @@
 	} else {
 		finalImage = image;
 	}
+	
+	// Fade in the upload waiting view.
 	UIViewController *waiting = [[UIViewController alloc] initWithNibName:@"FileUploadPending" bundle:nil];
-	[picker presentModalViewController:waiting animated:YES];
+	[[picker view] addSubview:[waiting view]];
+	CGFloat alpha = [[waiting view] alpha];
+	[[waiting view] setAlpha:0.0];
+	[[waiting view] setFrame:CGRectMake(0, 0, 320, 480)];
+	[UIView beginAnimations:nil context:nil];
+	[[waiting view] setAlpha:alpha];
+	[UIView commitAnimations];
+	
+	// Do the upload.
 	[self performSelector:@selector(postImageWithDict:) withObject:finalImage afterDelay:0.1];
 }
 
@@ -290,10 +316,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-		if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-			return 2;
-		}
-		return 1;
+		return 2;
 }
 
 
@@ -306,7 +329,7 @@
 				return 2;
 			}
 		case 1:
-			return 1;
+			return 2;
 	}
     return 0;
 }
@@ -370,8 +393,13 @@
 		}
 	} else if([indexPath section] == 1) {
 		ButtonTableViewCell *button = (ButtonTableViewCell *)cell;
-		[button setText:@"Upload photo"];
-		[button addTarget:self action:@selector(startPhotoChooser) forControlEvents:UIControlEventTouchUpInside];
+		if([indexPath row] == 0) {
+			[button setText:@"Insert emoticon"];
+			[button addTarget:self action:@selector(startEmoticonSelector) forControlEvents:UIControlEventTouchUpInside];
+		} else if([indexPath row] == 1) {
+			[button setText:@"Upload photo"];
+			[button addTarget:self action:@selector(startPhotoChooser) forControlEvents:UIControlEventTouchUpInside];
+		}
 	}
     return cell;
 }
