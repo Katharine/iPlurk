@@ -56,5 +56,7 @@
 	<string>http://www.plurk.com/Users/getUserData</string>
 	<key>plurk_mark_read</key>
 	<string>http://www.plurk.com/Responses/markAllRead</string>
+	<key>plurk_get_user_data</key>
+	<string>http://www.plurk.com/Users/getUpdateableData</string>
 </dict>
 </plist>

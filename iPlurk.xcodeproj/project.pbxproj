@@ -135,12 +135,17 @@
 		8913D3BB0F346A6500B69214 /* QualifierLanguages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8913D3BA0F346A6500B69214 /* QualifierLanguages.plist */; };
 		8913D3BD0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8913D3BC0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib */; };
 		8913D3C20F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8913D3C10F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m */; };
+		893F09410F3C789200897C78 /* EmoticonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 893F09400F3C789200897C78 /* EmoticonTableViewCell.m */; };
+		893F09710F3C854A00897C78 /* EmoticonSelector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 893F09700F3C854A00897C78 /* EmoticonSelector.xib */; };
+		893F09750F3C881700897C78 /* EmoticonPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 893F09740F3C881700897C78 /* EmoticonPanelController.m */; };
+		893F0CC60F3CD4A800897C78 /* Emoticons.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89A5EE910F3C3F2300F576EB /* Emoticons.plist */; };
 		896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */ = {isa = PBXBuildFile; fileRef = 896700ED0EDCD052003BEE39 /* Qualifiers.css */; };
 		8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */ = {isa = PBXBuildFile; fileRef = 8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */; };
 		899F50F40F12990B0057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif in CopyFiles */ = {isa = PBXBuildFile; fileRef = 899F50E90F1298C40057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif */; };
 		89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 89A2B2EE0EE1ADC7009B2C82 /* Icon.png */; };
 		89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */; };
 		89A3B46C0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */; };
+		89A5EE8F0F3C3E1000F576EB /* EmoticonSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A5EE8E0F3C3E1000F576EB /* EmoticonSelectionTableViewController.m */; };
 		89CAAD900F39057C00F3BF7F /* CrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 89CAAD8E0F39057C00F3BF7F /* CrashReporter.m */; };
 		89CAADA60F39061C00F3BF7F /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89CAADA50F39061C00F3BF7F /* CrashReporter.framework */; };
 		89CD0C960F3133410075FE75 /* QualifierDetails.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89CD0C950F3133410075FE75 /* QualifierDetails.plist */; };
@@ -392,6 +397,11 @@
 		8913D3BC0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QualifierLanguageSelectorTableView.xib; sourceTree = "<group>"; };
 		8913D3C00F346E9700B69214 /* QualifierLanguageSelectorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QualifierLanguageSelectorTableViewController.h; sourceTree = "<group>"; };
 		8913D3C10F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QualifierLanguageSelectorTableViewController.m; sourceTree = "<group>"; };
+		893F093F0F3C789200897C78 /* EmoticonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmoticonTableViewCell.h; sourceTree = "<group>"; };
+		893F09400F3C789200897C78 /* EmoticonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmoticonTableViewCell.m; sourceTree = "<group>"; };
+		893F09700F3C854A00897C78 /* EmoticonSelector.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmoticonSelector.xib; sourceTree = "<group>"; };
+		893F09730F3C881700897C78 /* EmoticonPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmoticonPanelController.h; sourceTree = "<group>"; };
+		893F09740F3C881700897C78 /* EmoticonPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmoticonPanelController.m; sourceTree = "<group>"; };
 		896700ED0EDCD052003BEE39 /* Qualifiers.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Qualifiers.css; sourceTree = "<group>"; };
 		8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RichTextPlurkTableCell.html; sourceTree = "<group>"; };
 		899F50E90F1298C40057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 92b595a573d25dd5e39a57b5d56d4d03.gif; sourceTree = "<group>"; };
@@ -399,6 +409,9 @@
 		89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenericPlurkTimelineView.xib; sourceTree = "<group>"; };
 		89A3B46A0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericPlurkTimelineViewController.h; sourceTree = "<group>"; };
 		89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericPlurkTimelineViewController.m; sourceTree = "<group>"; };
+		89A5EE8D0F3C3E1000F576EB /* EmoticonSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmoticonSelectionTableViewController.h; sourceTree = "<group>"; };
+		89A5EE8E0F3C3E1000F576EB /* EmoticonSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmoticonSelectionTableViewController.m; sourceTree = "<group>"; };
+		89A5EE910F3C3F2300F576EB /* Emoticons.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoticons.plist; sourceTree = "<group>"; };
 		89CAAD8E0F39057C00F3BF7F /* CrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashReporter.m; sourceTree = "<group>"; };
 		89CAAD8F0F39057C00F3BF7F /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
 		89CAADA50F39061C00F3BF7F /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
@@ -544,6 +557,7 @@
 				89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */,
 				8913D39A0F32676D00B69214 /* PlurkLanguageSelectionTableViewCell.xib */,
 				8913D3BC0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib */,
+				893F09700F3C854A00897C78 /* EmoticonSelector.xib */,
 			);
 			path = IB;
 			sourceTree = "<group>";
@@ -585,6 +599,10 @@
 				89A3B46B0EEB598F00EC6DBF /* GenericPlurkTimelineViewController.m */,
 				8913D3C00F346E9700B69214 /* QualifierLanguageSelectorTableViewController.h */,
 				8913D3C10F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m */,
+				89A5EE8D0F3C3E1000F576EB /* EmoticonSelectionTableViewController.h */,
+				89A5EE8E0F3C3E1000F576EB /* EmoticonSelectionTableViewController.m */,
+				893F09730F3C881700897C78 /* EmoticonPanelController.h */,
+				893F09740F3C881700897C78 /* EmoticonPanelController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -609,6 +627,8 @@
 				343684280EB78AC400C7524A /* PlurkTableViewCell.m */,
 				8913D39E0F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.h */,
 				8913D39F0F336EE400B69214 /* PlurkLanguageSelectionTableViewCell.m */,
+				893F093F0F3C789200897C78 /* EmoticonTableViewCell.h */,
+				893F09400F3C789200897C78 /* EmoticonTableViewCell.m */,
 			);
 			path = "Table Cells";
 			sourceTree = "<group>";
@@ -642,6 +662,7 @@
 				89CD0C950F3133410075FE75 /* QualifierDetails.plist */,
 				343684CC0EB797B000C7524A /* Qualifiers.plist */,
 				8913D3BA0F346A6500B69214 /* QualifierLanguages.plist */,
+				89A5EE910F3C3F2300F576EB /* Emoticons.plist */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -812,6 +833,8 @@
 				8913D3BD0F346E0600B69214 /* QualifierLanguageSelectorTableView.xib in Resources */,
 				89E046DB0F3756FD00006217 /* AvatarCache.sql in Resources */,
 				89D8CC600F37A481004CBE40 /* DefaultAvatarImage.png in Resources */,
+				893F0CC60F3CD4A800897C78 /* Emoticons.plist in Resources */,
+				893F09710F3C854A00897C78 /* EmoticonSelector.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -855,6 +878,9 @@
 				8913D3C20F346E9700B69214 /* QualifierLanguageSelectorTableViewController.m in Sources */,
 				89D8CC210F379A5F004CBE40 /* Base64.m in Sources */,
 				89CAAD900F39057C00F3BF7F /* CrashReporter.m in Sources */,
+				89A5EE8F0F3C3E1000F576EB /* EmoticonSelectionTableViewController.m in Sources */,
+				893F09410F3C789200897C78 /* EmoticonTableViewCell.m in Sources */,
+				893F09750F3C881700897C78 /* EmoticonPanelController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

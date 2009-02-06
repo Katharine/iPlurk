@@ -16,6 +16,7 @@
 #import "PlurkLanguageSelectionTableViewCell.h"
 #import "QualifierLanguageSelectorTableViewController.h"
 #import "Qualifiers.h"
+#import "EmoticonPanelController.h"
 
 @interface WritePlurkTableViewController : UITableViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 	Plurk *plurkToReplyTo;
@@ -51,5 +52,6 @@
 - (void)confirmBackButton;
 - (void)replyDidChange:(NSString *)text;
 - (void)setQualifierLanguage:(NSString *)language;
+- (void)startEmoticonSelector;
 
 @end
