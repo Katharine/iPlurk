@@ -34,6 +34,7 @@
 	NSString *initialQualifier;
 	NSString *qualifierLanguage;
 	NSString *qualifier;
+	BOOL allowInteraction;
 }
 
 @property(nonatomic, retain) Plurk *plurkToReplyTo;

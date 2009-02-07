@@ -10,7 +10,7 @@
 
 
 @implementation EmoticonPanelController
-@synthesize tableController;
+@synthesize webView;
 @synthesize delegate, action;
 
 /*
@@ -32,11 +32,44 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	NSLog(@"Viewdidload %@", tableController);
     [super viewDidLoad];
-	[tableController setDelegate:self];
-	[tableController setAction:@selector(emoticonChosen:)];
-	[tableController doSetup];
+	[webView setDelegate:self];
+	NSMutableString *table = [[NSMutableString alloc] init];
+	
+	NSDictionary *allEmoticons = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Emoticons" ofType:@"plist"]];
+	
+	NSMutableArray *emoticons = [NSMutableArray arrayWithArray:[allEmoticons objectForKey:@"basic"]];
+	float karma = [[[PlurkAPI sharedAPI] currentUser] karma];
+	if(karma > 25.0) {
+		[emoticons addObjectsFromArray:[allEmoticons objectForKey:@"silver"]];
+		if(karma > 50.0) {
+			[emoticons addObjectsFromArray:[allEmoticons objectForKey:@"gold"]];
+			if(karma > 81.0) {
+				[emoticons addObjectsFromArray:[allEmoticons objectForKey:@"platinum_2"]];
+			}
+		}
+	}
+	
+	allEmoticons = nil;
+	
+	NSString *emoticonPath = [NSString stringWithFormat:@"file://%@/statics/%%@", [[NSBundle mainBundle] resourcePath], nil];
+	NSInteger rows = ceil([emoticons count] / 5);
+	for(NSInteger i = 0; i < rows; ++i) {
+		[table appendString:@"<tr>"];
+		for(NSInteger j = 0; j < 5; ++j) {
+			NSInteger index = i * 5 + j;
+			if(index >= [emoticons count]) break;
+			NSDictionary *dict = [emoticons objectAtIndex:index];
+			NSString *name = [dict objectForKey:@"name"];
+			NSString *url = [NSString stringWithFormat:emoticonPath, [dict objectForKey:@"url"], nil];
+			[table appendFormat:@"<td onclick=\"loadEmoticon(&quot;%@&quot;)\"><img src=\"%@\" onclick=\"loadEmoticon(&quot;%@&quot;)\" /></td>", name, url, name, nil];
+		}
+		[table appendString:@"</tr>"];
+	}
+	
+	NSString *html = [NSString stringWithFormat:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"EmoticonPicker" ofType:@"html"]], table, nil];
+	
+	[webView loadHTMLString:html baseURL:nil];
 }
 
 - (void)emoticonChosen:(NSString *)emoticon {
@@ -64,12 +97,13 @@
 }
 
 - (void)diePeacefully:(NSString *)animation finished:(BOOL)finished context:(void *)context {
-	//[[self view] removeFromSuperview];
+	[[self view] removeFromSuperview];
 	[modaliser removeFromSuperview];
 	[modaliser release];
 }
 
 - (void)closePanel {
+	[webView stopLoading];
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:0.5];
 	[UIView setAnimationDelegate:self];
@@ -77,6 +111,7 @@
 	[modaliser setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.0]];
 	[[self view] setFrame:CGRectMake(0, 420, 320, 254)];
 	[UIView commitAnimations];
+	[delegate performSelector:action withObject:@""];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,6 +119,13 @@
     // Release anything that's not essential, such as cached data
 }
 
+- (BOOL)webView:(UIWebView *)view shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)type {
+	if([[request URL] query] != nil) {
+		[self emoticonChosen:[[request URL] query]];
+		return NO;
+	}
+	return YES;
+}
 
 - (void)dealloc {
     [super dealloc];
