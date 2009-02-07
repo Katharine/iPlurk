@@ -29,6 +29,7 @@
     [super viewDidLoad];
 	
 	tryingToQuit = NO;
+	allowInteraction = YES;
 	[qualifierTable setDelegate:self];
 	[qualifierTable setAction:@selector(handleQualifierSelected:)];
 	
@@ -108,6 +109,7 @@
 }
 
 - (void)startEmoticonSelector {
+	allowInteraction = NO;
 	EmoticonPanelController *panel = [[EmoticonPanelController alloc] initWithNibName:@"EmoticonSelector" bundle:nil];
 	[panel setDelegate:self];
 	[panel setAction:@selector(insertEmoticon:)];
@@ -117,6 +119,7 @@
 }
 
 - (void)insertEmoticon:(NSString *)emoticon {
+	allowInteraction = YES;
 	NSString *oldText = [[entryCell textView] text];
 	NSString *newText = [[NSString stringWithFormat:@"%@ %@", oldText, emoticon, nil] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	[[entryCell textView] setText:newText];
@@ -416,8 +419,11 @@
 	return 40.0;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if(!allowInteraction) {
+		[tableView deselectRowAtIndexPath:indexPath animated:NO];
+		return;
+	}
 	if(plurkToEdit) {
 		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 		return;

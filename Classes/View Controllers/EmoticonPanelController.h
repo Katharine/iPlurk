@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EmoticonSelectionTableViewController.h"
+#import "PlurkAPI.h"
 
-@interface EmoticonPanelController : UIViewController {
+@interface EmoticonPanelController : UIViewController<UIWebViewDelegate> {
 	UIView *modaliser;
-	IBOutlet EmoticonSelectionTableViewController *tableController;
+	IBOutlet UIWebView *webView;
 	id delegate;
 	SEL action;
 }
 
-@property(nonatomic, retain) IBOutlet EmoticonSelectionTableViewController *tableController;
+@property(nonatomic, retain) IBOutlet UIWebView *webView;
 @property(nonatomic, assign) id delegate;
 @property(nonatomic) SEL action;
 
