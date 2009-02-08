@@ -128,6 +128,8 @@
 }
 
 - (void)dealloc {
+	if([webView isLoading]) [webView stopLoading];
+	[webView release];
     [super dealloc];
 }
 

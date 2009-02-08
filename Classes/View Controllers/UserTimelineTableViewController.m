@@ -64,17 +64,14 @@
 	// Try loading a cached image, if we want one at all.
 	if([friend hasProfileImage]) {
 		UIImage *avatar = nil;
-		NSLog(@"Trying cache.");
 		avatar = [[ProfileImageCache mainCache] retrieveImageForUser:[plurk ownerID] avatarNumber:[[friend avatar] integerValue]];
 		if(!avatar && ![filesDownloading objectForKey:[NSNumber numberWithInteger:[plurk ownerID]]]) {
-			NSLog(@"Cache failed.");
 			// No cached image. Go get it.
 			NSURL *avatarUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://avatars.plurk.com/%d-medium%@.gif", [plurk ownerID], [friend avatar], nil]];
 			FileDownloader *downloader = [[FileDownloader alloc] initFromURL:avatarUrl withIdentifier:[NSNumber numberWithInteger:[plurk ownerID]] delegate:self];
 			[downloader release];
 			[filesDownloading setObject:[friend avatar] forKey:[NSNumber numberWithInteger:[plurk ownerID]]];
 		} else {
-			NSLog(@"Cache succeeded.");
 			[[cell imageButton] setImage:[avatar retain] forState:UIControlStateNormal];
 		}
 	} else {
@@ -318,13 +315,8 @@
 		setupViewController.origin = self;
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		enableUserInterfacePaging = [defaults boolForKey:@"ui_paging"];
-		if([defaults boolForKey:@"ui_richtext"]) {
-			plurkTableCellType = @"PlurkRichTextTableViewCell";
-		} else {
-			plurkTableCellType = @"PlurkPlainTextTableViewCell";
-		}
+		plurkTableCellType = @"PlurkPlainTextTableViewCell";
 		
-		NSLog(@"ShowUnreadCount: %@", [defaults stringForKey:@"show_unread_count"]);
 		if([[defaults stringForKey:@"show_unread_count"] isEqualToString:@"0"]) {
 			showSpringboardBadge = NO;
 			[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
@@ -352,7 +344,6 @@
 		}
 		
 		// Try a quick login first.
-		NSLog(@"Going to do logging in stuff.");
 		if([[PlurkAPI sharedAPI] quickLoginAs:[defaults stringForKey:@"plurk_username"] withFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]) {
 			//NSLog(@"Used quick login.");
 			[self plurkLoginDidFinish];
@@ -478,7 +469,7 @@
 #pragma mark PlurkAPI
 
 - (void)plurkLoginDidFinish {
-	NSLog(@"Creating file: %d", [[PlurkAPI sharedAPI] saveLoginToFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]]);
+	[[PlurkAPI sharedAPI] saveLoginToFile:[NSString stringWithFormat:@"%@/Library/login.plist", NSHomeDirectory(), nil]];
 	// If we started creating a plurk before logging in, e.g. using an iplurk://post URL, fill in the name.
 	if([self modalViewController]) {
 		if([[(UINavigationController *)[self modalViewController] topViewController] respondsToSelector:@selector(qualifierCell)]) {

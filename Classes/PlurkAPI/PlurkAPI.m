@@ -109,7 +109,11 @@
 }
 
 - (BOOL)saveLoginToFile:(NSString *)path {
-	if([[NSFileManager defaultManager] fileExistsAtPath:path]) return NO;
+	if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+		if([[[NSDictionary dictionaryWithContentsOfFile:path] objectForKey:@"userName"] caseInsensitiveCompare:userName] == NSOrderedSame) {
+			return NO;
+		}
+	}
 	NSMutableDictionary *save = [[NSMutableDictionary alloc] init];
 	[save setObject:[NSNumber numberWithInteger:userID] forKey:@"userID"];
 	[save setObject:userName forKey:@"userName"];
@@ -129,12 +133,11 @@
 }
 
 - (BOOL)quickLoginAs:(NSString *)username withFile:(NSString *)path {
-	NSLog(@"Nop.");
 	if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
 		//NSLog(@"QuickLogin file does not exist.");
 		return NO;
 	}
-	if([[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:NULL] fileModificationDate] timeIntervalSinceNow] > 604800) { // One week old data fails.
+	if([[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:NULL] fileModificationDate] timeIntervalSinceNow] > 302400) { // Half week old data fails.
 		[[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
 		return NO;
 	}
@@ -143,28 +146,25 @@
 		//NSLog(@"Load failed.");
 		return NO;
 	}
-	if(![[[load objectForKey:@"userName"] lowercaseString] isEqualToString:[username lowercaseString]]) {
-		//NSLog(@"Wrong userName");
+	NSString *name = [load objectForKey:@"userName"];
+	if([name caseInsensitiveCompare:username] != NSOrderedSame) {
 		return NO;
 	}
 	userID = [[load objectForKey:@"userID"] integerValue];
-	userName = [[load objectForKey:@"userName"] retain];
+	userName = [name retain];
 	currentUser = [[[PlurkFriend alloc] init] retain];
 	currentUser.displayName = [load objectForKey:@"displayName"];
 	currentUser.hasProfileImage = [[load objectForKey:@"hasProfileImage"] boolValue];
-	NSLog(@"Meep.");
 	currentUser.karma = [[load objectForKey:@"karma"] floatValue];
 	hasTenFriends = [[load objectForKey:@"hasTenFriends"] boolValue];
 	loggedIn = YES;
 	
-	NSLog(@"Going to request karma.");
 	// Request new karma and such.
 	PlurkAPIRequest *request = [[PlurkAPIRequest alloc] init];
 	[request setAction:PlurkAPIActionGetUpdatableData];
 	NSDictionary *param = [NSDictionary dictionaryWithObject:[[NSNumber numberWithInteger:userID] stringValue] forKey:@"page_uid"];
 	NSURL *url = [NSURL URLWithString:[plurkURLs objectForKey:@"plurk_get_user_data"]];
 	[self makePostRequestTo:url withPostData:param withAPIRequest:request];
-	NSLog(@"Completed quicklogin.");
 	return YES;
 }
 
@@ -435,9 +435,7 @@
 				[self handleFriendsReceived:response forPlurks:[request storage] fromConnection:[request connection] delegate:[request delegate]];
 				break;
 			case PlurkAPIActionGetUpdatableData:
-				NSLog(@"Got response");
 				[[self currentUser] setKarma:[[[response JSONValue] objectForKey:@"karma"] floatValue]];
-				NSLog(@"Set karma.");
 				break;
 			default:
 				//NSLog(@"Received unhandled action type in connectionDidFinishLoading!");

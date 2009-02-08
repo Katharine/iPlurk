@@ -186,10 +186,7 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *plurkTableCellType;
-	if(!plurkTableCellType) {
-		plurkTableCellType = ([[NSUserDefaults standardUserDefaults] boolForKey:@"ui_richtext"] ? @"PlurkRichTextTableViewCell" : @"PlurkPlainTextTableViewCell");
-	}
+	static NSString *plurkTableCellType = @"PlurkPlainTextTableViewCell";
 	// Produce a cell from somewhere.
     PlurkTableViewCell *cell = nil;
 	cell = (PlurkTableViewCell *)[tableView dequeueReusableCellWithIdentifier:plurkTableCellType];

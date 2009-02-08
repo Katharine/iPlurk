@@ -21,7 +21,6 @@
 		343682CE0EB779F000C7524A /* PlurkPlainTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 343682790EB779F000C7524A /* PlurkPlainTextTableViewCell.xib */; };
 		343682CF0EB779F000C7524A /* PlurkQualifierTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827A0EB779F000C7524A /* PlurkQualifierTableViewCell.xib */; };
 		343682D00EB779F000C7524A /* PlurkResponsesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827B0EB779F000C7524A /* PlurkResponsesView.xib */; };
-		343682D10EB779F000C7524A /* PlurkRichTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827C0EB779F000C7524A /* PlurkRichTextTableViewCell.xib */; };
 		343682D20EB779F000C7524A /* QualifierSelectorTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */; };
 		343682D30EB779F000C7524A /* UserTimetableTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827E0EB779F000C7524A /* UserTimetableTableView.xib */; };
 		343682D40EB779F000C7524A /* SetupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436827F0EB779F000C7524A /* SetupView.xib */; };
@@ -44,7 +43,6 @@
 		3436831A0EB77A7400C7524A /* PlurkEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436830B0EB77A7400C7524A /* PlurkEntryTableViewCell.m */; };
 		3436831B0EB77A7400C7524A /* PlurkPlainTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436830D0EB77A7400C7524A /* PlurkPlainTextTableViewCell.m */; };
 		3436831C0EB77A7400C7524A /* PlurkQualifierTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436830F0EB77A7400C7524A /* PlurkQualifierTableViewCell.m */; };
-		3436831D0EB77A7400C7524A /* PlurkRichTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683110EB77A7400C7524A /* PlurkRichTextTableViewCell.m */; };
 		3436832E0EB77A7900C7524A /* MutableURLConnectionDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683220EB77A7900C7524A /* MutableURLConnectionDictionary.m */; };
 		3436832F0EB77A7900C7524A /* Plurk.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683240EB77A7900C7524A /* Plurk.m */; };
 		343683300EB77A7900C7524A /* PlurkAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 343683260EB77A7900C7524A /* PlurkAPI.m */; };
@@ -140,7 +138,6 @@
 		893F0CC60F3CD4A800897C78 /* Emoticons.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89A5EE910F3C3F2300F576EB /* Emoticons.plist */; };
 		893F0CE60F3CD9EB00897C78 /* EmoticonPicker.html in Resources */ = {isa = PBXBuildFile; fileRef = 893F0CE50F3CD9EB00897C78 /* EmoticonPicker.html */; };
 		896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */ = {isa = PBXBuildFile; fileRef = 896700ED0EDCD052003BEE39 /* Qualifiers.css */; };
-		8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */ = {isa = PBXBuildFile; fileRef = 8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */; };
 		899F50F40F12990B0057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif in CopyFiles */ = {isa = PBXBuildFile; fileRef = 899F50E90F1298C40057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif */; };
 		89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 89A2B2EE0EE1ADC7009B2C82 /* Icon.png */; };
 		89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */; };
@@ -253,7 +250,6 @@
 		343682790EB779F000C7524A /* PlurkPlainTextTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlurkPlainTextTableViewCell.xib; sourceTree = "<group>"; };
 		3436827A0EB779F000C7524A /* PlurkQualifierTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlurkQualifierTableViewCell.xib; sourceTree = "<group>"; };
 		3436827B0EB779F000C7524A /* PlurkResponsesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlurkResponsesView.xib; sourceTree = "<group>"; };
-		3436827C0EB779F000C7524A /* PlurkRichTextTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlurkRichTextTableViewCell.xib; sourceTree = "<group>"; };
 		3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QualifierSelectorTableView.xib; sourceTree = "<group>"; };
 		3436827E0EB779F000C7524A /* UserTimetableTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserTimetableTableView.xib; sourceTree = "<group>"; };
 		3436827F0EB779F000C7524A /* SetupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetupView.xib; sourceTree = "<group>"; };
@@ -289,8 +285,6 @@
 		3436830D0EB77A7400C7524A /* PlurkPlainTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlurkPlainTextTableViewCell.m; sourceTree = "<group>"; };
 		3436830E0EB77A7400C7524A /* PlurkQualifierTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlurkQualifierTableViewCell.h; sourceTree = "<group>"; };
 		3436830F0EB77A7400C7524A /* PlurkQualifierTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlurkQualifierTableViewCell.m; sourceTree = "<group>"; };
-		343683100EB77A7400C7524A /* PlurkRichTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlurkRichTextTableViewCell.h; sourceTree = "<group>"; };
-		343683110EB77A7400C7524A /* PlurkRichTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlurkRichTextTableViewCell.m; sourceTree = "<group>"; };
 		343683120EB77A7400C7524A /* PlurkTableCellProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlurkTableCellProtocol.h; sourceTree = "<group>"; };
 		343683130EB77A7400C7524A /* PlurkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlurkTableViewCell.h; sourceTree = "<group>"; };
 		343683210EB77A7900C7524A /* MutableURLConnectionDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableURLConnectionDictionary.h; sourceTree = "<group>"; };
@@ -401,7 +395,6 @@
 		893F09740F3C881700897C78 /* EmoticonPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmoticonPanelController.m; sourceTree = "<group>"; };
 		893F0CE50F3CD9EB00897C78 /* EmoticonPicker.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = EmoticonPicker.html; sourceTree = "<group>"; };
 		896700ED0EDCD052003BEE39 /* Qualifiers.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Qualifiers.css; sourceTree = "<group>"; };
-		8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RichTextPlurkTableCell.html; sourceTree = "<group>"; };
 		899F50E90F1298C40057BBA0 /* 92b595a573d25dd5e39a57b5d56d4d03.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 92b595a573d25dd5e39a57b5d56d4d03.gif; sourceTree = "<group>"; };
 		89A2B2EE0EE1ADC7009B2C82 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		89A3B45E0EEB589300EC6DBF /* GenericPlurkTimelineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenericPlurkTimelineView.xib; sourceTree = "<group>"; };
@@ -528,7 +521,6 @@
 				343682720EB779F000C7524A /* PlurkResponsesSingleResponse.html */,
 				89010FFF0EBCDD3400E990A7 /* PlurkResponsesLoading.html */,
 				896700ED0EDCD052003BEE39 /* Qualifiers.css */,
-				8967013E0EDCD79C003BEE39 /* RichTextPlurkTableCell.html */,
 				893F0CE50F3CD9EB00897C78 /* EmoticonPicker.html */,
 			);
 			path = HTML;
@@ -545,7 +537,6 @@
 				343682790EB779F000C7524A /* PlurkPlainTextTableViewCell.xib */,
 				3436827A0EB779F000C7524A /* PlurkQualifierTableViewCell.xib */,
 				3436827B0EB779F000C7524A /* PlurkResponsesView.xib */,
-				3436827C0EB779F000C7524A /* PlurkRichTextTableViewCell.xib */,
 				3436827D0EB779F000C7524A /* QualifierSelectorTableView.xib */,
 				3436827E0EB779F000C7524A /* UserTimetableTableView.xib */,
 				3436827F0EB779F000C7524A /* SetupView.xib */,
@@ -615,8 +606,6 @@
 				3436830D0EB77A7400C7524A /* PlurkPlainTextTableViewCell.m */,
 				3436830E0EB77A7400C7524A /* PlurkQualifierTableViewCell.h */,
 				3436830F0EB77A7400C7524A /* PlurkQualifierTableViewCell.m */,
-				343683100EB77A7400C7524A /* PlurkRichTextTableViewCell.h */,
-				343683110EB77A7400C7524A /* PlurkRichTextTableViewCell.m */,
 				343683120EB77A7400C7524A /* PlurkTableCellProtocol.h */,
 				343683130EB77A7400C7524A /* PlurkTableViewCell.h */,
 				343684280EB78AC400C7524A /* PlurkTableViewCell.m */,
@@ -796,7 +785,6 @@
 				343682CE0EB779F000C7524A /* PlurkPlainTextTableViewCell.xib in Resources */,
 				343682CF0EB779F000C7524A /* PlurkQualifierTableViewCell.xib in Resources */,
 				343682D00EB779F000C7524A /* PlurkResponsesView.xib in Resources */,
-				343682D10EB779F000C7524A /* PlurkRichTextTableViewCell.xib in Resources */,
 				343682D20EB779F000C7524A /* QualifierSelectorTableView.xib in Resources */,
 				343682D30EB779F000C7524A /* UserTimetableTableView.xib in Resources */,
 				343682D40EB779F000C7524A /* SetupView.xib in Resources */,
@@ -815,7 +803,6 @@
 				890110000EBCDD3400E990A7 /* PlurkResponsesLoading.html in Resources */,
 				890110330EBCE08300E990A7 /* LargeWhiteProgressIndicator.gif in Resources */,
 				896700EE0EDCD052003BEE39 /* Qualifiers.css in Resources */,
-				8967013F0EDCD79C003BEE39 /* RichTextPlurkTableCell.html in Resources */,
 				89E99E590EE087B10046FB0D /* Compass.png in Resources */,
 				89A2B2EF0EE1ADC7009B2C82 /* Icon.png in Resources */,
 				89A3B45F0EEB589300EC6DBF /* GenericPlurkTimelineView.xib in Resources */,
@@ -853,7 +840,6 @@
 				3436831A0EB77A7400C7524A /* PlurkEntryTableViewCell.m in Sources */,
 				3436831B0EB77A7400C7524A /* PlurkPlainTextTableViewCell.m in Sources */,
 				3436831C0EB77A7400C7524A /* PlurkQualifierTableViewCell.m in Sources */,
-				3436831D0EB77A7400C7524A /* PlurkRichTextTableViewCell.m in Sources */,
 				3436832E0EB77A7900C7524A /* MutableURLConnectionDictionary.m in Sources */,
 				3436832F0EB77A7900C7524A /* Plurk.m in Sources */,
 				343683300EB77A7900C7524A /* PlurkAPI.m in Sources */,
