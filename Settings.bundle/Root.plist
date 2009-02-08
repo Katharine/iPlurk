@@ -126,16 +126,6 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Rich text</string>
-			<key>Key</key>
-			<string>ui_richtext</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
 			<string>Timeline paging</string>
 			<key>Key</key>
 			<string>ui_paging</string>

@@ -85,7 +85,6 @@
 		entryCell.qualifierEnabled = [qualifier isEqual:@":"];
 		[qualifierTable setQualifier:qualifier];
 		if(![[[NSUserDefaults standardUserDefaults] stringForKey:@"persist_qualifier"] isEqualToString:@"0"]) {
-			NSLog(@"Saving qualifier: %@", qualifier);
 			[[NSUserDefaults standardUserDefaults] setObject:qualifier forKey:@"last_qualifier"];
 		}
 	}
@@ -162,7 +161,6 @@
 	if([picker sourceType] == UIImagePickerControllerSourceTypeCamera) {
 		if(![[[NSUserDefaults standardUserDefaults] stringForKey:@"photo_save"] isEqualToString:@"0"]) { // Default on, if not set.
 			UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-			NSLog(@"Saved image to photo library.");
 			
 		}
 	}
@@ -487,7 +485,6 @@
 			if(!initialQualifier) {
 				if(![[[NSUserDefaults standardUserDefaults] stringForKey:@"persist_qualifier"] isEqualToString:@"0"]) {
 					initialQualifier = [[NSUserDefaults standardUserDefaults] objectForKey:@"last_qualifier"];
-					NSLog(@"Loaded qualifier: %@", initialQualifier);
 				}
 			}
 			if(initialQualifier) {

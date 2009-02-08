@@ -32,7 +32,6 @@ static sqlite3_stmt *sel_unpicky = nil;
 	
 	if(![[NSFileManager defaultManager] fileExistsAtPath:[self dbpath]]) {
 		[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"AvatarCache" ofType:@"sql"]  toPath:[self dbpath] error:NULL];
-		NSLog(@"Copied database template.");
 	}
 	
 	if(sqlite3_open([[self dbpath] UTF8String], &database) != SQLITE_OK) {
@@ -48,7 +47,6 @@ static sqlite3_stmt *sel_unpicky = nil;
 		[userImages setObject:image forKey:[NSNumber numberWithInteger:user]];
 		
 		// Stick it in the database. :D
-		NSLog(@"Storing avatar image in database.");
 		if(insert == nil) {
 			const char *sql = "REPLACE INTO avatars VALUES (?, ?, ?)";
 			if(sqlite3_prepare_v2(database, sql, -1, &insert, NULL) != SQLITE_OK) {
@@ -109,7 +107,6 @@ static sqlite3_stmt *sel_unpicky = nil;
 - (UIImage *)retrieveImageForUser:(NSInteger)user avatarNumber:(NSInteger)avatar {
 	UIImage *result = [userImages objectForKey:[NSNumber numberWithInteger:user]];
 	if(result != nil) {
-		NSLog(@"Had image for %d/%d in memory.", user, avatar);
 		return result;
 	}
 	
@@ -131,20 +128,16 @@ static sqlite3_stmt *sel_unpicky = nil;
 		[[NSException exceptionWithName:@"DatabasePrepareFailure" reason:[NSString stringWithUTF8String:sqlite3_errmsg(database)] userInfo:nil] raise];
 	}
 	
-	NSLog(@"Looking for %d/%d in database.", user, avatar);
 	sqlite3_bind_int(actual, 1, user);
 	if(avatar >= 0) {
 		sqlite3_bind_int(actual, 2, avatar);
 	}
 	
 	if(sqlite3_step(actual) != SQLITE_ROW) {
-		NSLog(@"Not in database. D:");
 		return nil;
 	}
 	
-	NSLog(@"Row exists!");
 	NSData *image = [NSData dataWithBytes:sqlite3_column_blob(actual, 0) length:sqlite3_column_bytes(actual, 0)];
-	NSLog(@"Image length: %d", [image length]);
 	sqlite3_reset(actual);
 	return [UIImage imageWithData:image];
 }
