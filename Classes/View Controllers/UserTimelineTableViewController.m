@@ -29,7 +29,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	// Special case: "Load more plurks" cell
-	if(currentTab == RootViewTabAll && [indexPath row] >= [plurks count]) {
+	if(currentTab == RootViewTabAll && showingUnread && [indexPath row] >= [plurks count]) {
 		LoadMorePlurksCell *cell = nil;
 		cell = (LoadMorePlurksCell *)[tableView dequeueReusableCellWithIdentifier:@"LoadMorePlurksCell"];
 		if(cell == nil) {
