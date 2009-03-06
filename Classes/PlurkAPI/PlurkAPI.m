@@ -137,8 +137,9 @@
 		//NSLog(@"QuickLogin file does not exist.");
 		return NO;
 	}
-	if([[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:NULL] fileModificationDate] timeIntervalSinceNow] > 302400) { // Half week old data fails.
+	if([[[[NSFileManager defaultManager] attributesOfItemAtPath:path error:NULL] fileModificationDate] timeIntervalSinceNow] < -302400) { // Half week old data fails.
 		[[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
+		//NSLog(@"QuickLogin file too old.");
 		return NO;
 	}
 	NSDictionary *load = [NSDictionary dictionaryWithContentsOfFile:path];
