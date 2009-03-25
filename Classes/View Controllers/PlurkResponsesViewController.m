@@ -190,7 +190,7 @@
 	NSString *qualifier = [[Qualifiers sharedQualifiers] translateQualifier:[firstPlurk qualifier] to:[firstPlurk lang]];
 	if(qualifier == nil) qualifier = [firstPlurk qualifier];
 	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, css, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerNickName], [firstPlurk ownerDisplayName], [firstPlurk qualifier], qualifier, [firstPlurk content], responseHTML, nil]];
-	[webView loadHTMLString:[self processPlurkContent:html] baseURL:nil];
+	[webView loadHTMLString:[self processPlurkContent:html] baseURL:[NSURL URLWithString:@"http://www.plurk.com/"]];
 	[firstPlurk setIsUnread:0];
 	[firstPlurk setResponseCount:[responses count]];
 	[firstPlurk setResponsesSeen:[firstPlurk responseCount]];
@@ -214,7 +214,7 @@
 								 range:NSMakeRange(0, [content length])
 	];
 	
-	// iPhone 2.0 software doesn't play nice with YouTube embeds.
+	// iPhone 2.0 software (or lower) doesn't play nice with YouTube embeds.
 	if(![[[UIDevice currentDevice] systemVersion] isEqual:@"2.0"]) {
 		// Make YouTube videos playable without exiting iPlurk. For extra marks, put a label next to it.
 		[content replaceOccurrencesOfRegex:@"<a href=\"http://[a-zA-Z]+\\.youtube\\.com/watch\\?v=([a-zA-Z0-9]+).*?\".*?>.+?alt=\"(.+?)\".+?</a>"
