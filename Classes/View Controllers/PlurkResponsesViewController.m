@@ -118,6 +118,7 @@
 	NSString *html = [[[NSString stringWithFormat:
 						[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesSingleResponse" ofType:@"html"]],
 						[plurk plurkID],
+						[plurk plurkID],
 						[[PlurkAPI sharedAPI] userName],
 						[plurk userDisplayName],
 						[plurk qualifier],
@@ -156,7 +157,13 @@
 		for(ResponsePlurk *response in responses) {
 			NSString *qualifier = [[Qualifiers sharedQualifiers] translateQualifier:[response qualifier] to:[firstPlurk lang]];
 			if(qualifier == nil) qualifier = [response qualifier];
-			[responseHTML appendFormat:responseFormat, responseNum, [response userNickName], [response userDisplayName], [response qualifier], qualifier, [response content], nil];
+			// We leave this as zero if we can't delete the thing (i.e. it's not our response and not our plurk).
+			// This is because the JS needs to know what to be excited about.
+			NSInteger responseID = 0;
+			if([response userID] == [[PlurkAPI sharedAPI] userID] || [firstPlurk ownerID] == [[PlurkAPI sharedAPI] userID]) {
+				responseID = [response plurkID];
+			}
+			[responseHTML appendFormat:responseFormat, responseNum, responseID, [response userNickName], [response userDisplayName], [response qualifier], qualifier, [response content], nil];
 			++responseNum;
 		}
 	}
@@ -258,6 +265,16 @@
 }
 
 - (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+	// Check for internal actions.
+	if([[[request URL] scheme] isEqualToString:@"iplurkinternal"]) {
+		if([[[request URL] host] isEqualToString:@"deleteresponse"]) {
+			[[PlurkAPI sharedAPI] deleteResponse:[[[request URL] query] intValue] toPlurk:[firstPlurk plurkID]];
+			[firstPlurk setResponseCount:[firstPlurk responseCount] - 1];
+			[firstPlurk setResponsesSeen:[firstPlurk responseCount]];
+		}
+		return NO;
+	}
+	
 	if(navigationType == UIWebViewNavigationTypeOther) {
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		return YES;

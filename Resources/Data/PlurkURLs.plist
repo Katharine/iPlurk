@@ -58,5 +58,7 @@
 	<string>http://www.plurk.com/Responses/markAllRead</string>
 	<key>plurk_get_user_data</key>
 	<string>http://www.plurk.com/Users/getUpdateableData</string>
+	<key>plurk_delete_response</key>
+	<string>http://www.plurk.com/Responses/deleteResponse</string>
 </dict>
 </plist>
