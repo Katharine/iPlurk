@@ -258,6 +258,18 @@
 	return [self makePostRequestTo:url withPostData:query withAPIRequest:request];
 }
 
+- (NSURLConnection *)deleteResponse:(NSInteger)responseID toPlurk:(NSInteger)plurkID {
+	PlurkAPIRequest *request = [[PlurkAPIRequest alloc] init];
+	[request setAction:PlurkAPIActionDeletePlurkResponse];
+	
+	NSURL *url = [NSURL URLWithString:[plurkURLs objectForKey:@"plurk_delete_response"]];
+	NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys: [[NSNumber numberWithInteger:plurkID] stringValue], @"plurk_id", 
+																	  [[NSNumber numberWithInteger:responseID] stringValue], @"id",
+																	  nil
+	];
+	return [self makePostRequestTo:url withPostData:query withAPIRequest:request];
+}
+
 - (NSURLConnection *)deletePlurk:(NSInteger)plurkID {
 	PlurkAPIRequest *request = [[PlurkAPIRequest alloc] init];
 	[request setAction:PlurkAPIActionDeletePlurk];
@@ -659,6 +671,7 @@
 	for(NSDictionary *responseRaw in responsesRaw) {
 		ResponsePlurk *response = [[ResponsePlurk alloc] init];
 		response.userID = [(NSNumber *)[responseRaw objectForKey:@"user_id"] integerValue];
+		response.plurkID = [(NSNumber *)[responseRaw objectForKey:@"id"] integerValue];
 		response.qualifier = [responseRaw objectForKey:@"qualifier"];
 		response.content = [responseRaw objectForKey:@"content"];
 		response.contentRaw = [responseRaw objectForKey:@"content_raw"];
@@ -743,7 +756,7 @@
 	}
 	ResponsePlurk *response = [[[ResponsePlurk alloc] init] autorelease];
 	response.userID = [(NSNumber *)[responseRaw objectForKey:@"user_id"] integerValue];
-	response.plurkID = [(NSNumber *)[responseRaw objectForKey:@"plurk_id"] integerValue];
+	response.plurkID = [(NSNumber *)[responseRaw objectForKey:@"id"] integerValue];
 	response.qualifier = [responseRaw objectForKey:@"qualifier"];
 	response.content = [responseRaw objectForKey:@"content"];
 	response.contentRaw = [responseRaw objectForKey:@"content_raw"];

@@ -37,6 +37,11 @@
 				padding-top: 5px;
 				padding-left: 20px;
 				padding-right: 20px;
+				position: relative;
+				-webkit-transition-property: height, min-height;
+				-webkit-transition-duration: 0.5s;
+				-webkit-transition-timing-function: linear;
+				overflow: hidden;
 			}
 			.regeximg {
 				max-height: 40px;
@@ -67,9 +72,114 @@
 				color: black;
 				text-decoration: none;
 			}
+			
+			/* Delete button! */
+			div.delete {
+				position: absolute;
+				top: 8px;
+				right: 5px;
+				height: 33px;
+				width: 0px;
+				overflow: hidden;
+				-webkit-transition: width 0.1s linear;
+			}
+			
+			div.delete img {
+				position: absolute;
+				top: 0px;
+				right: 0px;
+			}
 			%@
 		</style>
 		<script type="text/javascript">
+			var lastXPos = false;
+			var lastYPos = false;
+			var currentMotion = false;
+			
+			function hasUsefulParent(node) {
+				do {
+					if(node.className == "responsePlurk") {
+						return node;
+					}
+				} while(node = node.parentElement);
+				return false;
+			}
+			
+			function dealWithMotion(e) {
+				// Only one finger.
+				var p;
+				if(e.touches.length != 1 || !(p = hasUsefulParent(e.touches[0].target)) || p.getAttribute('plurkResponseID') == '0') {
+					lastXPos = false;
+					lastYPos = false;
+					return;
+				}
+				// So we know if we ought to abort.
+				if(currentMotion && lastXPos === false) return;
+				currentMotion = true;
+				var x = e.touches[0].clientX;
+				var y = e.touches[0].clientY;
+				if(lastXPos === false) {
+					lastXPos = x;
+				}
+				if(lastYPos === false) {
+					lastYPos = y;
+				}
+				// Too far up or down and we take no interest.
+				if(Math.abs(lastYPos - y) > 30) {
+					lastXPos = false;
+					lastYPos = false;
+				} else {
+					// Call it a swipe if we've moved more than a couple hundred pixels (arbitrary, might change)
+					if(Math.abs(lastXPos - x) > 100) {
+						toggleDeleteButton(p);
+						lastXPos = false;
+						lastYPos = false;
+					}
+					// Prevent the default action in any case; we don't want sideways movement anyway.
+					e.preventDefault();
+				}
+			}
+			
+			function abortMotion(e) {
+				if(e.touches.length != 1) {
+					currentMotion = false;
+				}
+			}
+			
+			function toggleDeleteButton(responseNode) {
+				var id = responseNode.getAttribute('plurkResponseID');
+				var node = document.getElementById('delete-' + id);
+				if(node) {
+					node.style.width = '0px';
+					setTimeout(function() {
+						node.parentElement.removeChild(node);
+						node = null;
+					}, 200);
+				} else {
+					var container = document.createElement('div');
+					container.className = 'delete';
+					container.id = 'delete-' + id;
+					container.onclick = function() {
+						// Delete the plurk! :o
+						// (Figure out transitions sometime)
+						responseNode.parentElement.removeChild(responseNode);
+						responseNode = null;
+						// Tell the app to do something.
+						location.href = 'iplurkinternal://deleteresponse/?' + id;
+					};
+					var img = document.createElement('img');
+					img.src = 'data:image/png;base64,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';
+					container.appendChild(img);
+					container.style.top = (responseNode.scrollHeight / 2 - 16.5) + 'px';
+					responseNode.appendChild(container);
+					setTimeout(function() {
+						container.style.width = '63px';
+					}, 50);
+				}
+			}
+			
+			document.ontouchmove = dealWithMotion;
+			document.ontouchend = abortMotion;
 			var seen = "%d";
 		</script>
 	</head>

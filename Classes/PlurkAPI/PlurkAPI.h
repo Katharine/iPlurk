@@ -72,6 +72,7 @@ typedef enum {
 - (NSURLConnection *)requestUnreadPlurksWithDelegate:(id <PlurkAPIDelegate>)delegate;
 - (NSURLConnection *)requestPlurksByIDs:(NSArray *)ids delegate:(id <PlurkAPIDelegate>)delegate;
 - (NSURLConnection *)respondToPlurk:(NSInteger)plurk withQualifier:(NSString *)qualifier content:(NSString *)content language:(NSString *)language delegate:(id <PlurkAPIDelegate>)delegate;
+- (NSURLConnection *)deleteResponse:(NSInteger)responseID toPlurk:(NSInteger)plurkID;
 - (NSURLConnection *)deletePlurk:(NSInteger)plurkID;
 - (NSURLConnection *)editPlurk:(NSInteger)plurkID setText:(NSString *)text delegate:(id <PlurkAPIDelegate>)delegate;
 - (NSURLConnection *)makePlurk:(NSString *)text withQualifier:(NSString *)text allowComments:(BOOL)comments delegate:(id <PlurkAPIDelegate>)delegate;

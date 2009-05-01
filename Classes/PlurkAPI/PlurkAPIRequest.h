@@ -23,7 +23,8 @@ typedef enum {
 	PlurkAPIActionRequestResponses,
 	PlurkAPIActionEditPlurk,
 	PlurkAPIActionRequestFriendsForNewPlurks,
-	PlurkAPIActionGetUpdatableData
+	PlurkAPIActionGetUpdatableData,
+	PlurkAPIActionDeletePlurkResponse
 } PlurkAPIAction;
 
 @protocol PlurkAPIDelegate;
