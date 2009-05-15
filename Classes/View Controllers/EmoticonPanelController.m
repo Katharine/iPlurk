@@ -46,6 +46,9 @@
 			[emoticons addObjectsFromArray:[allEmoticons objectForKey:@"gold"]];
 			if(karma > 81.0) {
 				[emoticons addObjectsFromArray:[allEmoticons objectForKey:@"platinum_2"]];
+				if(karma > 99.995) { // Because we all love floating point errors.
+					[emoticons addObjectsFromArray:[allEmoticons objectForKey:@"karma100"]];
+				}
 			}
 		}
 	}

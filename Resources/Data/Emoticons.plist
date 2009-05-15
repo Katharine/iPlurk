@@ -66,7 +66,7 @@
 		</dict>
 		<dict>
 			<key>name</key>
-			<string>:'-(</string>
+			<string>:&apos;-(</string>
 			<key>url</key>
 			<string>72ddf2c585fe77dd0be731b19624d8cb.gif</string>
 		</dict>
@@ -250,6 +250,12 @@
 			<key>url</key>
 			<string>e49c8ae965452550c98fc7f99741ae0d.gif</string>
 		</dict>
+		<dict>
+			<key>name</key>
+			<string>(cry)</string>
+			<key>url</key>
+			<string>318416eab5a856bddb1e106a21ff557a.gif</string>
+		</dict>
 	</array>
 	<key>platinum_2</key>
 	<array>
@@ -300,6 +306,12 @@
 			<string>(evilsmirk)</string>
 			<key>url</key>
 			<string>22416dced8b59446db8cd366cc925d09.gif</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>(eyeroll)</string>
+			<key>url</key>
+			<string>e3f0f67ca3af62e34f13abf1d036a010.gif</string>
 		</dict>
 	</array>
 	<key>silver</key>
@@ -411,6 +423,21 @@
 			<string>(dance)</string>
 			<key>url</key>
 			<string>a55bdb344892676b0fea545354654a49.gif</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>(blush)</string>
+			<key>url</key>
+			<string>9939dd585cf0e8d39e7912a98a9ce727.gif</string>
+		</dict>
+	</array>
+	<key>karma100</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>(muhaha)</string>
+			<key>url</key>
+			<string>84f94a47fcaf1df0a5f17a1cfa52fa64.gif</string>
 		</dict>
 	</array>
 </dict>
