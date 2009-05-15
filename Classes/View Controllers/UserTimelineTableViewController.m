@@ -577,15 +577,18 @@
 			}
 		}
 		
+		// All anachonism checks have been scrapped, because they don't work without
+		// some reordering, and I'm not sure they're actually worthwhile.
+		
 		plurk = [masterPlurkArray objectAtIndex:[masterPlurkArray indexOfObject:plurk]];
 		
-		// Do the same for private plurks, but don't check for anachronisms.
+		// Do the same for private plurks.
 		if([[plurk limitedTo] count] > 0) {
 			[self addNewPlurk:plurk toPlurkArray:privatePlurks usedForTab:RootViewTabPrivate];
 		}
 		
 		// And my plurks
-		if([plurk ownerID] == [[PlurkAPI sharedAPI] userID] && (connection == mineRequest || [[plurks lastObject] plurkID] < [plurk plurkID])) {
+		if([plurk ownerID] == [[PlurkAPI sharedAPI] userID]) {
 			[self addNewPlurk:plurk toPlurkArray:myPlurks usedForTab:RootViewTabMine];
 		}
 		

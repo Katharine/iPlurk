@@ -94,7 +94,7 @@
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	[formatter setTimeZone:[NSTimeZone systemTimeZone]];
 	[formatter setDateFormat:@"EEE, dd MMM YYYY HH:mm"];
-	[[self infoLabel] setText:[NSString stringWithFormat:@"%@ | %d response%@, %d unread", [formatter stringFromDate:[plurkDisplayed posted]], [plurkDisplayed responseCount], ([plurkDisplayed responseCount] != 1 ? @"s" : @""), ([plurkDisplayed responseCount] - [plurkDisplayed responsesSeen]), nil]];
+	[[self infoLabel] setText:[NSString stringWithFormat:@"%@ | %d response%@", [formatter stringFromDate:[plurkDisplayed posted]], [plurkDisplayed responseCount], ([plurkDisplayed responseCount] != 1 ? @"s" : @""), nil]];
 	[formatter release];
 }
 

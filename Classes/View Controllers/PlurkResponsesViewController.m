@@ -138,7 +138,7 @@
 	[controller respondedToPlurk:firstPlurk];
 }
 
-- (void)receivedPlurkResponses:(NSArray *)responses withResponders:(NSDictionary *)responders {	
+- (void)receivedPlurkResponses:(NSArray *)responses withResponders:(NSDictionary *)responders alreadySeen:(NSInteger)responsesSeen {	
 	NSString *htmlTemplate = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PlurkResponsesDisplay" ofType:@"html"]];
 	NSString *avatarURL;
 	
@@ -196,7 +196,7 @@
 	NSString *css = !doNotHighlightQualifiers ? [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Qualifiers" ofType:@"css"]] : @"";
 	NSString *qualifier = [[Qualifiers sharedQualifiers] translateQualifier:[firstPlurk qualifier] to:[firstPlurk lang]];
 	if(qualifier == nil) qualifier = [firstPlurk qualifier];
-	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, css, [firstPlurk responsesSeen], avatarURL, [firstPlurk ownerNickName], [firstPlurk ownerDisplayName], [firstPlurk qualifier], qualifier, [firstPlurk content], responseHTML, nil]];
+	NSString *html = [NSString stringWithString:[NSString stringWithFormat:htmlTemplate, css, responsesSeen, avatarURL, [firstPlurk ownerNickName], [firstPlurk ownerDisplayName], [firstPlurk qualifier], qualifier, [firstPlurk content], responseHTML, nil]];
 	[webView loadHTMLString:[self processPlurkContent:html] baseURL:[NSURL URLWithString:@"http://www.plurk.com/"]];
 	[firstPlurk setIsUnread:0];
 	[firstPlurk setResponseCount:[responses count]];

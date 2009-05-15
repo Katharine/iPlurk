@@ -221,7 +221,7 @@
 	NSURL *url = [NSURL URLWithString:[plurkURLs objectForKey:@"plurk_get_unread"]];
 	PlurkAPIRequest *request = [[PlurkAPIRequest alloc] init];
 	[request setDelegate:delegate];
-	[request setAction:PlurkAPIActionRequestPlurks];
+	[request setAction:PlurkAPIActionRequestUnreadPlurks];
 	return [self makePostRequestTo:url withPostData:nil withAPIRequest:request];
 }
 
@@ -416,7 +416,7 @@
 	NSString *response = [[NSString alloc] initWithData:[request data] encoding:NSUTF8StringEncoding];
 	if(connection == pollNewConnection) {
 		//NSLog(@"Handling pollNewConnection response.");
-		[self handlePlurksReceived:response fromConnection:nil delegate:pollDelegate];
+		[self handlePlurksReceived:response fromConnection:nil delegate:pollDelegate markAsUnread:YES];
 		[pollNewConnection release];
 		pollNewConnection = nil;
 	} else if(connection == pollResponsesConnection) {
@@ -431,7 +431,10 @@
 				break;
 			}
 			case PlurkAPIActionRequestPlurks:
-				[self handlePlurksReceived:response fromConnection:connection delegate:[request delegate]];
+				[self handlePlurksReceived:response fromConnection:connection delegate:[request delegate] markAsUnread:NO];
+				break;
+			case PlurkAPIActionRequestUnreadPlurks:
+				[self handlePlurksReceived:response fromConnection:connection delegate:[request delegate] markAsUnread:YES];
 				break;
 			case PlurkAPIActionRequestResponses:
 				[self handleResponsesReceived:response delegate:[request delegate]];
@@ -442,7 +445,7 @@
 			case PlurkAPIActionMakePlurk:
 				[self handlePlurkMade:response fromConnection:connection delegate:[request delegate]];
 			case PlurkAPIActionEditPlurk:
-				[self handlePlurksReceived:[NSString stringWithFormat:@"[%@]", response, nil] fromConnection:connection delegate:[request delegate]];
+				[self handlePlurksReceived:[NSString stringWithFormat:@"[%@]", response, nil] fromConnection:connection delegate:[request delegate] markAsUnread:NO];
 				break;
 			case PlurkAPIActionRequestFriendsForNewPlurks:
 				[self handleFriendsReceived:response forPlurks:[request storage] fromConnection:[request connection] delegate:[request delegate]];
@@ -570,7 +573,7 @@
 	[delegate plurkLoginDidFinish];
 }
 
-- (void)handlePlurksReceived:(NSString *)responseString fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate {
+- (void)handlePlurksReceived:(NSString *)responseString fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate markAsUnread:(BOOL)unread {
 	//NSLog(@"Received plurks. %@", responseString);
 	responseString = [responseString stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"];
 	NSArray *response = [responseString JSONValue];
@@ -599,6 +602,9 @@
 	NSMutableArray *friendsToLookUp = [[NSMutableArray alloc] init];
 	for(NSDictionary *plurkDict in response) {
 		Plurk *plurk = [[Plurk alloc] init];
+		// We have to do this from context now, because Plurk no longer supplies any relevant information
+		plurk.isUnread = unread;
+		
 		plurk.lang = [plurkDict objectForKey:@"lang"];
 		plurk.contentRaw = [plurkDict objectForKey:@"content_raw"];
 		plurk.userID = [(NSNumber *)[plurkDict objectForKey:@"user_id"] integerValue];
@@ -627,10 +633,6 @@
 			plurk.limitedTo = [[NSArray alloc] init];
 		}
 		plurk.noComments = [(NSNumber *)[plurkDict objectForKey:@"no_comments"] boolValue];
-		plurk.isUnread = [(NSNumber *)[plurkDict objectForKey:@"is_unread"] integerValue];
-		if([plurk isUnread] == 0 && [plurk responseCount] > [plurk responsesSeen]) {
-			plurk.isUnread = 1;
-		}
 		plurk.ownerDisplayName = [[friendDictionary objectForKey:[self nickNameFromUserID:[plurk ownerID]]] displayName];
 		if(!plurk.ownerDisplayName) {
 			[friendsToLookUp addObject:[NSNumber numberWithInteger:[plurk ownerID]]];
@@ -665,6 +667,7 @@
 - (void)handleResponsesReceived:(NSString *)responseString delegate:(id <PlurkAPIDelegate>)delegate {
 	NSDictionary *responseDict = [[responseString stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"] JSONValue];
 	NSDictionary *responders = [responseDict objectForKey:@"friends"];
+	NSInteger responsesSeen = [(NSNumber *)[responseDict objectForKey:@"responses_seen"] integerValue];
 	NSArray *responsesRaw = [responseDict objectForKey:@"responses"];
 	NSMutableArray *responses = [[NSMutableArray alloc] init];
 	NSMutableDictionary *friends = [[NSMutableDictionary alloc] init];
@@ -690,7 +693,7 @@
 		}
 		[responses addObject:response];
 	}
-	[delegate receivedPlurkResponses:responses withResponders:friends];
+	[delegate receivedPlurkResponses:responses withResponders:friends alreadySeen:responsesSeen];
 	[responses release];
 }
 
@@ -768,7 +771,7 @@
 
 - (void)handlePlurkMade:(NSString *)response fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate {
 	NSDictionary *plurk = [[[response stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"] JSONValue] objectForKey:@"plurk"];
-	[self handlePlurksReceived:[[NSArray arrayWithObject:plurk] JSONRepresentation] fromConnection:connection delegate:delegate];
+	[self handlePlurksReceived:[[NSArray arrayWithObject:plurk] JSONRepresentation] fromConnection:connection delegate:delegate markAsUnread:NO];
 }
 
 #pragma mark NSObject

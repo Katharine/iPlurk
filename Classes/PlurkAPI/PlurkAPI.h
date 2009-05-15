@@ -93,7 +93,7 @@ typedef enum {
 
 // Internal callbacks
 - (void)handleLoginResponse:(NSString *)response delegate:(id <PlurkAPIDelegate>)delegate;
-- (void)handlePlurksReceived:(NSString *)response fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate;
+- (void)handlePlurksReceived:(NSString *)response fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate markAsUnread:(BOOL)unread;
 - (void)handleResponsesReceived:(NSString *)responseString delegate:(id <PlurkAPIDelegate>)delegate;
 - (void)handleResponsePollReceived:(NSString *)responseString delegate:(id <PlurkAPIDelegate>)delegate;
 - (void)handleFriendsReceived:(NSString *)response forPlurks:(NSArray *)plurks fromConnection:(NSURLConnection *)connection delegate:(id <PlurkAPIDelegate>)delegate;
