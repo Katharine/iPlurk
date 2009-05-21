@@ -553,7 +553,10 @@
 			//NSLog(@"Updating old plurk %d", [plurk plurkID]);
 			oldPlurk.responseCount = [plurk responseCount];
 			oldPlurk.responsesSeen = [plurk responsesSeen];
-			oldPlurk.isUnread = [plurk isUnread];
+			// Only update unread status if it's not false - because false is always either known or invalid.
+			if([plurk isUnread] != 0) {
+				oldPlurk.isUnread = [plurk isUnread];
+			}
 			oldPlurk.content = [plurk content];
 			oldPlurk.contentRaw = [plurk contentRaw];
 			plurk = nil;

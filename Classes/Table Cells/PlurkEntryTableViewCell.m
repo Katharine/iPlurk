@@ -62,7 +62,7 @@
 	if(![self qualifier]) {
 		return [[self textView] text];
 	} else {
-		return [[[[self textView] text] substringFromIndex:[[self qualifier] length]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+		return [[[[self textView] text] substringFromIndex:[[self translated] length]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	}
 }
 
