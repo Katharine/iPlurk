@@ -59,10 +59,11 @@
 }
 
 - (void)submitNewPlurk {
-	NSString *qual = [[qualifierCell qualifier] text];
+	NSString *qual = [qualifierTable qualifier];
 	if([entryCell qualifier]) {
 		qual = [entryCell qualifier];
 	}
+	if(qual == nil) qual = @":";
 	NSString *text = [[entryCell text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	PlurkResponsesViewController *parent = (PlurkResponsesViewController *)[(UINavigationController *)[[self parentViewController] parentViewController] topViewController];
 	[[PlurkAPI sharedAPI] makePlurk:text withQualifier:qual allowComments:YES limitedTo:nil language:qualifierLanguage delegate:parent];
@@ -91,10 +92,11 @@
 }
 
 - (void)submitReply {
-	NSString *qual = [[qualifierCell qualifier] text];
+	NSString *qual = [qualifierTable qualifier];
 	if([entryCell qualifier]) {
 		qual = [entryCell qualifier];
 	}
+	if(qual == nil) qual = @":";
 	NSString *text = [entryCell text];
 	PlurkResponsesViewController *parent = (PlurkResponsesViewController *)[(UINavigationController *)[[self parentViewController] parentViewController] topViewController];
 	parent.connection = [[PlurkAPI sharedAPI] respondToPlurk:[plurkToReplyTo plurkID] withQualifier:qual content:text language:qualifierLanguage delegate:parent];
@@ -384,6 +386,8 @@
 				self.entryCell = (PlurkEntryTableViewCell *)cell;
 				[entryCell initUI];
 				[entryCell setChangeAction:@selector(replyDidChange:) target:self];
+				[entryCell setLanguage:qualifierLanguage];
+				[entryCell setQualifierEnabled:!plurkToEdit];
 				break;
 			case 0:
 				self.qualifierCell = (PlurkQualifierTableViewCell *)cell;
@@ -487,7 +491,7 @@
 					initialQualifier = [[NSUserDefaults standardUserDefaults] objectForKey:@"last_qualifier"];
 				}
 			}
-			if(initialQualifier) {
+			if(initialQualifier && ![initialQualifier isEqualToString:@":"]) {
 				[self handleQualifierSelected:initialQualifier];
 				[entryCell setQualifierEnabled:NO];
 			}

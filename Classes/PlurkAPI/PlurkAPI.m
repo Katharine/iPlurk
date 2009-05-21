@@ -603,7 +603,9 @@
 	for(NSDictionary *plurkDict in response) {
 		Plurk *plurk = [[Plurk alloc] init];
 		// We have to do this from context now, because Plurk no longer supplies any relevant information
-		plurk.isUnread = unread;
+		if(plurk.isUnread != 2) { // Don't unmute muted plurks.
+			plurk.isUnread = unread;
+		}
 		
 		plurk.lang = [plurkDict objectForKey:@"lang"];
 		plurk.contentRaw = [plurkDict objectForKey:@"content_raw"];
