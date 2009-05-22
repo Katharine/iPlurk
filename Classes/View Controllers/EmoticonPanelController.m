@@ -53,6 +53,10 @@
 		}
 	}
 	
+	if([[PlurkAPI sharedAPI] hasTenFriends]) {
+		[emoticons addObjectsFromArray:[allEmoticons objectForKey:@"platinum"]];
+	}
+	
 	allEmoticons = nil;
 	
 	NSString *emoticonPath = [NSString stringWithFormat:@"file://%@/statics/%%@", [[NSBundle mainBundle] resourcePath], nil];
