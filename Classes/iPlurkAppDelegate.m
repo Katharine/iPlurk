@@ -16,7 +16,7 @@
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	[[CrashReporter sharedReporter] enableCrashReports];
+	//[[CrashReporter sharedReporter] enableCrashReports];
 	
 	// Configure and show the window
 	[window addSubview:[navigationController view]];
