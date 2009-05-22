@@ -60,7 +60,7 @@
 	allEmoticons = nil;
 	
 	NSString *emoticonPath = [NSString stringWithFormat:@"file://%@/statics/%%@", [[NSBundle mainBundle] resourcePath], nil];
-	NSInteger rows = ceil([emoticons count] / 5);
+	NSInteger rows = ceil([emoticons count] / 5.0); // Remember to divide by a floating point number or we get the result rounded down.
 	for(NSInteger i = 0; i < rows; ++i) {
 		[table appendString:@"<tr>"];
 		for(NSInteger j = 0; j < 5; ++j) {
