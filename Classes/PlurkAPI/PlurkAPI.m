@@ -386,7 +386,7 @@
 	}
 	if([request action] == PlurkAPIActionLogin) {
 		NSString *body = [[NSString alloc] initWithData:[request data] encoding:NSUTF8StringEncoding];
-		if([body rangeOfRegex:@"(?m)<script type=\"text/javascript\">(\r|\n|.)*?</script>"].location != NSNotFound) {
+		if([body rangeOfRegex:@"(?m)<script type=\"text/javascript\">(\r|\n|.)*?GLOBAL(\r|\n|.)*?</script>"].location != NSNotFound) {
 			//NSLog(@"Got enough of the login page (%d bytes). Aborting and moving on with processing.", [data length]);
 			[connection cancel];
 			[self connectionDidFinishLoading:connection];
