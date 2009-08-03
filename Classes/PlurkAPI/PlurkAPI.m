@@ -488,7 +488,7 @@
 		[delegate plurkLoginDidFail];
 		return;
 	}
-	NSDictionary *friends = [[response substringWithRange:friendsRange] JSONValue];
+	NSDictionary *friends = [[[response substringWithRange:friendsRange] stringByReplacingOccurrencesOfRegex:@"new Date\\((.*?)\\)" withString:@"$1"] JSONValue];
 	if(friends == nil) {
 		//NSLog(@"Error parsing friends. :(");
 		[delegate plurkLoginDidFail];
